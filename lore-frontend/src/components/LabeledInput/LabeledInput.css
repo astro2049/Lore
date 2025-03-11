@@ -1,0 +1,10 @@
+.labeled-input:focus,
+.labeled-input:not(:placeholder-shown) {
+    padding-top: 24px;
+}
+
+.labeled-input:focus + label,
+.labeled-input:not(:placeholder-shown) + label {
+    transform: translateY(-8px);
+    font-size: 12px;
+}

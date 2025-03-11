@@ -2,5 +2,62 @@
 
 /* https://tailwindcss.com/docs/adding-custom-styles */
 @theme {
-  --spacing: 1rem;
+    --spacing: 1rem;
+
+    /* Colors */
+    --color-dark-dimmer: rgb(0, 5, 10);
+    --color-dark: rgb(10, 19, 21);
+
+    --color-gray-custom-1: rgb(16, 28, 32);
+    --color-gray-custom-2: rgb(23, 37, 42);
+    --color-gray-custom-3: rgb(30, 46, 50);
+
+    --color-blue-light-custom-1: rgb(124, 143, 149);
+    --color-blue-light-custom-2: rgb(178, 191, 195);
+    --color-blue-light-custom-3: rgb(185, 205, 210);
+
+    --color-white-custom: rgb(243, 243, 243);
+}
+
+:root {
+    --header-height: 57px;
+    scrollbar-gutter: stable;
+}
+body {
+    background-color: var(--color-dark);
+    color: white;
+}
+
+/* Button Styles */
+button:hover {
+    cursor: pointer;
+}
+.bordered-clickable {
+    @apply border border-white/50 hover:border-white/80;
+}
+
+/* Containers */
+.content-container {
+    width: 1120px;
+    padding: 0 24px;
+}
+.box {
+    border: 1px solid orangered;
+}
+
+/* Styles */
+p {
+    @apply my-1;
+}
+.scrollable {
+    position: sticky;
+    top: var(--header-height);
+    font-size: 14px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
 }
