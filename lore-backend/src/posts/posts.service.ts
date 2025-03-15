@@ -1,26 +1,52 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { CreatePostDto } from "./dto/create-post.dto";
 import { UpdatePostDto } from "./dto/update-post.dto";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { Post } from "./entities/post.entity";
 
 @Injectable()
 export class PostsService {
-    create(createPostDto: CreatePostDto) {
-        return "This action adds a new post";
+    constructor(
+        @InjectRepository(Post)
+        private readonly postsRepository: Repository<Post>
+    ) {
     }
 
-    findAll() {
-        return `This action returns all posts`;
+    async create(createPostDto: CreatePostDto) {
+        const post = this.postsRepository.create(createPostDto);
+        return await this.postsRepository.save(post);
     }
 
-    findOne(id: number) {
-        return `This action returns a #${id} post`;
+    async findOne(id: string) {
+        const post = await this.postsRepository.findOne({
+            where: { id },
+            relations: ["author", "community", "comments"]
+        });
+        if (!post) {
+            throw new HttpException("", HttpStatus.NOT_FOUND);
+        }
+        return post;
     }
 
-    update(id: number, updatePostDto: UpdatePostDto) {
-        return `This action updates a #${id} post`;
+    async update(id: string, updatePostDto: UpdatePostDto) {
+        await this.postsRepository.update(id, updatePostDto);
+        return this.findOne(id);
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} post`;
+    async remove(id: string) {
+        const result = await this.postsRepository.delete(id);
+        if (result.affected === 0) {
+            throw new HttpException("", HttpStatus.NOT_FOUND);
+        }
+        return result;
+    }
+
+    findComments(id: string) {
+        return this.postsRepository
+            .createQueryBuilder()
+            .relation(Post, "comments")
+            .of(id)
+            .loadMany();
     }
 }

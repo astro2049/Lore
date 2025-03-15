@@ -13,23 +13,21 @@ export class CommentsController {
         return this.commentsService.create(createCommentDto);
     }
 
-    @Get()
-    findAll() {
-        return this.commentsService.findAll();
-    }
-
+    // Get a single comment by ID
     @Get(":id")
     findOne(@Param("id") id: string) {
-        return this.commentsService.findOne(+id);
+        return this.commentsService.findOne(id);
     }
 
+    // Update a comment (only by the original author)
     @Patch(":id")
     update(@Param("id") id: string, @Body() updateCommentDto: UpdateCommentDto) {
-        return this.commentsService.update(+id, updateCommentDto);
+        return this.commentsService.update(id, updateCommentDto);
     }
 
+    // Delete a comment
     @Delete(":id")
     remove(@Param("id") id: string) {
-        return this.commentsService.remove(+id);
+        return this.commentsService.remove(id);
     }
 }

@@ -9,27 +9,34 @@ export class CommunitiesController {
     }
 
     @Post()
-    create(@Body() createCommunityDto: CreateCommunityDto) {
+    async create(@Body() createCommunityDto: CreateCommunityDto) {
         return this.communitiesService.create(createCommunityDto);
-    }
-
-    @Get()
-    findAll() {
-        return this.communitiesService.findAll();
     }
 
     @Get(":id")
     findOne(@Param("id") id: string) {
-        return this.communitiesService.findOne(+id);
+        return this.communitiesService.findOne(id);
     }
 
     @Patch(":id")
     update(@Param("id") id: string, @Body() updateCommunityDto: UpdateCommunityDto) {
-        return this.communitiesService.update(+id, updateCommunityDto);
+        return this.communitiesService.update(id, updateCommunityDto);
     }
 
     @Delete(":id")
     remove(@Param("id") id: string) {
-        return this.communitiesService.remove(+id);
+        return this.communitiesService.remove(id);
+    }
+
+    // Join a community
+    @Post(":id/join")
+    async joinCommunity(@Param("id") id: string, @Body("userId") userId: string) {
+        return this.communitiesService.joinCommunity(id, userId);
+    }
+
+    // Leave a community
+    @Post(":id/leave")
+    async leaveCommunity(@Param("id") id: string, @Body("userId") userId: string) {
+        return this.communitiesService.leaveCommunity(id, userId);
     }
 }
