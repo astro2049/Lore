@@ -6,6 +6,7 @@ import { CommunitiesModule } from "./communities/communities.module";
 import { PostsModule } from "./posts/posts.module";
 import { CommentsModule } from "./comments/comments.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { AuthModule } from './auth/auth.module';
 import * as process from "node:process";
 
 @Module({
@@ -23,7 +24,8 @@ import * as process from "node:process";
             database: process.env.DB_NAME,
             autoLoadEntities: true,
             synchronize: true
-        })
+        }),
+        AuthModule
     ],
     controllers: [AppController],
     providers: [AppService]
