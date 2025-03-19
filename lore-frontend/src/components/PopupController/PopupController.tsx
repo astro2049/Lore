@@ -16,7 +16,7 @@ function PopupController({ children }: PopupControllerProps) {
 
         clearTimeout(timeoutId);
         setTimeoutId(
-            setTimeout(() => {
+            window.setTimeout(() => {
                 setText("");
             }, popupTime)
         );

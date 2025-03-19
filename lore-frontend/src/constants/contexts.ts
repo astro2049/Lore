@@ -1,5 +1,6 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 import { OverlayType } from "./types.ts";
+import * as React from "react";
 
 export const OverlayContext = createContext<[
     OverlayType,
@@ -11,3 +12,8 @@ export const PopupContext = createContext({
         void text;
     }
 });
+
+export const AuthContext = createContext<{
+    username: string | undefined,
+    setUsername: React.Dispatch<React.SetStateAction<string | undefined>>
+} | null>(null);

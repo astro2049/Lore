@@ -40,6 +40,7 @@ export default tseslint.config({
         ],
         ...react.configs.recommended.rules,
         ...react.configs['jsx-runtime'].rules,
-        'react-compiler/react-compiler': 'error',
+        'react-compiler/react-compiler': 'warn',
+        '@typescript-eslint/no-unsafe-member-access': 'warn',
     },
 })

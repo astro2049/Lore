@@ -1,10 +1,11 @@
 import { useContext } from "react";
-import { OverlayContext } from "../../../constants/contexts.ts";
+import { AuthContext, OverlayContext } from "../../../constants/contexts.ts";
 import { OverlayType } from "../../../constants/types.ts";
 import { Link } from "react-router";
 
 function TopBar() {
     const [, setOverlayType] = useContext(OverlayContext)!;
+    const { username } = useContext(AuthContext)!;
 
     return (
         <div className="
@@ -18,13 +19,15 @@ function TopBar() {
         >
             <Link to="" className="pl-1 font-bold text-2xl">lore</Link>
             <div className="flex items-center gap-0.5">
-                <button
-                    onClick={() => setOverlayType(OverlayType.LogIn)}
-                    className="py-0.5 px-1 text-sm font-semibold bg-[#c1f70c] hover:opacity-80 rounded-full text-dark"
-                >
-                    Log In
-                </button>
-                <div className="text-sm">*username here*</div>
+                {username ?
+                    <div className="text-sm">{username}</div> :
+                    <button
+                        onClick={() => setOverlayType(OverlayType.LogIn)}
+                        className="py-0.5 px-1 text-sm font-semibold bg-[#c1f70c] hover:opacity-80 rounded-full text-dark"
+                    >
+                        Log In
+                    </button>
+                }
             </div>
         </div>
     );
