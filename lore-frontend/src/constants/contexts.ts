@@ -1,6 +1,5 @@
 import { createContext, Dispatch, SetStateAction } from "react";
-import { OverlayType } from "./types.ts";
-import * as React from "react";
+import { Community, OverlayType } from "./types.ts";
 
 export const OverlayContext = createContext<[
     OverlayType,
@@ -15,5 +14,18 @@ export const PopupContext = createContext({
 
 export const AuthContext = createContext<{
     username: string | undefined,
-    setUsername: React.Dispatch<React.SetStateAction<string | undefined>>
+    setUsername: Dispatch<SetStateAction<string | undefined>>
+} | null>(null);
+
+export const CommunityContext = createContext<{
+    community: Community,
+    isMember: boolean,
+    setIsMember: Dispatch<SetStateAction<boolean>>
+} | null>(null);
+
+export const CommunitiesContext = createContext<{
+    communities: Community[],
+    updateCommunities: () => void,
+    allCommunities: Community[],
+    updateAllCommunities: () => void,
 } | null>(null);

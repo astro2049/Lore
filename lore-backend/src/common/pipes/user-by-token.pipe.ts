@@ -1,0 +1,13 @@
+import { ArgumentMetadata, Injectable, PipeTransform } from "@nestjs/common";
+import { UsersService } from "../../users/users.service";
+import { Payload } from "../../auth/auth.guard";
+
+@Injectable()
+export class UserByTokenPipe implements PipeTransform {
+    constructor(private readonly usersService: UsersService) {
+    }
+
+    async transform(payload: Payload, metadata: ArgumentMetadata) {
+        return payload ? this.usersService.findOne(payload.username) : undefined;
+    }
+}

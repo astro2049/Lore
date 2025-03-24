@@ -1,7 +1,7 @@
 import { JSX, ReactNode, useState } from "react";
-import CreateCommunity from "./CreateCommunity/CreateCommunity.tsx";
-import LogIn from "./LogIn/LogIn.tsx";
-import SignUp from "./SignUp/SignUp.tsx";
+import CreateCommunity from "./CreateCommunity.tsx";
+import LogIn from "./LogIn.tsx";
+import SignUp from "./SignUp.tsx";
 import { OverlayType } from "../constants/types.ts";
 import { OverlayContext } from "../constants/contexts.ts";
 

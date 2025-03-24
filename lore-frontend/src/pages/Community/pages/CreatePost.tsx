@@ -1,6 +1,6 @@
 import { useState } from "react";
-import InformationBar from "../../components/InformationBar/InformationBar.tsx";
-import LabeledInput from "../../../../components/LabeledInput/LabeledInput.tsx";
+import InformationBar from "../components/InformationBar.tsx";
+import LabeledInput from "../../../components/LabeledInput/LabeledInput.tsx";
 
 function CreatePost() {
     const [title, setTitle] = useState<string>("");

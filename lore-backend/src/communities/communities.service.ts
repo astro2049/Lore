@@ -4,24 +4,33 @@ import { UpdateCommunityDto } from "./dto/update-community.dto";
 import { InjectDataSource, InjectRepository } from "@nestjs/typeorm";
 import { Community } from "./entities/community.entity";
 import { DataSource, Repository } from "typeorm";
+import { User } from "../users/entities/user.entity";
 
 @Injectable()
 export class CommunitiesService {
     constructor(
         @InjectRepository(Community)
         private readonly communitiesRepository: Repository<Community>,
+        @InjectRepository(User)
+        private readonly usersRepository: Repository<User>,
         @InjectDataSource()
         private readonly dataSource: DataSource
     ) {
     }
 
-    create(createCommunityDto: CreateCommunityDto) {
+    async create(createCommunityDto: CreateCommunityDto, user: User) {
         const community = this.communitiesRepository.create(createCommunityDto);
+        community.members = [user];
+        community.creator = user;
         return this.communitiesRepository.save(community);
     }
 
-    async findOne(id: string) {
-        const community = await this.communitiesRepository.findOneBy({ id: id });
+    findAll() {
+        return this.communitiesRepository.find();
+    }
+
+    async findOne(name: string) {
+        const community = await this.communitiesRepository.findOneBy({ name: name });
         if (!community) {
             throw new HttpException("", HttpStatus.NOT_FOUND);
         }
@@ -37,8 +46,8 @@ export class CommunitiesService {
         return this.communitiesRepository.delete(id);
     }
 
-    async joinCommunity(id: string, userId: string) {
-        if (await this.hasMember(id, userId)) {
+    async joinCommunity(community: Community, user: User) {
+        if (await this.hasMember(community, user)) {
             // Already a member, nothing to do
             return;
         }
@@ -46,12 +55,12 @@ export class CommunitiesService {
         await this.communitiesRepository
             .createQueryBuilder()
             .relation(Community, "members")
-            .of(id)
-            .add(userId);
+            .of(community.id)
+            .add(user.id);
     }
 
-    async leaveCommunity(id: string, userId: string): Promise<void> {
-        if (!await this.hasMember(id, userId)) {
+    async leaveCommunity(community: Community, user: User) {
+        if (!await this.hasMember(community, user)) {
             // The user is not a member, nothing to remove
             return;
         }
@@ -59,16 +68,16 @@ export class CommunitiesService {
         await this.communitiesRepository
             .createQueryBuilder()
             .relation(Community, "members")
-            .of(id)
-            .remove(userId);
+            .of(community.id)
+            .remove(user.id);
     }
 
-    private async hasMember(id: string, userId: string) {
+    async hasMember(community: Community, user: User) {
         const count = await this.dataSource
             .createQueryBuilder()
             .from("user_communities_community", "members")
-            .where("members.communityId = :id", { id })
-            .andWhere("members.userId = :userId", { userId })
+            .where("members.communityId = :id", { id: community.id })
+            .andWhere("members.userId = :userId", { userId: user.id })
             .getCount();
 
         return count === 1;

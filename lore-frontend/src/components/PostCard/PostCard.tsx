@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import PostActionRow from "./components/ActionRow/PostActionRow.tsx";
+import PostActionRow from "./components/PostActionRow.tsx";
 
 export type PostCardProps = {
     link: string,

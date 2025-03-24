@@ -1,9 +1,9 @@
-import { OverlayType } from "../../constants/types.ts";
-import icon_cross from "../../assets/icon-cross-rotated.svg";
+import { OverlayType } from "../constants/types.ts";
 import { FormEvent, useContext, useState } from "react";
-import { AuthContext, OverlayContext } from "../../constants/contexts.ts";
-import LabeledInput from "../../components/LabeledInput/LabeledInput.tsx";
-import api from "../../utils/api.ts";
+import { AuthContext, OverlayContext } from "../constants/contexts.ts";
+import LabeledInput from "../components/LabeledInput/LabeledInput.tsx";
+import { api } from "../Utils.ts";
+import CancelButton from "./components/CancelButton.tsx";
 
 type LoginResponseData = {
     access_token: string
@@ -41,12 +41,7 @@ function LogIn() {
         <div className="w-[500px] pt-1 px-1 pb-3 bg-dark rounded-2xl">
             {/* Heading */}
             <div className="pb-0.75 flex w-full justify-end items-center">
-                <button
-                    onClick={() => setOverlayType(OverlayType.None)}
-                    className="p-[6px] border-2 border-transparent hover:border-white/20 rounded-full"
-                >
-                    <img src={icon_cross} alt="Cancel"/>
-                </button>
+                <CancelButton/>
             </div>
             <div className="px-3 flex flex-col grow">
                 <h1 className="text-center text-2xl font-[700] text-white-custom">Log In</h1>

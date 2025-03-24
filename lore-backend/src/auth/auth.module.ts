@@ -9,6 +9,7 @@ import * as process from "node:process";
     imports: [
         UsersModule,
         JwtModule.register({
+            global: true,
             secret: process.env.JWT_SECRET
         })
     ],

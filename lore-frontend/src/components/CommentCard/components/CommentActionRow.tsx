@@ -1,6 +1,6 @@
-import CommentInput from "../../../CommentInput/CommentInput.tsx";
+import CommentInput from "../../CommentInput.tsx";
 import { useContext, useState } from "react";
-import { PopupContext } from "../../../../constants/contexts.ts";
+import { PopupContext } from "../../../constants/contexts.ts";
 
 type CommentActionRowProps = {
     score: number,

@@ -1,7 +1,7 @@
-import InformationBar from "../../components/InformationBar/InformationBar.tsx";
-import PostActionRow from "../../../../components/PostCard/components/ActionRow/PostActionRow.tsx";
-import CommentCard from "../../../../components/CommentCard/CommentCard.tsx";
-import CommentInput from "../../../../components/CommentInput/CommentInput.tsx";
+import InformationBar from "../components/InformationBar.tsx";
+import PostActionRow from "../../../components/PostCard/components/PostActionRow.tsx";
+import CommentCard from "../../../components/CommentCard/CommentCard.tsx";
+import CommentInput from "../../../components/CommentInput.tsx";
 
 function Post() {
     return (

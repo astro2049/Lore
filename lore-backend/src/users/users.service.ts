@@ -17,8 +17,11 @@ export class UsersService {
         return this.usersRepository.save(user);
     }
 
-    findOne(username: string): Promise<User | null> {
-        return this.usersRepository.findOneBy({ username: username });
+    findOne(username: string, relations?: string[]): Promise<User | null> {
+        return this.usersRepository.findOne({
+            where: { username: username },
+            relations: relations
+        });
     }
 
     remove(id: string): Promise<DeleteResult> {

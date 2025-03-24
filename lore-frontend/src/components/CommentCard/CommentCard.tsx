@@ -1,4 +1,4 @@
-import CommentActionRow from "./components/ActionRow/CommentActionRow.tsx";
+import CommentActionRow from "./components/CommentActionRow.tsx";
 
 type CommentCardProps = {
     author: string,

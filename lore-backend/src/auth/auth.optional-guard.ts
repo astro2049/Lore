@@ -2,19 +2,10 @@ import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable } 
 import { JwtService } from "@nestjs/jwt";
 import { Request } from "express";
 import * as process from "node:process";
-
-export type Payload = {
-    sub: string,
-    username: string,
-    iat: number
-};
-
-export type AuthenticatedRequest = Request & {
-    user: Payload
-}
+import { extractTokenFromHeader, Payload } from "./auth.guard";
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class OptionalAuthGuard implements CanActivate {
     constructor(private jwtService: JwtService) {
     }
 
@@ -22,7 +13,7 @@ export class AuthGuard implements CanActivate {
         const request = context.switchToHttp().getRequest<Request>();
         const token = extractTokenFromHeader(request);
         if (!token) {
-            throw new HttpException("", HttpStatus.UNAUTHORIZED);
+            return true;
         }
         try {
             const payload = await this.jwtService.verifyAsync<Payload>(
@@ -35,13 +26,8 @@ export class AuthGuard implements CanActivate {
             // Assign the payload to the request object here so that we can access it in our route handlers
             request["user"] = payload;
         } catch {
-            throw new HttpException("", HttpStatus.UNAUTHORIZED);
+            throw new HttpException("", HttpStatus.BAD_REQUEST);
         }
         return true;
     }
-}
-
-export function extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(" ") ?? [];
-    return type === "Bearer" ? token : undefined;
 }

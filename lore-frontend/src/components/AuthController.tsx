@@ -1,5 +1,5 @@
 import { ReactNode, useState } from "react";
-import { AuthContext } from "../../constants/contexts.ts";
+import { AuthContext } from "../constants/contexts.ts";
 
 type AuthControllerProps = {
     children: ReactNode

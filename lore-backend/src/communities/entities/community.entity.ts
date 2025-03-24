@@ -12,7 +12,7 @@ import { Post } from "../../posts/entities/post.entity";
 
 @Entity()
 export class Community {
-    @PrimaryGeneratedColumn("uuid")
+    @PrimaryGeneratedColumn()
     id: string;
 
     @Column({ unique: true })
@@ -35,5 +35,5 @@ export class Community {
     posts: Post[];
 
     @ManyToOne(() => User, { eager: true })
-    owner: User;
+    creator: User;
 }
