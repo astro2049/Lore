@@ -16,7 +16,7 @@ function Lore() {
                             <TopBar/>
                             <div className="grid grid-cols-[250px_auto]">
                                 <Sidebar/>
-                                <div className="flex w-full justify-center bg-dark">
+                                <div className="flex w-[1120px] px-1.5 justify-center bg-dark">
                                     <Outlet/>
                                 </div>
                             </div>

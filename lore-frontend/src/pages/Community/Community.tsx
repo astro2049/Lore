@@ -42,7 +42,7 @@ function Community() {
     const { community } = useContext(CommunityContext)!;
 
     return (
-        <div className="content-container">
+        <div className="w-full">
             {/* Community Banner */}
             {/*<div className="mt-0.5 h-[128px] bg-amber-300 rounded-lg">*/}
             {/*    <div className="pt-0.5 pr-1 flex justify-end">*/}

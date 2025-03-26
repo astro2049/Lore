@@ -4,6 +4,8 @@ import { UpdatePostDto } from "./dto/update-post.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Post } from "./entities/post.entity";
+import { User } from "../users/entities/user.entity";
+import { Community } from "../communities/entities/community.entity";
 
 @Injectable()
 export class PostsService {
@@ -13,16 +15,29 @@ export class PostsService {
     ) {
     }
 
-    async create(createPostDto: CreatePostDto) {
-        const post = this.postsRepository.create(createPostDto);
-        return await this.postsRepository.save(post);
+    create(createPostDto: CreatePostDto, community: Community, author: User) {
+        const post = this.postsRepository.create({
+            title: createPostDto.title,
+            content: createPostDto.content,
+            community: community,
+            author: author
+        });
+        return this.postsRepository.save(post);
     }
 
     async findOne(id: string) {
-        const post = await this.postsRepository.findOne({
-            where: { id },
-            relations: ["author", "community", "comments"]
-        });
+        const post = await this.postsRepository
+            .createQueryBuilder("post")
+            .leftJoinAndSelect("post.author", "author")
+            .leftJoinAndSelect("post.community", "community")
+            .loadRelationIdAndMap("post.commentIds", "post.comments",
+                "comment",
+                qb => qb
+                    .where("comment.parentId is null")
+                    .orderBy("comment.createdAt", "DESC")
+            )
+            .where("post.id = :id", { id })
+            .getOne();
         if (!post) {
             throw new HttpException("", HttpStatus.NOT_FOUND);
         }

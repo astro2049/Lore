@@ -37,10 +37,6 @@ button:hover {
 }
 
 /* Containers */
-.content-container {
-    width: 1120px;
-    padding: 0 24px;
-}
 .box {
     border: 1px solid orangered;
 }

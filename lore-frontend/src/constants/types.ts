@@ -13,3 +13,29 @@ export type Community = {
         username: string
     }
 }
+
+export type Post = {
+    id: string,
+    title: string,
+    content: string,
+    createdAt: string,
+    community: Community,
+    author: {
+        username: string
+    },
+    commentIds: string[]
+}
+
+type User = {
+    username: string
+}
+
+export type Comment = {
+    id: string,
+    content: string,
+    createdAt: string,
+    author: User,
+    score: number,
+    link: string,
+    commentIds: string[]
+}

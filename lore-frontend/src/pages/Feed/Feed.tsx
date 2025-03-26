@@ -1,5 +1,5 @@
 function Feed() {
-    return <div className="box content-container">Feed</div>
+    return <div className="w-full box">Feed</div>
 }
 
 export default Feed;

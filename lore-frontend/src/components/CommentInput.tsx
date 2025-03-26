@@ -1,6 +1,9 @@
 import { FormEvent, useRef, useState } from "react";
+import { api } from "../Utils.ts";
 
 type CommentInputProps = {
+    postId?: string,
+    parentId?: string,
     isActiveOnMount?: boolean,
     handleCancelSuperior?: () => void,
     commentButtonText?: string
@@ -8,6 +11,8 @@ type CommentInputProps = {
 
 function CommentInput(
     {
+        postId,
+        parentId,
         isActiveOnMount = false,
         handleCancelSuperior,
         commentButtonText = "Comment"
@@ -40,12 +45,26 @@ function CommentInput(
     }
 
     function handleComment() {
-        if (handleCancelSuperior) {
-            handleCancelSuperior();
-        } else {
-            setContent("");
-            setIsActive(false);
+        if ((postId && parentId) || (!postId && !parentId)) {
+            return;
         }
+        const parentProperty: {postId?: string, parentId?: string} = {};
+        if (postId) {
+            parentProperty.postId = postId;
+        } else {
+            parentProperty.parentId = parentId;
+        }
+        api.post("comments", {
+            content: content,
+            ...parentProperty
+        })
+            .then((res) => {
+                console.log(res);
+                window.location.reload();
+            })
+            .catch((e) => {
+                console.log(e);
+            })
     }
 
     return (

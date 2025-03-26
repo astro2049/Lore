@@ -11,8 +11,6 @@ export class CommunitiesService {
     constructor(
         @InjectRepository(Community)
         private readonly communitiesRepository: Repository<Community>,
-        @InjectRepository(User)
-        private readonly usersRepository: Repository<User>,
         @InjectDataSource()
         private readonly dataSource: DataSource
     ) {

@@ -1,5 +1,5 @@
 function Profile() {
-    return <div className="box content-container">Profile</div>
+    return <div className="w-full box">Profile</div>
 }
 
 export default Profile;

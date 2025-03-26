@@ -1,16 +1,37 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from "@nestjs/common";
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Patch,
+    Param,
+    Delete,
+    UseGuards,
+    HttpException,
+    HttpStatus
+} from "@nestjs/common";
 import { PostsService } from "./posts.service";
 import { CreatePostDto } from "./dto/create-post.dto";
 import { UpdatePostDto } from "./dto/update-post.dto";
+import { AuthGuard } from "../auth/auth.guard";
+import { Payload } from "../common/decorators/payload.decorator";
+import { UserByTokenPipe } from "../common/pipes/user-by-token.pipe";
+import { User } from "../users/entities/user.entity";
+import { CommunitiesService } from "../communities/communities.service";
 
 @Controller("posts")
 export class PostsController {
-    constructor(private readonly postsService: PostsService) {
+    constructor(private readonly postsService: PostsService, private readonly communitiesService: CommunitiesService) {
     }
 
+    @UseGuards(AuthGuard)
     @Post()
-    create(@Body() createPostDto: CreatePostDto) {
-        return this.postsService.create(createPostDto);
+    async create(@Body() createPostDto: CreatePostDto, @Payload(UserByTokenPipe) user: User) {
+        const community = await this.communitiesService.findOne(createPostDto.communityName);
+        if (!community) {
+            throw new HttpException("", HttpStatus.NOT_FOUND);
+        }
+        return this.postsService.create(createPostDto, community, user);
     }
 
     @Get(":id")

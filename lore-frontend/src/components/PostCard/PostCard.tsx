@@ -38,7 +38,7 @@ function PostCard({
                 {coverUrl && <img src={coverUrl} className="rounded-[8px]"/>}
 
                 {/* IV. Post Stats */}
-                <PostActionRow score={score} commentCount={commentCount}/>
+                <PostActionRow score={score} commentCount={commentCount} link={link}/>
             </Link>
         </div>
     );

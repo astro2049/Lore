@@ -73,7 +73,7 @@ function InformationBar() {
                     {/*</div>*/}
                 </div>
             </div>
-            <div className="h-[40px] px-1 pt-0.5 flex gap-x-1 items-baseline bg-dark-dimmer">
+            <div className="h-[44px] px-1 pt-[10px] flex gap-x-1 items-baseline bg-dark-dimmer">
                 <div className="text-xs text-white/70">
                     CREATOR
                 </div>
