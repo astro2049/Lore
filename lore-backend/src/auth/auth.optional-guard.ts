@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable } 
 import { JwtService } from "@nestjs/jwt";
 import { Request } from "express";
 import * as process from "node:process";
-import { extractTokenFromHeader, Payload } from "./auth.guard";
+import { Payload } from "./auth.guard";
 
 @Injectable()
 export class OptionalAuthGuard implements CanActivate {
@@ -11,7 +11,7 @@ export class OptionalAuthGuard implements CanActivate {
 
     async canActivate(context: ExecutionContext) {
         const request = context.switchToHttp().getRequest<Request>();
-        const token = extractTokenFromHeader(request);
+        const token = request.cookies["access_token"] as string;
         if (!token) {
             return true;
         }

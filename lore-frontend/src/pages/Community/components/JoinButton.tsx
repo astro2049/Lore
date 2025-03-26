@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { AuthContext, CommunitiesContext, CommunityContext, OverlayContext } from "../../../constants/contexts.ts";
+import { UserContext, CommunitiesContext, CommunityContext, OverlayContext } from "../../../constants/contexts.ts";
 import { OverlayType } from "../../../constants/types.ts";
 import { api } from "../../../Utils.ts";
 
@@ -8,7 +8,7 @@ type JoinButtonProps = {
 }
 
 function JoinButton({ className }: JoinButtonProps) {
-    const { username } = useContext(AuthContext)!;
+    const { username } = useContext(UserContext)!;
     const [, setOverlayType] = useContext(OverlayContext)!;
     const { community, isMember, setIsMember } = useContext(CommunityContext)!;
     const { updateCommunities } = useContext(CommunitiesContext)!;

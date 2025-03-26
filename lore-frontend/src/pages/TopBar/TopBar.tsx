@@ -1,13 +1,25 @@
 import { useContext, useState } from "react";
-import { AuthContext, OverlayContext } from "../../constants/contexts.ts";
+import { UserContext, OverlayContext } from "../../constants/contexts.ts";
 import { OverlayType } from "../../constants/types.ts";
 import { Link } from "react-router";
-import { getPrefixedUsername } from "../../Utils.ts";
+import { api, getPrefixedUsername } from "../../Utils.ts";
 
 function TopBar() {
     const [, setOverlayType] = useContext(OverlayContext)!;
-    const { username } = useContext(AuthContext)!;
+    const { username, clearUsername } = useContext(UserContext)!;
     const [showUserDrawer, setShowUserDrawer] = useState(false);
+
+    function handleLogOut() {
+        api.post("auth/logout")
+            .then((res) => {
+                console.log(res);
+                clearUsername();
+                window.location.reload();
+            })
+            .catch((e) => {
+                console.log(e);
+            })
+    }
 
     return (
         <div className="z-1 sticky top-0 left-0 right-0">
@@ -56,6 +68,7 @@ function TopBar() {
                         </div>
                     </Link>
                     <button
+                        onClick={handleLogOut}
                         className="group flex gap-x-0.5 justify-center items-center py-1 pl-2 pr-3 text-sm text-white/75 hover:text-white whitespace-nowrap"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"

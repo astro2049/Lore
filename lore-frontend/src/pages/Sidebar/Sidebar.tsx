@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { AuthContext } from "../../constants/contexts.ts";
+import { UserContext } from "../../constants/contexts.ts";
 import Communities from "./sections/Communities.tsx";
 import AllCommunities from "./sections/AllCommunities.tsx";
 
 function Sidebar() {
-    const { username } = useContext(AuthContext)!;
+    const { username } = useContext(UserContext)!;
 
     return (
         <div className="

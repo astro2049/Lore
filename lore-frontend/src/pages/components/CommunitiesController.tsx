@@ -1,5 +1,5 @@
 import { ReactNode, useContext, useEffect, useState } from "react";
-import { AuthContext, CommunitiesContext } from "../../constants/contexts.ts";
+import { UserContext, CommunitiesContext } from "../../constants/contexts.ts";
 import { api } from "../../Utils.ts";
 
 type CommunitiesControllerProps = {
@@ -9,7 +9,7 @@ type CommunitiesControllerProps = {
 function CommunitiesController({ children }: CommunitiesControllerProps) {
     const [communities, setCommunities] = useState([]);
     const [allCommunities, setAllCommunities] = useState([]);
-    const { username } = useContext(AuthContext)!;
+    const { username } = useContext(UserContext)!;
 
     function updateCommunities() {
         api.get(`users/${username}?communities`)
@@ -23,7 +23,7 @@ function CommunitiesController({ children }: CommunitiesControllerProps) {
     }
 
     function updateAllCommunities() {
-        api.get(`communities`)
+        api.get("communities")
             .then((res) => {
                 console.log(res.data);
                 setAllCommunities(res.data);

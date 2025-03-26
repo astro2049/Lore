@@ -3,12 +3,12 @@ import Sidebar from "./pages/Sidebar/Sidebar.tsx";
 import { Outlet } from "react-router";
 import OverlayController from "./overlays/OverlayController.tsx";
 import PopupController from "./components/PopupController.tsx";
-import AuthController from "./components/AuthController.tsx";
+import UserProvider from "./components/UserProvider.tsx";
 import CommunitiesController from "./pages/components/CommunitiesController.tsx";
 
 function Lore() {
     return (
-        <AuthController>
+        <UserProvider>
             <PopupController>
                 <CommunitiesController>
                     <OverlayController>
@@ -24,7 +24,7 @@ function Lore() {
                     </OverlayController>
                 </CommunitiesController>
             </PopupController>
-        </AuthController>
+        </UserProvider>
     );
 }
 

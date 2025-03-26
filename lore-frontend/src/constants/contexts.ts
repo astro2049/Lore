@@ -12,9 +12,10 @@ export const PopupContext = createContext({
     }
 });
 
-export const AuthContext = createContext<{
+export const UserContext = createContext<{
     username: string | undefined,
-    setUsername: Dispatch<SetStateAction<string | undefined>>
+    storeUsername: (s: string) => void,
+    clearUsername: () => void
 } | null>(null);
 
 export const CommunityContext = createContext<{

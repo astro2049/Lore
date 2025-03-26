@@ -1,6 +1,6 @@
 import { OverlayType } from "../constants/types.ts";
 import { FormEvent, useContext, useState } from "react";
-import { AuthContext, OverlayContext } from "../constants/contexts.ts";
+import { UserContext, OverlayContext } from "../constants/contexts.ts";
 import LabeledInput from "../components/LabeledInput/LabeledInput.tsx";
 import { api } from "../Utils.ts";
 import CancelButton from "./components/CancelButton.tsx";
@@ -13,7 +13,7 @@ function LogIn() {
     const [, setOverlayType] = useContext(OverlayContext)!;
     const [username_, setUsername_] = useState("");
     const [password, setPassword] = useState("");
-    const { setUsername } = useContext(AuthContext)!;
+    const { storeUsername } = useContext(UserContext)!;
     const [isLoggingIn, setIsLoggingIn] = useState(false);
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -25,9 +25,8 @@ function LogIn() {
         })
             .then((res) => {
                 console.log(res);
-                api.defaults.headers.common.Authorization = `Bearer ${res.data.access_token}`;
-                setUsername(username_);
-                setOverlayType(OverlayType.None);
+                storeUsername(username_);
+                window.location.reload();
             })
             .catch((e) => {
                 console.log(e);
