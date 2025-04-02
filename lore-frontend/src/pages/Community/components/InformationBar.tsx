@@ -11,7 +11,7 @@ function InformationBar() {
 
     return (
         <div
-            className="scrollable w-[320px] py-0.5 text-blue-light-custom-1"
+            className="scrollable shrink-0 w-[320px] py-0.5 text-blue-light-custom-1"
             style={{ maxHeight: "calc(100vh - var(--header-height))" }}>
             <div
                 className="mt-1 pt-0.5 px-1 text-sm rounded-t-lg bg-dark-dimmer border-b border-b-white/20">
@@ -79,7 +79,7 @@ function InformationBar() {
                 </div>
                 <Link to={`/${getPrefixedUsername(community.creator.username)}`}
                       className="text-sm hover:text-blue-light-custom-2">
-                    {getPrefixedUsername(community.creator.username)}
+                    {community.creator.username}
                 </Link>
             </div>
         </div>

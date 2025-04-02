@@ -83,7 +83,7 @@ function CreateCommunity() {
                 <div className="flex w-full justify-end gap-1">
                     <button
                         onClick={() => setOverlayType(OverlayType.None)}
-                        className="py-0.25 px-1 font-bold border-2 border-white-custom rounded-2xl"
+                        className="py-0.25 px-1 font-bold border border-white-custom rounded-2xl"
                     >
                         Cancel
                     </button>

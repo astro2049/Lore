@@ -23,7 +23,8 @@ export type Post = {
     author: {
         username: string
     },
-    commentIds: string[]
+    commentIds: string[],
+    commentCount: number
 }
 
 type User = {

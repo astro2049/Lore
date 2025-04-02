@@ -22,15 +22,10 @@ function TopBar() {
     }
 
     return (
-        <div className="z-1 sticky top-0 left-0 right-0">
-            <div className="
-            p-0.75
-            flex justify-between items-center
-            bg-dark
-            border-b-1 border-b-white/20
-            "
-                 style={{ height: "var(--header-height)" }}
-            >
+        <div className="z-1 sticky top-0 left-0 right-0 bg-dark border-b-1 border-b-white/20"
+             style={{ height: "var(--header-height)" }}
+        >
+            <div className="p-0.75 flex justify-between items-center">
                 <Link to="" className="pl-1 font-bold text-2xl">lore</Link>
                 <div className="flex items-center gap-0.5">
                     {username ?

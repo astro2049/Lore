@@ -1,45 +1,32 @@
 import { Link } from "react-router";
-import { getPrefixedCommunityName } from "../../Utils.ts";
-import PostCard, { PostCardProps } from "../../components/PostCard/PostCard.tsx";
-import star_wars_outlaws_concept_art from "../../assets/tony-tran-mirogana-city-01.jpg"
+import { api, getPrefixedCommunityName } from "../../Utils.ts";
+import PostCard from "../../components/PostCard/PostCard.tsx";
 import icon_cross from "../../assets/icon-cross.svg"
 import InformationBar from "./components/InformationBar.tsx";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CommunityContext } from "../../constants/contexts.ts";
 import JoinButton from "./components/JoinButton.tsx";
-
-const posts: PostCardProps[] = [
-    {
-        link: "./posts/1",
-        author: "Me",
-        createdTimestamp: new Date().toDateString(),
-        postTitle: "TITLE",
-        coverUrl: star_wars_outlaws_concept_art,
-        score: 120,
-        commentCount: 38
-    },
-    {
-        link: "./posts/2",
-        author: "Me",
-        createdTimestamp: new Date().toDateString(),
-        postTitle: "TITLE",
-        coverUrl: star_wars_outlaws_concept_art,
-        score: 120,
-        commentCount: 38
-    },
-    {
-        link: "./posts/3",
-        author: "Me",
-        createdTimestamp: new Date().toDateString(),
-        postTitle: "TITLE",
-        coverUrl: star_wars_outlaws_concept_art,
-        score: 120,
-        commentCount: 38
-    }
-];
+import { Post } from "../../constants/types.ts";
 
 function Community() {
     const { community } = useContext(CommunityContext)!;
+    const [posts, setPosts] = useState<Post[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        setIsLoading(true);
+        api.get<Post[]>(`communities/${community.name}/posts`)
+            .then((res) => {
+                console.log(res.data);
+                setPosts(res.data);
+            })
+            .catch((e) => {
+                console.log(e);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
+    }, [community]);
 
     return (
         <div className="w-full">
@@ -72,16 +59,23 @@ function Community() {
                 </div>
             </div>
 
-            <div className="mt-1 flex w-full justify-between">
+            <div className="mt-1 flex gap-x-1.5">
                 {/* Posts */}
-                <main className="mb-2 w-[732px]">
-                    {
-                        posts.map((post, index) => {
-                            return (
-                                <PostCard key={index} {...post}/>
-                            );
-                        })
-                    }
+                <main className="mb-2 grow">
+                    {!isLoading ?
+                        posts.length !== 0 ?
+                            posts.map((post, index) => {
+                                return (
+                                    <PostCard
+                                        key={index}
+                                        {...post}
+                                    />
+                                );
+                            }) :
+                            <div className="mt-[100px] px-1 text-xl text-blue-light-custom-2 font-semibold text-center">
+                                This community doesn't have any posts yet
+                            </div>
+                        : <></>}
                 </main>
 
                 {/* Community Information */}

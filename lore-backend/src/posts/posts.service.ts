@@ -36,6 +36,7 @@ export class PostsService {
                     .where("comment.parentId is null")
                     .orderBy("comment.createdAt", "DESC")
             )
+            .loadRelationCountAndMap("post.commentCount", "post.comments")
             .where("post.id = :id", { id })
             .getOne();
         if (!post) {

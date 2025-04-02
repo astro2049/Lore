@@ -12,13 +12,11 @@ function Lore() {
             <PopupController>
                 <CommunitiesController>
                     <OverlayController>
-                        <div className="mx-auto w-fit">
-                            <TopBar/>
-                            <div className="grid grid-cols-[250px_auto]">
-                                <Sidebar/>
-                                <div className="flex w-[1120px] px-1.5 justify-center bg-dark">
-                                    <Outlet/>
-                                </div>
+                        <TopBar/>
+                        <div className="w-full grid grid-cols-[250px_auto]">
+                            <Sidebar/>
+                            <div className="flex px-1.5 justify-center">
+                                <Outlet/>
                             </div>
                         </div>
                     </OverlayController>

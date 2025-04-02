@@ -28,8 +28,8 @@ function CreatePost() {
     }
 
     return (
-        <div className="w-full flex justify-between">
-            <div className="w-[732px] pt-1.25 px-1">
+        <div className="w-full flex gap-x-1.5">
+            <div className="grow pt-1.25 px-1">
                 <h1 className="text-[24px] font-bold text-blue-light-custom-3">Create post</h1>
                 <div
                     className="mt-0.75 w-fit h-[38px] px-1 flex items-center text-sm font-semibold bg-gray-custom-2 rounded-2xl">

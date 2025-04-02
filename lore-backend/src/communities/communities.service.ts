@@ -5,12 +5,15 @@ import { InjectDataSource, InjectRepository } from "@nestjs/typeorm";
 import { Community } from "./entities/community.entity";
 import { DataSource, Repository } from "typeorm";
 import { User } from "../users/entities/user.entity";
+import { Post } from "../posts/entities/post.entity";
 
 @Injectable()
 export class CommunitiesService {
     constructor(
         @InjectRepository(Community)
         private readonly communitiesRepository: Repository<Community>,
+        @InjectRepository(Post)
+        private readonly postsRepository: Repository<Post>,
         @InjectDataSource()
         private readonly dataSource: DataSource
     ) {
@@ -79,5 +82,15 @@ export class CommunitiesService {
             .getCount();
 
         return count === 1;
+    }
+
+    findPosts(community: Community) {
+        return this.postsRepository
+            .createQueryBuilder("post")
+            .loadRelationCountAndMap("post.commentCount", "post.comments")
+            .where("post.communityId = :communityId", { communityId: community.id })
+            .orderBy("post.createdAt", "DESC")
+            .innerJoinAndSelect("post.author", "author")
+            .getMany();
     }
 }

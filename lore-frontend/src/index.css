@@ -27,6 +27,9 @@ body {
     background-color: var(--color-dark);
     color: white;
 }
+#root {
+    @apply mx-auto max-w-[1360px];
+}
 
 /* Button Styles */
 button:hover {

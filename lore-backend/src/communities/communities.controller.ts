@@ -60,4 +60,10 @@ export class CommunitiesController {
     async leaveCommunity(@Param("name", CommunityByNamePipe) community: Community, @Payload(UserByTokenPipe) user: User) {
         return this.communitiesService.leaveCommunity(community, user);
     }
+
+    // Find posts of this community
+    @Get(":name/posts")
+    findPosts(@Param("name", CommunityByNamePipe) community: Community) {
+        return this.communitiesService.findPosts(community);
+    }
 }
