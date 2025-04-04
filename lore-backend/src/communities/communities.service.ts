@@ -76,7 +76,7 @@ export class CommunitiesService {
     async hasMember(community: Community, user: User) {
         const count = await this.dataSource
             .createQueryBuilder()
-            .from("user_communities_community", "members")
+            .from("community_members", "members")
             .where("members.communityId = :id", { id: community.id })
             .andWhere("members.userId = :userId", { userId: user.id })
             .getCount();

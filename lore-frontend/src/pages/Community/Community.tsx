@@ -64,10 +64,11 @@ function Community() {
                 <main className="mb-2 grow">
                     {!isLoading ?
                         posts.length !== 0 ?
-                            posts.map((post, index) => {
+                            posts.map((post) => {
                                 return (
                                     <PostCard
-                                        key={index}
+                                        key={post.id}
+                                        link={`posts/${post.id}`}
                                         {...post}
                                     />
                                 );

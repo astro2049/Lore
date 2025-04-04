@@ -1,6 +1,6 @@
 import {
     Column,
-    CreateDateColumn, Entity,
+    CreateDateColumn, Entity, JoinTable,
     ManyToMany,
     ManyToOne,
     OneToMany,
@@ -29,6 +29,7 @@ export class Community {
 
     /* Relationships */
     @ManyToMany(() => User, (user) => user.communities)
+    @JoinTable({ name: "community_members" })
     members: User[];
 
     @OneToMany(() => Post, (post) => post.community)

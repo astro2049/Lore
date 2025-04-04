@@ -21,7 +21,6 @@ export class User {
 
     /* Relationships */
     @ManyToMany(() => Community, (community) => community.members)
-    @JoinTable()
     communities: Community[];
 
     @OneToMany(() => Post, (post) => post.author)
