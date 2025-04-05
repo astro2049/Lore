@@ -5,6 +5,7 @@ import { Repository } from "typeorm";
 import { Comment } from "./entities/comment.entity";
 import { User } from "../users/entities/user.entity";
 import { Post } from "../posts/entities/post.entity";
+import { Vote, VoteType } from "../votes/entities/vote.entity";
 
 @Injectable()
 export class CommentsService {
@@ -24,20 +25,31 @@ export class CommentsService {
     }
 
     async findOne(id: string) {
-        const comment = await this.commentsRepository
+        const { entities, raw } = await this.commentsRepository
             .createQueryBuilder("comment")
-            .leftJoinAndSelect("comment.post", "post")
-            .leftJoinAndSelect("comment.author", "author")
+            .innerJoinAndSelect("comment.post", "post")
+            .innerJoinAndSelect("comment.author", "author")
+            .addSelect(qb => {
+                return qb
+                    .select("coalesce(sum(vote.value), 0)")
+                    .from(Vote, "vote")
+                    .where("vote.targetId = comment.id")
+                    .andWhere("vote.targetType = :voteType", { voteType: VoteType.Comment });
+            }, "score")
             .loadRelationIdAndMap("commentIds", "comment.children",
                 "comment",
-                qb => qb
-                    .orderBy("comment.createdAt", "DESC")
+                qb => {
+                    return qb.orderBy("comment.createdAt", "DESC");
+                }
             )
             .where("comment.id = :id", { id })
-            .getOne();
-        if (!comment) {
+            .getRawAndEntities();
+
+        if (entities.length === 0) {
             throw new HttpException("", HttpStatus.NOT_FOUND);
         }
+        const comment = entities[0];
+        comment.score = parseInt(raw[0].score);
         return comment;
     }
 

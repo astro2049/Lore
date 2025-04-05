@@ -24,7 +24,8 @@ export type Post = {
         username: string
     },
     commentIds: string[],
-    commentCount: number
+    commentCount: number,
+    score: number
 }
 
 type User = {

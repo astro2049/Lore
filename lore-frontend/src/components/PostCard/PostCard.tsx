@@ -5,7 +5,7 @@ import { getPrefixedCommunityName } from "../../Utils.ts";
 export type PostCardProps = {
     id: string,
     displayCommunity?: boolean,
-    community?: {
+    community: {
         name: string
     }
     author: {
@@ -60,7 +60,7 @@ function PostCard({
                 {coverUrl && <img src={coverUrl} className="rounded-[8px]"/>}
 
                 {/* IV. Post Stats */}
-                <PostActionRow score={120} commentCount={commentCount} link={`posts/${id}`}/>
+                <PostActionRow score={score} commentCount={commentCount} link={`posts/${id}`}/>
             </Link>
         </div>
     );

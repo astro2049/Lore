@@ -7,6 +7,7 @@ import { PostsModule } from "./posts/posts.module";
 import { CommentsModule } from "./comments/comments.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AuthModule } from './auth/auth.module';
+import { VotesModule } from './votes/votes.module';
 import * as process from "node:process";
 
 @Module({
@@ -25,7 +26,8 @@ import * as process from "node:process";
             autoLoadEntities: true,
             synchronize: true
         }),
-        AuthModule
+        AuthModule,
+        VotesModule
     ],
     controllers: [AppController],
     providers: [AppService]

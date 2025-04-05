@@ -21,9 +21,9 @@ function CommentActionRow({
             {/* Actions */}
             <div className="flex gap-0.25 items-center text-xs text-blue-light-custom-1">
                 {/* TODO: Fix this vote button's width */}
-                <div className="h-[32px] pr-1 flex gap-0.5 items-center">
+                <div className="h-[32px] pr-1 flex gap-0.25 items-center">
                     <button className="rotate-90">&lt;</button>
-                    <span>{score}</span>
+                    <span className="w-1 text-center">{score}</span>
                     <button className="-rotate-90">&lt;</button>
                 </div>
                 <button

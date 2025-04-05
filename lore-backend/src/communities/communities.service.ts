@@ -6,6 +6,7 @@ import { Community } from "./entities/community.entity";
 import { DataSource, Repository } from "typeorm";
 import { User } from "../users/entities/user.entity";
 import { Post } from "../posts/entities/post.entity";
+import { Vote, VoteType } from "../votes/entities/vote.entity";
 
 @Injectable()
 export class CommunitiesService {
@@ -76,21 +77,35 @@ export class CommunitiesService {
     async hasMember(community: Community, user: User) {
         const count = await this.dataSource
             .createQueryBuilder()
-            .from("community_members", "members")
-            .where("members.communityId = :id", { id: community.id })
-            .andWhere("members.userId = :userId", { userId: user.id })
+            .from("communities_users", "member")
+            .where("member.communityId = :id", { id: community.id })
+            .andWhere("member.userId = :userId", { userId: user.id })
             .getCount();
 
         return count === 1;
     }
 
-    findPosts(community: Community) {
-        return this.postsRepository
+    async findPosts(community: Community) {
+        const { entities: posts, raw } = await this.postsRepository
             .createQueryBuilder("post")
             .loadRelationCountAndMap("post.commentCount", "post.comments")
             .where("post.communityId = :communityId", { communityId: community.id })
-            .orderBy("post.createdAt", "DESC")
             .innerJoinAndSelect("post.author", "author")
-            .getMany();
+            .addSelect(qb => {
+                return qb
+                    .select("coalesce(sum(vote.value), 0)")
+                    .from(Vote, "vote")
+                    .where("vote.targetId = post.id")
+                    .andWhere("vote.targetType = :voteType", { voteType: VoteType.POST });
+            }, "score")
+            .orderBy("post.createdAt", "DESC")
+            .groupBy("post.id")
+            .getRawAndEntities();
+
+        posts.forEach((post, index) => {
+            post.score = parseInt(raw[index].score);
+        });
+
+        return posts;
     }
 }

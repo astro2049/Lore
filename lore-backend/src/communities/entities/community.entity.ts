@@ -10,7 +10,7 @@ import {
 import { User } from "../../users/entities/user.entity";
 import { Post } from "../../posts/entities/post.entity";
 
-@Entity()
+@Entity("communities")
 export class Community {
     @PrimaryGeneratedColumn()
     id: string;
@@ -29,7 +29,15 @@ export class Community {
 
     /* Relationships */
     @ManyToMany(() => User, (user) => user.communities)
-    @JoinTable({ name: "community_members" })
+    @JoinTable({
+        name: "communities_users",
+        joinColumn: {
+            name: "communityId"
+        },
+        inverseJoinColumn: {
+            name: "userId"
+        }
+    })
     members: User[];
 
     @OneToMany(() => Post, (post) => post.community)

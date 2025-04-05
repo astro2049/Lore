@@ -1,9 +1,10 @@
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Post } from "../../posts/entities/post.entity";
 import { Community } from "../../communities/entities/community.entity";
 import { Comment } from "../../comments/entities/comment.entity";
+import { Vote } from "../../votes/entities/vote.entity";
 
-@Entity()
+@Entity("users")
 export class User {
     @PrimaryGeneratedColumn()
     id: string;
@@ -28,4 +29,7 @@ export class User {
 
     @OneToMany(() => Comment, (comment) => comment.author)
     comments: Comment[];
+
+    @OneToMany(() => Vote, (vote) => vote.user)
+    votes: Vote[];
 }

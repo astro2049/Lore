@@ -15,7 +15,7 @@ function PostActionRow({
         <div className="mt-0.5 flex gap-0.75 items-center text-xs">
             <div className="h-[32px] px-0.75 flex gap-0.25 items-center bg-gray-custom-2 rounded-full">
                 <button className="rotate-90">&lt;</button>
-                <span>{score}</span>
+                <span className="w-1 text-center">{score}</span>
                 <button className="-rotate-90">&lt;</button>
             </div>
             <div

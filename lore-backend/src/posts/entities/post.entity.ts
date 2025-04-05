@@ -11,7 +11,7 @@ import { User } from "../../users/entities/user.entity";
 import { Community } from "../../communities/entities/community.entity";
 import { Comment } from "../../comments/entities/comment.entity";
 
-@Entity()
+@Entity("posts")
 export class Post {
     @PrimaryGeneratedColumn()
     id: string;
@@ -37,4 +37,8 @@ export class Post {
 
     @OneToMany(() => Comment, (comment) => comment.post)
     comments: Comment[];
+
+    /* Computed Properties */
+    // vote score
+    score?: number;
 }

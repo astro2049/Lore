@@ -10,7 +10,7 @@ import {
 import { User } from "../../users/entities/user.entity";
 import { Post } from "../../posts/entities/post.entity";
 
-@Entity()
+@Entity("comments")
 export class Comment {
     @PrimaryGeneratedColumn()
     id: string;
@@ -37,4 +37,8 @@ export class Comment {
 
     @OneToMany(() => Comment, (comment) => comment.parent)
     children: Comment[];
+
+    /* Computed Properties */
+    // vote score
+    score?: number;
 }

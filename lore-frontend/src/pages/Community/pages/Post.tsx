@@ -70,7 +70,7 @@ function PostPage() {
 
                         {/* Post Stats */}
                         <PostActionRow
-                            score={31}
+                            score={post.score}
                             commentCount={post.commentCount}
                             link={`${getPrefixedCommunityName(post.community.name)}/posts/${post.id}`}
                         />
