@@ -15,7 +15,7 @@ function PostPage() {
 
     useEffect(() => {
         setIsLoading(true);
-        api.get<Post>(`posts/${postId}`)
+        api.get<Post>(`posts/${postId}?commentIds`)
             .then((res) => {
                 console.log(res.data);
                 setPost(res.data);
@@ -72,7 +72,7 @@ function PostPage() {
                         <PostActionRow
                             score={post.score}
                             commentCount={post.commentCount}
-                            link={`${getPrefixedCommunityName(post.community.name)}/posts/${post.id}`}
+                            link={`/${getPrefixedCommunityName(post.community.name)}/posts/${post.id}`}
                         />
 
                         {/* Comment Input */}
@@ -83,8 +83,8 @@ function PostPage() {
                         {/* Comments */}
                         <div className="mb-3 flex flex-col gap-0.5">
                             {!isLoading ?
-                                post.commentIds.length !== 0 ?
-                                    post.commentIds.map((commentId) => {
+                                post.commentIds!.length !== 0 ?
+                                    post.commentIds!.map((commentId) => {
                                         return (
                                             <CommentCard
                                                 key={commentId}

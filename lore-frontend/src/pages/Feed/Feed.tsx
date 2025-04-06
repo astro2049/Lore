@@ -1,11 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { api } from "../../Utils.ts";
-import { Post } from "../../constants/types.ts";
 import { UserContext } from "../../constants/contexts.ts";
 import PostCard from "../../components/PostCard/PostCard.tsx";
 
 function Feed() {
-    const [posts, setPosts] = useState<Post[]>([]);
+    const [postIds, setPostIds] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(0);
     const { username } = useContext(UserContext)!;
@@ -17,10 +16,10 @@ function Feed() {
             return;
         }
         setIsLoading(true);
-        api.get<Post[]>(`feed?page=${page}`)
+        api.get<string[]>(`feed?page=${page}`)
             .then((res) => {
                 console.log(res.data);
-                setPosts(res.data);
+                setPostIds(res.data);
             })
             .catch((e) => {
                 console.log(e);
@@ -54,18 +53,17 @@ function Feed() {
                     <div className="py-1 text-xs text-blue-light-custom-2 border-b border-b-white/20">
                         New
                     </div>
-                    {posts.length === 0 ?
+                    {postIds.length === 0 ?
                         <div className="grow mt-[100px] text-xl text-blue-light-custom-2 font-semibold text-center">
                             No posts from communities yet
                         </div> :
                         (<div className="grow">{
-                            posts.map((post) => {
+                            postIds.map((postId) => {
                                 return (
                                     <PostCard
-                                        key={post.id}
+                                        key={postId}
                                         displayCommunity
-                                        link={`c/${post.community.name}/posts/${post.id}`}
-                                        {...post}
+                                        postId={postId}
                                     />
                                 );
                             })

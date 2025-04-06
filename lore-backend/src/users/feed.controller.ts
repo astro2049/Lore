@@ -12,7 +12,7 @@ export class FeedController {
 
     @UseGuards(AuthGuard)
     @Get()
-    async findOne(@Param("page") page: number, @Payload(UserByTokenPipe) user: User) {
+    findOne(@Param("page") page: number, @Payload(UserByTokenPipe) user: User) {
         return this.usersService.getFeed(user, page);
     }
 }

@@ -26,8 +26,8 @@ export class PostsService {
         return this.postsRepository.save(post);
     }
 
-    async findOne(id: string) {
-        const { entities, raw } = await this.postsRepository
+    async findOne(id: string, commentIds?: boolean) {
+        let query = this.postsRepository
             .createQueryBuilder("post")
             .innerJoinAndSelect("post.author", "author")
             .innerJoinAndSelect("post.community", "community")
@@ -38,13 +38,16 @@ export class PostsService {
                     .where("vote.targetId = post.id")
                     .andWhere("vote.targetType = :voteType", { voteType: VoteType.Post });
             }, "score")
-            .loadRelationIdAndMap("post.commentIds", "post.comments", "comment",
+            .loadRelationCountAndMap("post.commentCount", "post.comments");
+        if (commentIds) {
+            query = query.loadRelationIdAndMap("post.commentIds", "post.comments", "comment",
                 qb => {
                     return qb
                         .where("comment.parentId IS NULL").orderBy("comment.createdAt", "DESC");
                 }
-            )
-            .loadRelationCountAndMap("post.commentCount", "post.comments")
+            );
+        }
+        const { entities, raw } = await query
             .where("post.id = :id", { id })
             .getRawAndEntities();
 

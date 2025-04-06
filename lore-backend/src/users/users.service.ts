@@ -31,16 +31,17 @@ export class UsersService {
         return this.usersRepository.delete(id);
     }
 
-    getFeed(user: User, page = 0) {
-        return this.postsRepository
+    async getFeed(user: User, page = 0) {
+        const posts = await this.postsRepository
             .createQueryBuilder("post")
-            .innerJoinAndSelect("post.community", "community")
+            .select("post.id as id")
+            .innerJoin("post.community", "community")
             .innerJoin("community.members", "member", "member.id = :userId", { userId: user.id })
-            .loadRelationCountAndMap("post.commentCount", "post.comments")
-            .innerJoinAndSelect("post.author", "author")
             .orderBy("post.createdAt", "DESC")
             .skip(page * 10)
             .take(10)
-            .getMany();
+            .getRawMany();
+
+        return posts.map(post => post.id);
     }
 }

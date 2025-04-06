@@ -6,19 +6,18 @@ import InformationBar from "./components/InformationBar.tsx";
 import { useContext, useEffect, useState } from "react";
 import { CommunityContext } from "../../constants/contexts.ts";
 import JoinButton from "./components/JoinButton.tsx";
-import { Post } from "../../constants/types.ts";
 
 function Community() {
     const { community } = useContext(CommunityContext)!;
-    const [posts, setPosts] = useState<Post[]>([]);
+    const [postIds, setPostIds] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         setIsLoading(true);
-        api.get<Post[]>(`communities/${community.name}/posts`)
+        api.get<string[]>(`communities/${community.name}/posts`)
             .then((res) => {
                 console.log(res.data);
-                setPosts(res.data);
+                setPostIds(res.data);
             })
             .catch((e) => {
                 console.log(e);
@@ -63,13 +62,12 @@ function Community() {
                 {/* Posts */}
                 <main className="mb-2 grow">
                     {!isLoading ?
-                        posts.length !== 0 ?
-                            posts.map((post) => {
+                        postIds.length !== 0 ?
+                            postIds.map((postId) => {
                                 return (
                                     <PostCard
-                                        key={post.id}
-                                        link={`posts/${post.id}`}
-                                        {...post}
+                                        key={postId}
+                                        postId={postId}
                                     />
                                 );
                             }) :

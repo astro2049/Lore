@@ -45,4 +45,7 @@ export class Community {
 
     @ManyToOne(() => User, { eager: true })
     creator: User;
+
+    /* Calculated Properties */
+    postIds?: string[];
 }

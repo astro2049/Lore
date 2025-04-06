@@ -86,26 +86,13 @@ export class CommunitiesService {
     }
 
     async findPosts(community: Community) {
-        const { entities: posts, raw } = await this.postsRepository
-            .createQueryBuilder("post")
-            .loadRelationCountAndMap("post.commentCount", "post.comments")
-            .where("post.communityId = :communityId", { communityId: community.id })
-            .innerJoinAndSelect("post.author", "author")
-            .addSelect(qb => {
-                return qb
-                    .select("coalesce(sum(vote.value), 0)")
-                    .from(Vote, "vote")
-                    .where("vote.targetId = post.id")
-                    .andWhere("vote.targetType = :voteType", { voteType: VoteType.POST });
-            }, "score")
-            .orderBy("post.createdAt", "DESC")
-            .groupBy("post.id")
-            .getRawAndEntities();
+        const posts = await this.postsRepository
+            .createQueryBuilder()
+            .select("id")
+            .where("communityId = :communityId", { communityId: community.id })
+            .orderBy("createdAt", "DESC")
+            .getRawMany();
 
-        posts.forEach((post, index) => {
-            post.score = parseInt(raw[index].score);
-        });
-
-        return posts;
+        return posts.map(post => post.id);
     }
 }

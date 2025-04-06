@@ -8,7 +8,7 @@ import {
     Delete,
     UseGuards,
     HttpException,
-    HttpStatus
+    HttpStatus, Query
 } from "@nestjs/common";
 import { PostsService } from "./posts.service";
 import { CreatePostDto } from "./dto/create-post.dto";
@@ -18,6 +18,7 @@ import { Payload } from "../common/decorators/payload.decorator";
 import { UserByTokenPipe } from "../common/pipes/user-by-token.pipe";
 import { User } from "../users/entities/user.entity";
 import { CommunitiesService } from "../communities/communities.service";
+import { ParsePresencePipe } from "../common/pipes/parse-presence.pipe";
 
 @Controller("posts")
 export class PostsController {
@@ -35,8 +36,8 @@ export class PostsController {
     }
 
     @Get(":id")
-    findOne(@Param("id") id: string) {
-        return this.postsService.findOne(id);
+    findOne(@Param("id") id: string, @Query("commentIds", ParsePresencePipe) commentIds?: boolean) {
+        return this.postsService.findOne(id, commentIds);
     }
 
     @Patch(":id")

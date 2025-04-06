@@ -14,7 +14,7 @@ function ShareButton({ link, className }: ShareButtonProps) {
             onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                void navigator.clipboard.writeText(`${import.meta.env.VITE_SITE_ADDRESS as string}/${link}`);
+                void navigator.clipboard.writeText(`${import.meta.env.VITE_SITE_ADDRESS as string}${link}`);
                 popupContext.showPopup("Link copied");
             }}
             className={className}
