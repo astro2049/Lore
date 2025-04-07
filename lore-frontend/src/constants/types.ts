@@ -26,7 +26,8 @@ export type Post = {
     commentIds?: string[],
     commentCount: number,
     score: number,
-    coverUrl?: string
+    coverUrl?: string,
+    vote: 1 | 0 | -1 | undefined
 }
 
 type User = {
@@ -40,5 +41,11 @@ export type Comment = {
     author: User,
     score: number,
     link: string,
-    commentIds: string[]
+    commentIds: string[],
+    vote: 1 | 0 | -1 | undefined
+}
+
+export enum VoteType {
+    Post = "post",
+    Comment = "comment",
 }

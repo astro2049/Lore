@@ -1,7 +1,7 @@
-import CommentActionRow from "./components/CommentActionRow.tsx";
+import CommentActionRow from "./CommentActionRow.tsx";
 import { useEffect, useState } from "react";
-import { Comment } from "../../constants/types.ts";
-import { api } from "../../Utils.ts";
+import { Comment } from "../../../constants/types.ts";
+import { api } from "../../../Utils.ts";
 
 type CommentCardProps = {
     id: string,
@@ -67,7 +67,7 @@ function CommentCard({
             {/* Row 2 */}
             <div></div>
             {/* Actions */}
-            <CommentActionRow score={comment.score} commentId={id} link={comment.link}/>
+            <CommentActionRow score={comment.score} commentId={id} link={comment.link} vote={comment.vote}/>
 
             {/* Row 3 */}
             <div></div>

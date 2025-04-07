@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { api } from "../../Utils.ts";
 import { UserContext } from "../../constants/contexts.ts";
-import PostCard from "../../components/PostCard/PostCard.tsx";
+import PostCard from "../../components/cards/PostCard/PostCard.tsx";
 
 function Feed() {
     const [postIds, setPostIds] = useState<string[]>([]);

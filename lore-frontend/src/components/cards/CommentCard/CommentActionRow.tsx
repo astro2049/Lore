@@ -1,17 +1,21 @@
 import CommentInput from "../../CommentInput.tsx";
 import { useState } from "react";
 import ShareButton from "../../ShareButton.tsx";
+import { VoteType } from "../../../constants/types.ts";
+import VoteWidget from "../../VoteWidget/VoteWidget.tsx";
 
 type CommentActionRowProps = {
     score: number,
     commentId: string,
-    link: string
+    link: string,
+    vote: 1 | 0 | -1 | undefined
 };
 
 function CommentActionRow({
                               score,
                               commentId,
-                              link
+                              link,
+                              vote
                           }: CommentActionRowProps
 ) {
     const [replyIsActive, setReplyIsActive] = useState(false);
@@ -20,12 +24,11 @@ function CommentActionRow({
         <div>
             {/* Actions */}
             <div className="flex gap-0.25 items-center text-xs text-blue-light-custom-1">
-                {/* TODO: Fix this vote button's width */}
-                <div className="h-[32px] pr-1 flex gap-0.25 items-center">
-                    <button className="rotate-90">&lt;</button>
-                    <span className="w-1 text-center">{score}</span>
-                    <button className="-rotate-90">&lt;</button>
-                </div>
+                <VoteWidget score={score}
+                            targetId={commentId}
+                            targetType={VoteType.Comment}
+                            vote={vote}
+                            className="h-[32px] pr-1 flex gap-0.25 items-center"/>
                 <button
                     onClick={() => setReplyIsActive(true)}
                     className="h-[32px] px-1 hover:bg-gray-custom-3 hover:text-blue-light-custom-2 rounded-2xl"

@@ -19,6 +19,7 @@ import { UserByTokenPipe } from "../common/pipes/user-by-token.pipe";
 import { User } from "../users/entities/user.entity";
 import { CommunitiesService } from "../communities/communities.service";
 import { ParsePresencePipe } from "../common/pipes/parse-presence.pipe";
+import { OptionalAuthGuard } from "../auth/auth.optional-guard";
 
 @Controller("posts")
 export class PostsController {
@@ -35,9 +36,10 @@ export class PostsController {
         return this.postsService.create(createPostDto, community, user);
     }
 
+    @UseGuards(OptionalAuthGuard)
     @Get(":id")
-    findOne(@Param("id") id: string, @Query("commentIds", ParsePresencePipe) commentIds?: boolean) {
-        return this.postsService.findOne(id, commentIds);
+    findOne(@Param("id") id: string, @Query("commentIds", ParsePresencePipe) commentIds?: boolean, @Payload(UserByTokenPipe) user?: User) {
+        return this.postsService.findOne(id, commentIds, user);
     }
 
     @Patch(":id")

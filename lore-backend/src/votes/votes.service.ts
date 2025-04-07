@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Vote } from "./entities/vote.entity";
+import { Vote, VoteType } from "./entities/vote.entity";
 import { Repository } from "typeorm";
 import { VoteDto } from "./dto/vote.dto";
 import { User } from "../users/entities/user.entity";
@@ -9,7 +9,7 @@ import { User } from "../users/entities/user.entity";
 export class VotesService {
     constructor(
         @InjectRepository(Vote)
-        private voteRepository: Repository<Vote>
+        private votesRepository: Repository<Vote>
     ) {
     }
 
@@ -20,24 +20,47 @@ export class VotesService {
         }
 
         // Find if an existing vote exists
-        let vote = await this.voteRepository.findOneBy({
+        let vote = await this.votesRepository.findOneBy({
             targetId: voteDto.targetId,
             targetType: voteDto.targetType,
-            user: user
+            user: { id: user.id }
         });
 
         // If vote exists, remove the vote (yep)
         if (vote) {
-            return this.voteRepository.remove(vote);
+            return this.votesRepository.remove(vote);
         }
 
         // Otherwise, create a new vote
-        vote = this.voteRepository.create({
+        vote = this.votesRepository.create({
             targetId: voteDto.targetId,
             targetType: voteDto.targetType,
             value: voteDto.value,
             user: user
         });
-        return this.voteRepository.save(vote);
+        return this.votesRepository.save(vote);
+    }
+
+    async getVotes(targetId: string, targetType: VoteType) {
+        const raw = await this.votesRepository
+            .createQueryBuilder("vote")
+            .select("coalesce(sum(vote.value), 0)", "score")
+            .where("vote.targetId = :targetId", { targetId: targetId })
+            .andWhere("vote.targetType = :targetType", { targetType: targetType })
+            .getRawOne();
+
+        return parseInt(raw.score);
+    }
+
+    async getUserVote(targetId: string, targetType: VoteType, user: User) {
+        const raw = await this.votesRepository
+            .createQueryBuilder("vote")
+            .select("vote.value", "vote")
+            .where("vote.targetId = :targetId", { targetId: targetId })
+            .andWhere("vote.targetType = :targetType", { targetType: targetType })
+            .andWhere("vote.userId = :userId", { userId: user.id })
+            .getRawOne();
+
+        return raw ? parseInt(raw.vote) : 0;
     }
 }

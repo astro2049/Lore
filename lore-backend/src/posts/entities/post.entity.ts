@@ -41,4 +41,7 @@ export class Post {
     /* Computed Properties */
     // vote score
     score?: number;
+
+    // user's vote
+    vote?: number;
 }

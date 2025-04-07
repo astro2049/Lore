@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { api, getPrefixedCommunityName } from "../../Utils.ts";
-import PostCard from "../../components/PostCard/PostCard.tsx";
+import PostCard from "../../components/cards/PostCard/PostCard.tsx";
 import icon_cross from "../../assets/icon-cross.svg"
 import InformationBar from "./components/InformationBar.tsx";
 import { useContext, useEffect, useState } from "react";

@@ -1,6 +1,6 @@
 import InformationBar from "../components/InformationBar.tsx";
-import PostActionRow from "../../../components/PostCard/components/PostActionRow.tsx";
-import CommentCard from "../../../components/CommentCard/CommentCard.tsx";
+import PostActionRow from "../../../components/cards/PostCard/PostActionRow.tsx";
+import CommentCard from "../../../components/cards/CommentCard/CommentCard.tsx";
 import CommentInput from "../../../components/CommentInput.tsx";
 import { useEffect, useState } from "react";
 import { api, getPrefixedCommunityName, getPrefixedUsername } from "../../../Utils.ts";
@@ -70,9 +70,11 @@ function PostPage() {
 
                         {/* Post Stats */}
                         <PostActionRow
+                            id={post.id}
                             score={post.score}
                             commentCount={post.commentCount}
                             link={`/${getPrefixedCommunityName(post.community.name)}/posts/${post.id}`}
+                            vote={post.vote}
                         />
 
                         {/* Comment Input */}

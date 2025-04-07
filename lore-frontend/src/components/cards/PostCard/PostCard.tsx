@@ -1,8 +1,8 @@
 import { Link } from "react-router";
-import PostActionRow from "./components/PostActionRow.tsx";
-import { api, getPrefixedCommunityName } from "../../Utils.ts";
+import PostActionRow from "./PostActionRow.tsx";
+import { api, getPrefixedCommunityName } from "../../../Utils.ts";
 import { useEffect, useState } from "react";
-import { Post } from "../../constants/types.ts";
+import { Post } from "../../../constants/types.ts";
 
 export type PostCardProps = {
     postId: string,
@@ -62,8 +62,13 @@ function PostCard({
                 {post.coverUrl && <img src={post.coverUrl} className="rounded-[8px]"/>}
 
                 {/* IV. Post Stats */}
-                <PostActionRow score={post.score} commentCount={post.commentCount}
-                               link={link}/>
+                <PostActionRow
+                    id={post.id}
+                    score={post.score}
+                    commentCount={post.commentCount}
+                    link={link}
+                    vote={post.vote}
+                />
             </Link>
         </div>
     }</>);

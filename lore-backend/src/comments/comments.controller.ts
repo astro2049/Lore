@@ -20,6 +20,7 @@ import { User } from "../users/entities/user.entity";
 import { AuthGuard } from "../auth/auth.guard";
 import { Comment } from "./entities/comment.entity";
 import { Post as PostEntity } from "../posts/entities/post.entity";
+import { OptionalAuthGuard } from "../auth/auth.optional-guard";
 
 @Controller("comments")
 export class CommentsController {
@@ -62,9 +63,10 @@ export class CommentsController {
     }
 
     // Get a single comment by ID
+    @UseGuards(OptionalAuthGuard)
     @Get(":id")
-    findOne(@Param("id") id: string) {
-        return this.commentsService.findOne(id);
+    findOne(@Param("id") id: string, @Payload(UserByTokenPipe) user?: User) {
+        return this.commentsService.findOne(id, user);
     }
 
     // Update a comment (only by the original author)

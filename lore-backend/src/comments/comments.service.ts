@@ -5,13 +5,15 @@ import { Repository } from "typeorm";
 import { Comment } from "./entities/comment.entity";
 import { User } from "../users/entities/user.entity";
 import { Post } from "../posts/entities/post.entity";
-import { Vote, VoteType } from "../votes/entities/vote.entity";
+import { VotesService } from "../votes/votes.service";
+import { VoteType } from "../votes/entities/vote.entity";
 
 @Injectable()
 export class CommentsService {
     constructor(
         @InjectRepository(Comment)
-        private readonly commentsRepository: Repository<Comment>
+        private readonly commentsRepository: Repository<Comment>,
+        private readonly votesService: VotesService
     ) {
     }
 
@@ -24,18 +26,11 @@ export class CommentsService {
         return this.commentsRepository.save(comment);
     }
 
-    async findOne(id: string) {
-        const { entities, raw } = await this.commentsRepository
+    async findOne(id: string, user?: User) {
+        const comment = await this.commentsRepository
             .createQueryBuilder("comment")
             .innerJoinAndSelect("comment.post", "post")
             .innerJoinAndSelect("comment.author", "author")
-            .addSelect(qb => {
-                return qb
-                    .select("coalesce(sum(vote.value), 0)")
-                    .from(Vote, "vote")
-                    .where("vote.targetId = comment.id")
-                    .andWhere("vote.targetType = :voteType", { voteType: VoteType.Comment });
-            }, "score")
             .loadRelationIdAndMap("commentIds", "comment.children",
                 "comment",
                 qb => {
@@ -43,13 +38,15 @@ export class CommentsService {
                 }
             )
             .where("comment.id = :id", { id })
-            .getRawAndEntities();
+            .getOne();
 
-        if (entities.length === 0) {
+        if (!comment) {
             throw new HttpException("", HttpStatus.NOT_FOUND);
         }
-        const comment = entities[0];
-        comment.score = parseInt(raw[0].score);
+        comment.score = await this.votesService.getVotes(id, VoteType.Comment);
+        if (user) {
+            comment.vote = await this.votesService.getUserVote(id, VoteType.Comment, user);
+        }
         return comment;
     }
 

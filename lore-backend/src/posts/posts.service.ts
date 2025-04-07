@@ -6,13 +6,15 @@ import { Repository } from "typeorm";
 import { Post } from "./entities/post.entity";
 import { User } from "../users/entities/user.entity";
 import { Community } from "../communities/entities/community.entity";
-import { Vote, VoteType } from "../votes/entities/vote.entity";
+import { VotesService } from "../votes/votes.service";
+import { VoteType } from "../votes/entities/vote.entity";
 
 @Injectable()
 export class PostsService {
     constructor(
         @InjectRepository(Post)
-        private readonly postsRepository: Repository<Post>
+        private readonly postsRepository: Repository<Post>,
+        private readonly votesService: VotesService
     ) {
     }
 
@@ -26,18 +28,11 @@ export class PostsService {
         return this.postsRepository.save(post);
     }
 
-    async findOne(id: string, commentIds?: boolean) {
+    async findOne(id: string, commentIds?: boolean, user?: User) {
         let query = this.postsRepository
             .createQueryBuilder("post")
             .innerJoinAndSelect("post.author", "author")
             .innerJoinAndSelect("post.community", "community")
-            .addSelect(qb => {
-                return qb
-                    .select("coalesce(sum(vote.value), 0)")
-                    .from(Vote, "vote")
-                    .where("vote.targetId = post.id")
-                    .andWhere("vote.targetType = :voteType", { voteType: VoteType.Post });
-            }, "score")
             .loadRelationCountAndMap("post.commentCount", "post.comments");
         if (commentIds) {
             query = query.loadRelationIdAndMap("post.commentIds", "post.comments", "comment",
@@ -47,15 +42,17 @@ export class PostsService {
                 }
             );
         }
-        const { entities, raw } = await query
+        const post = await query
             .where("post.id = :id", { id })
-            .getRawAndEntities();
+            .getOne();
 
-        if (entities.length === 0) {
+        if (!post) {
             throw new HttpException("Post not found", HttpStatus.NOT_FOUND);
         }
-        const post = entities[0];
-        post.score = parseInt(raw[0].score);
+        post.score = await this.votesService.getVotes(id, VoteType.Post);
+        if (user) {
+            post.vote = await this.votesService.getUserVote(id, VoteType.Post, user);
+        }
         return post;
     }
 
