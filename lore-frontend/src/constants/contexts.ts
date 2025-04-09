@@ -13,9 +13,10 @@ export const PopupContext = createContext({
 });
 
 export const UserContext = createContext<{
+    isLoggedIn: boolean,
     username: string | undefined,
-    storeUsername: (s: string) => void,
-    clearUsername: () => void
+    storeLogInData: (s: string) => void,
+    clearLogInData: () => void,
 } | null>(null);
 
 export const CommunityContext = createContext<{

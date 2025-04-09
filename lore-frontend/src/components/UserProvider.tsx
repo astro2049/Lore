@@ -5,32 +5,43 @@ type UserProviderProps = {
     children: ReactNode
 }
 
-// Provides username | The username is for UI display only and is not used for authentication / logic
 function UserProvider({ children }: UserProviderProps) {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [username, setUsername] = useState<string>();
 
-    // Invokes by log in overlay
-    function storeUsername(s: string) {
-        setUsername(s);
-        localStorage.setItem("username", s);
+    // Log In; calls by log in overlay
+    function storeLogInData(username_: string) {
+        setIsLoggedIn(true);
+        sessionStorage.setItem("loggedIn", "");
+        setUsername(username_);
+        sessionStorage.setItem("username", username_);
     }
 
-    // Invokes by log out overlay
-    function clearUsername() {
+    // Log out; calls by log out overlay
+    function clearLogInData() {
+        setIsLoggedIn(false);
+        sessionStorage.removeItem("loggedIn");
         setUsername(undefined);
-        localStorage.removeItem("username");
+        sessionStorage.removeItem("username");
     }
 
+    // Retrieve log in status and username from session storage
+    function retrieveLogInData() {
+        setIsLoggedIn(sessionStorage.getItem("loggedIn") !== null);
+        setUsername(sessionStorage.getItem("username") || undefined);
+    }
+
+    // When page refreshes
     useEffect(() => {
-        // Retrieve username from local storage
-        setUsername(localStorage.getItem("username") || undefined);
+        retrieveLogInData();
     }, []);
 
     return (
         <UserContext.Provider value={{
+            isLoggedIn: isLoggedIn,
             username: username,
-            storeUsername: storeUsername,
-            clearUsername: clearUsername
+            storeLogInData: storeLogInData,
+            clearLogInData: clearLogInData
         }}>
             {children}
         </UserContext.Provider>

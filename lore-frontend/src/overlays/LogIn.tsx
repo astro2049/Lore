@@ -13,7 +13,7 @@ function LogIn() {
     const [, setOverlayType] = useContext(OverlayContext)!;
     const [username_, setUsername_] = useState("");
     const [password, setPassword] = useState("");
-    const { storeUsername } = useContext(UserContext)!;
+    const { storeLogInData } = useContext(UserContext)!;
     const [isLoggingIn, setIsLoggingIn] = useState(false);
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -25,7 +25,7 @@ function LogIn() {
         })
             .then((res) => {
                 console.log(res);
-                storeUsername(username_);
+                storeLogInData(username_);
                 window.location.reload();
             })
             .catch((e) => {

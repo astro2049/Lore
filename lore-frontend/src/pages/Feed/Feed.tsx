@@ -7,11 +7,10 @@ function Feed() {
     const [postIds, setPostIds] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(0);
-    const { username } = useContext(UserContext)!;
+    const { isLoggedIn } = useContext(UserContext)!;
 
-    // TODO: username is for display only. Refactor this.
     useEffect(() => {
-        if (!username) {
+        if (!isLoggedIn) {
             setIsLoading(false);
             return;
         }
@@ -27,7 +26,7 @@ function Feed() {
             .finally(() => {
                 setIsLoading(false);
             });
-    }, [username, page]);
+    }, [isLoggedIn, page]);
 
     // Returns elements to display
     function feed() {
@@ -37,7 +36,7 @@ function Feed() {
         }
 
         // - Front page if not logged in
-        if (!username) {
+        if (!isLoggedIn) {
             return (
                 <div className="mt-[100px] text-2xl italic text-center">
                     <span className="">Welcome to</span>

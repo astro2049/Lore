@@ -6,14 +6,14 @@ import { api, getPrefixedUsername } from "../../Utils.ts";
 
 function TopBar() {
     const [, setOverlayType] = useContext(OverlayContext)!;
-    const { username, clearUsername } = useContext(UserContext)!;
+    const { isLoggedIn, username, clearLogInData } = useContext(UserContext)!;
     const [showUserDrawer, setShowUserDrawer] = useState(false);
 
     function handleLogOut() {
         api.post("auth/logout")
             .then((res) => {
                 console.log(res);
-                clearUsername();
+                clearLogInData();
                 window.location.reload();
             })
             .catch((e) => {
@@ -28,7 +28,7 @@ function TopBar() {
             <div className="p-0.75 flex justify-between items-center">
                 <Link to="" className="pl-1 font-bold text-2xl">lore</Link>
                 <div className="flex items-center gap-0.5">
-                    {username ?
+                    {isLoggedIn ?
                         <div>
                             <button
                                 onClick={() => setShowUserDrawer(!showUserDrawer)}

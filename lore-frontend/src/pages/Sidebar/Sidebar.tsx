@@ -4,7 +4,7 @@ import Communities from "./sections/Communities.tsx";
 import AllCommunities from "./sections/AllCommunities.tsx";
 
 function Sidebar() {
-    const { username } = useContext(UserContext)!;
+    const { isLoggedIn } = useContext(UserContext)!;
 
     return (
         <div className="
@@ -15,7 +15,7 @@ function Sidebar() {
             "
              style={{ height: "calc(100vh - var(--header-height))" }}
         >
-            {username && <Communities/>}
+            {isLoggedIn && <Communities/>}
             <AllCommunities/>
         </div>
     );
