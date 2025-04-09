@@ -23,7 +23,7 @@ function PostActionRow({
                         targetId={id}
                         targetType={VoteType.Post}
                         vote={vote}
-                        className="h-[32px] px-0.75 flex gap-0.25 items-center bg-gray-custom-2 rounded-full"/>
+                        className="h-[32px] px-0.5 flex items-center bg-gray-custom-2 rounded-full"/>
             <div
                 className="h-[32px] px-0.75 flex items-center bg-gray-custom-2 hover:bg-gray-custom-3 rounded-full">{commentCount} Comments
             </div>

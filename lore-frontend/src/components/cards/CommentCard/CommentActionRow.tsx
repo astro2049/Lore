@@ -28,7 +28,7 @@ function CommentActionRow({
                             targetId={commentId}
                             targetType={VoteType.Comment}
                             vote={vote}
-                            className="h-[32px] pr-1 flex gap-0.25 items-center"/>
+                            className="h-[32px] pr-0.5 flex items-center"/>
                 <button
                     onClick={() => setReplyIsActive(true)}
                     className="h-[32px] px-1 hover:bg-gray-custom-3 hover:text-blue-light-custom-2 rounded-2xl"

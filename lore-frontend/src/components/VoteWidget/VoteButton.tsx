@@ -40,21 +40,27 @@ function VoteButton({
             });
     }
 
-    function addColorClass(className: string) {
-        if (value === vote) {
-            if (value === 1) {
-                return className + " text-orange-500";
-            } else {
-                return className + " text-purple-500";
-            }
+    function colorStyles() {
+        let s = "";
+        // 1. border color, on hover
+        if (value === 1) {
+            s += " hover:border-orange-500";
+        } else if (value === -1) {
+            s += " hover:border-purple-500";
         }
-        return className;
+        // 2. arrow color, on vote
+        if (value === 1 && value === vote) {
+            s += " text-orange-500";
+        } else if (value === -1 && value === vote) {
+            s += " text-purple-500";
+        }
+        return s;
     }
 
     return (
         <button
             onClick={handleClick}
-            className={addColorClass("rotate-90 font-semibold")}>
+            className={"px-0.25 rotate-90 font-semibold border border-transparent" + colorStyles()}>
             {(value === 1 ? "<" : ">")}
         </button>
     );

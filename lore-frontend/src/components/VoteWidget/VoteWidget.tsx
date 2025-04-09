@@ -37,7 +37,12 @@ function VoteWidget({
     }
 
     return (
-        <div className={className}>
+        <div className={className}
+             onClick={(e) => {
+                 e.preventDefault();
+                 e.stopPropagation();
+             }}
+        >
             <VoteButton
                 value={1}
                 targetId={targetId}
@@ -46,7 +51,7 @@ function VoteWidget({
                 vote={vote_}
                 changeVote={changeVote}
             />
-            <span className="w-1 text-center">{score_}</span>
+            <span className="w-1.25 text-center cursor-text">{score_}</span>
             <VoteButton
                 value={-1}
                 targetId={targetId}
