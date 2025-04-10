@@ -1,18 +1,22 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { api, getPrefixedCommunityName } from "../../Utils.ts";
 import PostCard from "../../components/cards/PostCard/PostCard.tsx";
 import icon_cross from "../../assets/icon-cross.svg"
 import InformationBar from "./components/InformationBar.tsx";
-import { useContext, useEffect, useState } from "react";
-import { CommunityContext } from "../../constants/contexts.ts";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { CommunitiesContext, CommunityContext, UserContext } from "../../constants/contexts.ts";
 import JoinButton from "./components/JoinButton.tsx";
+import DeleteButton from "../../components/DeleteButton.tsx";
 
 function Community() {
     const { community } = useContext(CommunityContext)!;
     const [postIds, setPostIds] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const { isLoggedIn, username } = useContext(UserContext)!;
+    const { updateCommunities, updateAllCommunities } = useContext(CommunitiesContext)!;
+    const navigate = useNavigate();
 
-    useEffect(() => {
+    const refreshPosts = useCallback(() => {
         setIsLoading(true);
         api.get<string[]>(`communities/${community.name}/posts`)
             .then((res) => {
@@ -26,6 +30,10 @@ function Community() {
                 setIsLoading(false);
             });
     }, [community]);
+
+    useEffect(() => {
+        refreshPosts();
+    }, [refreshPosts]);
 
     return (
         <div className="w-full">
@@ -47,14 +55,27 @@ function Community() {
                     <div className="w-[88px] h-[88px]"></div>
                     <h1 className="ml-[-88px] text-3xl font-bold">{getPrefixedCommunityName(community.name)}</h1>
                 </div>
-                <div className="flex items-end">
+                <div className="flex items-end text-sm font-semibold">
                     <Link to="./submit"
-                          className="h-[38px] px-0.75 flex items-center text-sm font-semibold rounded-full bordered-clickable">
+                          className="h-[38px] px-0.75 flex items-center rounded-full bordered-clickable">
                         <img src={icon_cross} alt=""/>
                         <span className="ml-0.25">Create Post</span>
                     </Link>
                     <JoinButton
-                        className="ml-1 h-[38px] px-0.75 text-sm font-semibold rounded-full bordered-clickable"/>
+                        className="ml-1 h-[38px] px-0.75 rounded-full bordered-clickable"
+                    />
+                    {
+                        isLoggedIn && username === community.creator.username &&
+                        <DeleteButton
+                            link={`communities/${community.name}`}
+                            onDelete={() => {
+                                updateCommunities();
+                                updateAllCommunities();
+                                void navigate("/");
+                            }}
+                            className="ml-1 h-[38px] px-0.75 rounded-full bordered-clickable"
+                        />
+                    }
                 </div>
             </div>
 
@@ -68,6 +89,7 @@ function Community() {
                                     <PostCard
                                         key={postId}
                                         postId={postId}
+                                        refreshPosts={refreshPosts}
                                     />
                                 );
                             }) :

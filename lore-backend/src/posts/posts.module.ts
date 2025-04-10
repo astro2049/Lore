@@ -6,10 +6,11 @@ import { Post } from "./entities/post.entity";
 import { CommunitiesModule } from "../communities/communities.module";
 import { UsersModule } from "../users/users.module";
 import { VotesModule } from "../votes/votes.module";
+import { Comment } from "../comments/entities/comment.entity";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Post]),
+        TypeOrmModule.forFeature([Post, Comment]),
         UsersModule,
         CommunitiesModule,
         VotesModule

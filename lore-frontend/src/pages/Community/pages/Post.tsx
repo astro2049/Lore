@@ -2,18 +2,20 @@ import InformationBar from "../components/InformationBar.tsx";
 import PostActionRow from "../../../components/cards/PostCard/PostActionRow.tsx";
 import CommentCard from "../../../components/cards/CommentCard/CommentCard.tsx";
 import CommentInput from "../../../components/CommentInput.tsx";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { api, getPrefixedCommunityName, getPrefixedUsername } from "../../../Utils.ts";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { Post } from "../../../constants/types.ts";
 import icon_arrow_left from "../../../assets/icon-arrow-left.svg"
+import { CommentInputContext, DeleteButtonContext } from "../../../constants/contexts.ts";
 
 function PostPage() {
     const { postId } = useParams();
     const [post, setPost] = useState<Post>();
     const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
 
-    useEffect(() => {
+    const refreshPost = useCallback(() => {
         setIsLoading(true);
         api.get<Post>(`posts/${postId}?commentIds`)
             .then((res) => {
@@ -26,7 +28,11 @@ function PostPage() {
             .finally(() => {
                 setIsLoading(false);
             });
-    }, []);
+    }, [postId]);
+
+    useEffect(() => {
+        refreshPost();
+    }, [refreshPost]);
 
     return (
         <>
@@ -71,34 +77,51 @@ function PostPage() {
                         {/* Post Stats */}
                         <PostActionRow
                             id={post.id}
+                            author={post.author}
                             score={post.score}
                             commentCount={post.commentCount}
                             link={`/${getPrefixedCommunityName(post.community.name)}/posts/${post.id}`}
                             vote={post.vote}
+                            onDelete={() => void navigate(`/${getPrefixedCommunityName(post.community.name)}`)}
                         />
 
                         {/* Comment Input */}
-                        <CommentInput
-                            postId={post.id}
-                        />
+                        <CommentInputContext.Provider value={{
+                            onComment: refreshPost
+                        }}>
+                            <CommentInput
+                                postId={post.id}
+                            />
+                        </CommentInputContext.Provider>
 
                         {/* Comments */}
-                        <div className="mb-3 flex flex-col gap-0.5">
-                            {!isLoading ?
-                                post.commentIds!.length !== 0 ?
-                                    post.commentIds!.map((commentId) => {
-                                        return (
-                                            <CommentCard
-                                                key={commentId}
-                                                id={commentId}
-                                            />
-                                        );
-                                    }) :
-                                    <div className="py-1.5 text-lg text-blue-light-custom-2 font-semibold text-center">
-                                        No comments yet
-                                    </div>
-                                : <></>}
-                        </div>
+                        <CommentInputContext.Provider value={{
+                            onComment: refreshPost
+                        }}>
+                            <DeleteButtonContext value={{
+                                onDeleteFromContext: refreshPost
+                            }}>
+                                <div className="mb-3 flex flex-col gap-0.5">
+                                    {!isLoading ?
+                                        post.commentIds!.length !== 0 ?
+                                            post.commentIds!.map((commentId) => {
+                                                return (
+                                                    <CommentCard
+                                                        key={commentId}
+                                                        id={commentId}
+                                                    />
+                                                );
+                                            }) :
+                                            <div
+                                                className="py-1.5 text-lg text-blue-light-custom-2 font-semibold text-center">
+                                                No comments yet
+                                            </div>
+                                        :
+                                        <></>
+                                    }
+                                </div>
+                            </DeleteButtonContext>
+                        </CommentInputContext.Provider>
                     </div>
 
                     {/* Community Information */}

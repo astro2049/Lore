@@ -7,11 +7,13 @@ import { Post } from "../../../constants/types.ts";
 export type PostCardProps = {
     postId: string,
     displayCommunity?: boolean,
+    refreshPosts: () => void
 };
 
 function PostCard({
                       postId,
                       displayCommunity = false,
+                      refreshPosts
                   }: PostCardProps) {
     const [post, setPost] = useState<Post>();
     const [link, setLink] = useState("");
@@ -64,10 +66,12 @@ function PostCard({
                 {/* IV. Post Stats */}
                 <PostActionRow
                     id={post.id}
+                    author={post.author}
                     score={post.score}
                     commentCount={post.commentCount}
                     link={link}
                     vote={post.vote}
+                    onDelete={refreshPosts}
                 />
             </Link>
         </div>

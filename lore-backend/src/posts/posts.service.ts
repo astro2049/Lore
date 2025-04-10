@@ -8,13 +8,16 @@ import { User } from "../users/entities/user.entity";
 import { Community } from "../communities/entities/community.entity";
 import { VotesService } from "../votes/votes.service";
 import { VoteType } from "../votes/entities/vote.entity";
+import { Comment } from "../comments/entities/comment.entity";
 
 @Injectable()
 export class PostsService {
     constructor(
         @InjectRepository(Post)
         private readonly postsRepository: Repository<Post>,
-        private readonly votesService: VotesService
+        private readonly votesService: VotesService,
+        @InjectRepository(Comment)
+        private readonly commentsRepository: Repository<Comment>
     ) {
     }
 
@@ -29,20 +32,11 @@ export class PostsService {
     }
 
     async findOne(id: string, commentIds?: boolean, user?: User) {
-        let query = this.postsRepository
+        const post = await this.postsRepository
             .createQueryBuilder("post")
             .innerJoinAndSelect("post.author", "author")
             .innerJoinAndSelect("post.community", "community")
-            .loadRelationCountAndMap("post.commentCount", "post.comments");
-        if (commentIds) {
-            query = query.loadRelationIdAndMap("post.commentIds", "post.comments", "comment",
-                qb => {
-                    return qb
-                        .where("comment.parentId IS NULL").orderBy("comment.createdAt", "DESC");
-                }
-            );
-        }
-        const post = await query
+            .loadRelationCountAndMap("post.commentCount", "post.comments")
             .where("post.id = :id", { id })
             .getOne();
 
@@ -52,6 +46,9 @@ export class PostsService {
         post.score = await this.votesService.getVotes(id, VoteType.Post);
         if (user) {
             post.vote = await this.votesService.getUserVote(id, VoteType.Post, user);
+        }
+        if (commentIds) {
+            post.commentIds = await this.findComments(id);
         }
         return post;
     }
@@ -69,11 +66,15 @@ export class PostsService {
         return result;
     }
 
-    findComments(id: string) {
-        return this.postsRepository
-            .createQueryBuilder()
-            .relation(Post, "comments")
-            .of(id)
-            .loadMany();
+    async findComments(id: string) {
+        const raw = await this.commentsRepository
+            .createQueryBuilder("comment")
+            .select("comment.id", "id")
+            .where("comment.postId = :id", { id: id })
+            .andWhere("comment.parentId is null")
+            .orderBy("comment.createdAt", "DESC")
+            .getRawMany();
+
+        return raw.map(comment => comment.id);
     }
 }

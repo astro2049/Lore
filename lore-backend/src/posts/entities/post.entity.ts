@@ -32,7 +32,7 @@ export class Post {
     @ManyToOne(() => User, (user) => user.posts, { eager: true })
     author: User;
 
-    @ManyToOne(() => Community, (community) => community.posts, { eager: true })
+    @ManyToOne(() => Community, (community) => community.posts, { eager: true, onDelete: "CASCADE" })
     community: Community;
 
     @OneToMany(() => Comment, (comment) => comment.post)
@@ -44,4 +44,7 @@ export class Post {
 
     // user's vote
     vote?: number;
+
+    // comment ids
+    commentIds?: string[];
 }

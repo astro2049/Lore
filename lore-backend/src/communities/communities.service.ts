@@ -6,7 +6,6 @@ import { Community } from "./entities/community.entity";
 import { DataSource, Repository } from "typeorm";
 import { User } from "../users/entities/user.entity";
 import { Post } from "../posts/entities/post.entity";
-import { Vote, VoteType } from "../votes/entities/vote.entity";
 
 @Injectable()
 export class CommunitiesService {
@@ -44,8 +43,8 @@ export class CommunitiesService {
         return this.findOne(id);
     }
 
-    remove(id: string) {
-        return this.communitiesRepository.delete(id);
+    remove(community: Community) {
+        return this.communitiesRepository.delete(community.id);
     }
 
     async joinCommunity(community: Community, user: User) {

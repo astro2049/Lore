@@ -1,24 +1,31 @@
 import CommentInput from "../../CommentInput.tsx";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ShareButton from "../../ShareButton.tsx";
 import { VoteType } from "../../../constants/types.ts";
 import VoteWidget from "../../VoteWidget/VoteWidget.tsx";
+import { UserContext } from "../../../constants/contexts.ts";
+import DeleteButton from "../../DeleteButton.tsx";
 
 type CommentActionRowProps = {
     score: number,
     commentId: string,
     link: string,
-    vote: 1 | 0 | -1 | undefined
+    vote: 1 | 0 | -1 | undefined,
+    author: {
+        username: string
+    }
 };
 
 function CommentActionRow({
                               score,
                               commentId,
                               link,
-                              vote
+                              vote,
+                              author
                           }: CommentActionRowProps
 ) {
     const [replyIsActive, setReplyIsActive] = useState(false);
+    const { isLoggedIn, username } = useContext(UserContext)!;
 
     return (
         <div>
@@ -35,8 +42,17 @@ function CommentActionRow({
                 >
                     Reply
                 </button>
-                <ShareButton link={link}
-                             className="h-[32px] px-1 hover:bg-gray-custom-3 hover:text-blue-light-custom-2 rounded-2xl"/>
+                <ShareButton
+                    link={link}
+                    className="h-[32px] px-1 hover:bg-gray-custom-3 hover:text-blue-light-custom-2 rounded-2xl"
+                />
+                {
+                    isLoggedIn && username === author.username &&
+                    <DeleteButton
+                        link={`comments/${commentId}`}
+                        className="h-[32px] px-1 hover:text-red-500 hover:underline"
+                    />
+                }
             </div>
 
             {/* Reply Input */}

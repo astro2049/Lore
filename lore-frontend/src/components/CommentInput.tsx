@@ -1,5 +1,6 @@
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useContext, useRef, useState } from "react";
 import { api } from "../Utils.ts";
+import { CommentInputContext } from "../constants/contexts.ts";
 
 type CommentInputProps = {
     postId?: string,
@@ -21,6 +22,7 @@ function CommentInput(
     const [isActive, setIsActive] = useState(isActiveOnMount);
     const [content, setContent] = useState("");
     const textareaRef = useRef(null);
+    const { onComment } = useContext(CommentInputContext);
 
     function handleInput(e: FormEvent<HTMLTextAreaElement>) {
         // 1. data: Set content state
@@ -60,7 +62,12 @@ function CommentInput(
         })
             .then((res) => {
                 console.log(res);
-                window.location.reload();
+                if (onComment) {
+                    onComment();
+                    handleCancel();
+                } else {
+                    window.location.reload();
+                }
             })
             .catch((e) => {
                 console.log(e);

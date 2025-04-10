@@ -40,9 +40,9 @@ export class CommunitiesController {
         return this.communitiesService.update(id, updateCommunityDto);
     }
 
-    @Delete(":id")
-    remove(@Param("id") id: string) {
-        return this.communitiesService.remove(id);
+    @Delete(":name")
+    remove(@Param("name", CommunityByNamePipe) community: Community) {
+        return this.communitiesService.remove(community);
     }
 
     // Join a community

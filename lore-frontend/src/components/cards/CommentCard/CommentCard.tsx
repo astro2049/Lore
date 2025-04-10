@@ -67,7 +67,8 @@ function CommentCard({
             {/* Row 2 */}
             <div></div>
             {/* Actions */}
-            <CommentActionRow score={comment.score} commentId={id} link={comment.link} vote={comment.vote}/>
+            <CommentActionRow score={comment.score} commentId={id} link={comment.link} vote={comment.vote}
+                              author={comment.author}/>
 
             {/* Row 3 */}
             <div></div>

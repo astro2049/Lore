@@ -31,3 +31,15 @@ export const CommunitiesContext = createContext<{
     allCommunities: Community[],
     updateAllCommunities: () => void,
 } | null>(null);
+
+export const CommentInputContext = createContext<{
+    onComment: (() => void) | null
+}>({
+    onComment: null
+});
+
+export const DeleteButtonContext = createContext<{
+    onDeleteFromContext: (() => void) | null
+}>({
+    onDeleteFromContext: null
+});
