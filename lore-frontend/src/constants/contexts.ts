@@ -21,8 +21,7 @@ export const UserContext = createContext<{
 
 export const CommunityContext = createContext<{
     community: Community,
-    isMember: boolean,
-    setIsMember: Dispatch<SetStateAction<boolean>>
+    refreshCommunity: () => void
 } | null>(null);
 
 export const CommunitiesContext = createContext<{

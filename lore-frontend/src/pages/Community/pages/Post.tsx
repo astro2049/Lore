@@ -5,7 +5,7 @@ import CommentInput from "../../../components/CommentInput.tsx";
 import { useCallback, useEffect, useState } from "react";
 import { api, getPrefixedCommunityName, getPrefixedUsername } from "../../../Utils.ts";
 import { Link, useNavigate, useParams } from "react-router";
-import { Post } from "../../../constants/types.ts";
+import { CommentInputMode, Post } from "../../../constants/types.ts";
 import icon_arrow_left from "../../../assets/icon-arrow-left.svg"
 import { CommentInputContext, DeleteButtonContext } from "../../../constants/contexts.ts";
 
@@ -83,6 +83,7 @@ function PostPage() {
                             link={`/${getPrefixedCommunityName(post.community.name)}/posts/${post.id}`}
                             vote={post.vote}
                             onDelete={() => void navigate(`/${getPrefixedCommunityName(post.community.name)}`)}
+                            showDeleteButton
                         />
 
                         {/* Comment Input */}
@@ -90,7 +91,8 @@ function PostPage() {
                             onComment: refreshPost
                         }}>
                             <CommentInput
-                                postId={post.id}
+                                targetIdOrName={post.id}
+                                mode={CommentInputMode.Post}
                             />
                         </CommentInputContext.Provider>
 

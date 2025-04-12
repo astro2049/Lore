@@ -90,6 +90,7 @@ function Community() {
                                         key={postId}
                                         postId={postId}
                                         refreshPosts={refreshPosts}
+                                        showDeleteButton
                                     />
                                 );
                             }) :

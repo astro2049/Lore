@@ -31,16 +31,21 @@ export class CommunitiesService {
     }
 
     async findOne(name: string) {
-        const community = await this.communitiesRepository.findOneBy({ name: name });
+        const community = await this.communitiesRepository
+            .createQueryBuilder("community")
+            .where("community.name = :name", { name: name })
+            .innerJoinAndSelect("community.creator", "creator")
+            .loadRelationCountAndMap("community.memberCount", "community.members")
+            .getOne();
         if (!community) {
             throw new HttpException("", HttpStatus.NOT_FOUND);
         }
         return community;
     }
 
-    async update(id: string, updateCommunityDto: UpdateCommunityDto) {
-        await this.communitiesRepository.update(id, updateCommunityDto);
-        return this.findOne(id);
+    async update(updateCommunityDto: UpdateCommunityDto, community: Community) {
+        await this.communitiesRepository.update(community.id, updateCommunityDto);
+        return this.findOne(community.name);
     }
 
     remove(community: Community) {

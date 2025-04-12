@@ -7,13 +7,15 @@ import { Post } from "../../../constants/types.ts";
 export type PostCardProps = {
     postId: string,
     displayCommunity?: boolean,
-    refreshPosts: () => void
+    refreshPosts?: () => void,
+    showDeleteButton?: boolean
 };
 
 function PostCard({
                       postId,
                       displayCommunity = false,
-                      refreshPosts
+                      refreshPosts,
+                      showDeleteButton = false
                   }: PostCardProps) {
     const [post, setPost] = useState<Post>();
     const [link, setLink] = useState("");
@@ -72,6 +74,7 @@ function PostCard({
                     link={link}
                     vote={post.vote}
                     onDelete={refreshPosts}
+                    showDeleteButton={showDeleteButton}
                 />
             </Link>
         </div>

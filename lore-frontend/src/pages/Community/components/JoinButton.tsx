@@ -10,7 +10,7 @@ type JoinButtonProps = {
 function JoinButton({ className }: JoinButtonProps) {
     const { username } = useContext(UserContext)!;
     const [, setOverlayType] = useContext(OverlayContext)!;
-    const { community, isMember, setIsMember } = useContext(CommunityContext)!;
+    const { community, refreshCommunity } = useContext(CommunityContext)!;
     const { updateCommunities } = useContext(CommunitiesContext)!;
 
     function handleClick() {
@@ -18,7 +18,7 @@ function JoinButton({ className }: JoinButtonProps) {
             setOverlayType(OverlayType.SignUp);
             return;
         }
-        if (!isMember) {
+        if (!community.isMember) {
             joinCommunity();
         } else {
             leaveCommunity();
@@ -29,7 +29,7 @@ function JoinButton({ className }: JoinButtonProps) {
         api.post(`communities/${community.name}/join`)
             .then((res) => {
                 console.log(res);
-                setIsMember(true);
+                refreshCommunity();
                 updateCommunities();
             })
             .catch((e) => {
@@ -41,7 +41,7 @@ function JoinButton({ className }: JoinButtonProps) {
         api.post(`communities/${community.name}/leave`)
             .then((res) => {
                 console.log(res);
-                setIsMember(false);
+                refreshCommunity();
                 updateCommunities();
             })
             .catch((e) => {
@@ -54,7 +54,7 @@ function JoinButton({ className }: JoinButtonProps) {
             onClick={handleClick}
             className={className}
         >
-            {username && isMember ? "Joined" : "Join"}
+            {username && community.isMember ? "Joined" : "Join"}
         </button>
     );
 }

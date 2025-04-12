@@ -14,7 +14,8 @@ type PostActionRowProps = {
     commentCount: number,
     link: string,
     vote: 1 | 0 | -1 | undefined,
-    onDelete: () => void
+    onDelete?: () => void,
+    showDeleteButton?: boolean
 };
 
 function PostActionRow({
@@ -24,7 +25,8 @@ function PostActionRow({
                            commentCount,
                            link,
                            vote,
-                           onDelete
+                           onDelete,
+                           showDeleteButton = false
                        }: PostActionRowProps) {
     const { isLoggedIn, username } = useContext(UserContext)!;
 
@@ -40,7 +42,7 @@ function PostActionRow({
             </div>
             <ShareButton link={link} className="h-[32px] px-0.75 bg-gray-custom-2 hover:bg-gray-custom-3 rounded-full"/>
             {
-                isLoggedIn && username === author.username &&
+                isLoggedIn && username === author.username && showDeleteButton &&
                 <DeleteButton
                     link={`posts/${id}`}
                     onDelete={onDelete}

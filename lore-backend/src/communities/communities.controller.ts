@@ -1,4 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpCode, HttpStatus } from "@nestjs/common";
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Patch,
+    Param,
+    Delete,
+    UseGuards,
+    HttpCode,
+    HttpStatus,
+    HttpException
+} from "@nestjs/common";
 import { CommunitiesService } from "./communities.service";
 import { CreateCommunityDto } from "./dto/create-community.dto";
 import { UpdateCommunityDto } from "./dto/update-community.dto";
@@ -35,9 +47,16 @@ export class CommunitiesController {
         return community;
     }
 
-    @Patch(":id")
-    update(@Param("id") id: string, @Body() updateCommunityDto: UpdateCommunityDto) {
-        return this.communitiesService.update(id, updateCommunityDto);
+    @UseGuards(AuthGuard)
+    @Patch(":name")
+    update(@Body() updateCommunityDto: UpdateCommunityDto,
+           @Param("name", CommunityByNamePipe) community: Community,
+           @Payload(UserByTokenPipe) user: User
+    ) {
+        if (community.creator.username != user.username) {
+            throw new HttpException("", HttpStatus.FORBIDDEN);
+        }
+        return this.communitiesService.update(updateCommunityDto, community);
     }
 
     @Delete(":name")

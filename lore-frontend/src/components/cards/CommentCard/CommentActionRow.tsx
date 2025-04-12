@@ -1,7 +1,7 @@
 import CommentInput from "../../CommentInput.tsx";
 import { useContext, useState } from "react";
 import ShareButton from "../../ShareButton.tsx";
-import { VoteType } from "../../../constants/types.ts";
+import { CommentInputMode, VoteType } from "../../../constants/types.ts";
 import VoteWidget from "../../VoteWidget/VoteWidget.tsx";
 import { UserContext } from "../../../constants/contexts.ts";
 import DeleteButton from "../../DeleteButton.tsx";
@@ -60,7 +60,8 @@ function CommentActionRow({
                 <CommentInput
                     isActiveOnMount
                     handleCancelSuperior={() => setReplyIsActive(false)}
-                    parentId={commentId}
+                    targetIdOrName={commentId}
+                    mode={CommentInputMode.Comment}
                 />
             }
         </div>

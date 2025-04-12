@@ -43,7 +43,7 @@ export class Community {
     @OneToMany(() => Post, (post) => post.community)
     posts: Post[];
 
-    @ManyToOne(() => User, { eager: true })
+    @ManyToOne(() => User)
     creator: User;
 
     /* Computed Properties */

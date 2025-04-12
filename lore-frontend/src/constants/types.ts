@@ -11,7 +11,9 @@ export type Community = {
     createdAt: string,
     creator: {
         username: string
-    }
+    },
+    isMember: boolean,
+    memberCount: number
 }
 
 export type Post = {
@@ -48,4 +50,10 @@ export type Comment = {
 export enum VoteType {
     Post = "post",
     Comment = "comment",
+}
+
+export enum CommentInputMode {
+    Post,
+    Comment,
+    CommunityDescription
 }

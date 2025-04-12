@@ -1,28 +1,37 @@
-import { FormEvent, useContext, useRef, useState } from "react";
+import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { api } from "../Utils.ts";
+import { CommentInputMode } from "../constants/types.ts";
 import { CommentInputContext } from "../constants/contexts.ts";
 
 type CommentInputProps = {
-    postId?: string,
-    parentId?: string,
+    targetIdOrName: string,
     isActiveOnMount?: boolean,
     handleCancelSuperior?: () => void,
-    commentButtonText?: string
+    commentButtonText?: string,
+    mode: CommentInputMode,
+    value?: string
 };
 
 function CommentInput(
     {
-        postId,
-        parentId,
+        targetIdOrName,
         isActiveOnMount = false,
         handleCancelSuperior,
-        commentButtonText = "Comment"
+        commentButtonText = "Comment",
+        mode,
+        value
     }: CommentInputProps
 ) {
     const [isActive, setIsActive] = useState(isActiveOnMount);
     const [content, setContent] = useState("");
     const textareaRef = useRef(null);
     const { onComment } = useContext(CommentInputContext);
+
+    useEffect(() => {
+        if (value) {
+            setContent(value);
+        }
+    }, [value]);
 
     function handleInput(e: FormEvent<HTMLTextAreaElement>) {
         // 1. data: Set content state
@@ -47,31 +56,63 @@ function CommentInput(
     }
 
     function handleComment() {
-        if ((postId && parentId) || (!postId && !parentId)) {
-            return;
+        if (mode === CommentInputMode.Post) {
+            handleCommentOnPost();
+        } else if (mode === CommentInputMode.Comment) {
+            handleCommentOnComment();
+        } else if (mode === CommentInputMode.CommunityDescription) {
+            handleEditCommunityDescription();
         }
-        const parentProperty: {postId?: string, parentId?: string} = {};
-        if (postId) {
-            parentProperty.postId = postId;
-        } else {
-            parentProperty.parentId = parentId;
-        }
+    }
+
+    function handleCommentOnPost() {
         api.post("comments", {
             content: content,
-            ...parentProperty
+            postId: targetIdOrName
         })
             .then((res) => {
                 console.log(res);
-                if (onComment) {
-                    onComment();
-                    handleCancel();
-                } else {
-                    window.location.reload();
-                }
+                handleOnComment();
             })
             .catch((e) => {
                 console.log(e);
             })
+    }
+
+    function handleCommentOnComment() {
+        api.post("comments", {
+            content: content,
+            parentId: targetIdOrName
+        })
+            .then((res) => {
+                console.log(res);
+                handleOnComment();
+            })
+            .catch((e) => {
+                console.log(e);
+            })
+    }
+
+    function handleEditCommunityDescription() {
+        api.patch(`communities/${targetIdOrName}`, {
+            description: content
+        })
+            .then((res) => {
+                console.log(res);
+                handleOnComment();
+            })
+            .catch((e) => {
+                console.log(e);
+            })
+    }
+
+    function handleOnComment() {
+        if (onComment) {
+            onComment();
+            handleCancel();
+        } else {
+            window.location.reload();
+        }
     }
 
     return (
