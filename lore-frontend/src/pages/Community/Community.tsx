@@ -7,6 +7,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { CommunitiesContext, CommunityContext, UserContext } from "../../constants/contexts.ts";
 import JoinButton from "./components/JoinButton.tsx";
 import DeleteButton from "../../components/DeleteButton.tsx";
+import useLogInRequiredAction from "../../components/UseLogInRequiredAction.ts";
 
 function Community() {
     const { community } = useContext(CommunityContext)!;
@@ -57,6 +58,7 @@ function Community() {
                 </div>
                 <div className="flex items-end text-sm font-semibold">
                     <Link to="./submit"
+                          onClick={useLogInRequiredAction()}
                           className="h-[38px] px-0.75 flex items-center rounded-full bordered-clickable">
                         <img src={icon_cross} alt=""/>
                         <span className="ml-0.25">Create Post</span>

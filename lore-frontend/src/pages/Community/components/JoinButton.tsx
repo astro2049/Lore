@@ -1,23 +1,18 @@
 import { useContext } from "react";
-import { UserContext, CommunitiesContext, CommunityContext, OverlayContext } from "../../../constants/contexts.ts";
-import { OverlayType } from "../../../constants/types.ts";
+import { UserContext, CommunitiesContext, CommunityContext } from "../../../constants/contexts.ts";
 import { api } from "../../../Utils.ts";
+import useLogInRequiredAction from "../../../components/UseLogInRequiredAction.ts";
 
 type JoinButtonProps = {
     className: string
 }
 
 function JoinButton({ className }: JoinButtonProps) {
-    const { username } = useContext(UserContext)!;
-    const [, setOverlayType] = useContext(OverlayContext)!;
+    const { isLoggedIn } = useContext(UserContext)!;
     const { community, refreshCommunity } = useContext(CommunityContext)!;
     const { updateCommunities } = useContext(CommunitiesContext)!;
 
     function handleClick() {
-        if (!username) {
-            setOverlayType(OverlayType.SignUp);
-            return;
-        }
         if (!community.isMember) {
             joinCommunity();
         } else {
@@ -51,10 +46,10 @@ function JoinButton({ className }: JoinButtonProps) {
 
     return (
         <button
-            onClick={handleClick}
+            onClick={useLogInRequiredAction(handleClick)}
             className={className}
         >
-            {username && community.isMember ? "Joined" : "Join"}
+            {isLoggedIn && community.isMember ? "Joined" : "Join"}
         </button>
     );
 }

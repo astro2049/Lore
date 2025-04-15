@@ -1,5 +1,6 @@
 import { VoteType } from "../../constants/types.ts";
 import { api } from "../../Utils.ts";
+import useLogInRequiredAction from "../UseLogInRequiredAction.ts";
 
 type VoteButtonProps = {
     value: 1 | -1,
@@ -59,7 +60,7 @@ function VoteButton({
 
     return (
         <button
-            onClick={handleClick}
+            onClick={useLogInRequiredAction(handleClick)}
             className={"px-0.25 rotate-90 font-semibold border border-transparent" + colorStyles()}>
             {(value === 1 ? "<" : ">")}
         </button>

@@ -2,18 +2,22 @@ import InformationBar from "../components/InformationBar.tsx";
 import PostActionRow from "../../../components/cards/PostCard/PostActionRow.tsx";
 import CommentCard from "../../../components/cards/CommentCard/CommentCard.tsx";
 import CommentInput from "../../../components/CommentInput.tsx";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { api, getPrefixedCommunityName, getPrefixedUsername } from "../../../Utils.ts";
 import { Link, useNavigate, useParams } from "react-router";
 import { CommentInputMode, Post } from "../../../constants/types.ts";
 import icon_arrow_left from "../../../assets/icon-arrow-left.svg"
-import { CommentInputContext, DeleteButtonContext } from "../../../constants/contexts.ts";
+import { CommentInputContext, DeleteButtonContext, UserContext } from "../../../constants/contexts.ts";
+import useLogInRequiredAction from "../../../components/UseLogInRequiredAction.ts";
+import icon_cross from "../../../assets/icon-cross.svg";
 
 function PostPage() {
     const { postId } = useParams();
     const [post, setPost] = useState<Post>();
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+    const { isLoggedIn } = useContext(UserContext)!;
+    const logInRequiredAction = useLogInRequiredAction();
 
     const refreshPost = useCallback(() => {
         setIsLoading(true);
@@ -87,14 +91,23 @@ function PostPage() {
                         />
 
                         {/* Comment Input */}
-                        <CommentInputContext.Provider value={{
-                            onComment: refreshPost
-                        }}>
-                            <CommentInput
-                                targetIdOrName={post.id}
-                                mode={CommentInputMode.Post}
-                            />
-                        </CommentInputContext.Provider>
+                        {isLoggedIn ?
+                            <CommentInputContext.Provider value={{
+                                onComment: refreshPost
+                            }}>
+
+                                <CommentInput
+                                    targetIdOrName={post.id}
+                                    mode={CommentInputMode.Post}
+                                />
+                            </CommentInputContext.Provider>
+                            :
+                            <button onClick={logInRequiredAction}
+                                    className="my-1 h-[38px] px-0.75 flex items-center rounded-full bordered-clickable">
+                                <img src={icon_cross} alt=""/>
+                                <span className="ml-0.25 text-sm text-white-custom">Join the conversation</span>
+                            </button>
+                        }
 
                         {/* Comments */}
                         <CommentInputContext.Provider value={{
@@ -128,9 +141,11 @@ function PostPage() {
 
                     {/* Community Information */}
                     <InformationBar/>
-                </div>}
+                </div>
+            }
         </>
-    );
+    )
+        ;
 }
 
 export default PostPage;
