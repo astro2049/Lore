@@ -32,7 +32,7 @@ function PopupController({ children }: PopupControllerProps) {
             {
                 text !== "" &&
                 <div
-                    className="w-[300px] py-1.5 pl-2 fixed left-1/2 -translate-x-1/2 bottom-[100px] text-sm text-dark bg-white-custom rounded-full">
+                    className="w-[300px] py-1.5 pl-2 fixed left-1/2 -translate-x-1/2 bottom-[100px] text-sm text-dark bg-white-custom rounded-full z-2">
                     {text}
                 </div>
             }

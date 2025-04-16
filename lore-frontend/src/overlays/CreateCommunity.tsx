@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CommunitiesContext, OverlayContext } from "../constants/contexts.ts";
 import { OverlayType } from "../constants/types.ts";
 import { useNavigate } from "react-router";
@@ -14,8 +14,11 @@ function CreateCommunity() {
     const { setOverlayType } = useContext(OverlayContext);
     const navigate = useNavigate();
     const { updateCommunities, updateAllCommunities } = useContext(CommunitiesContext);
+    const [nameAvailable, setNameAvailable] = useState(true);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     function handleSubmit() {
+        setIsSubmitting(true);
         api.post("communities", {
             name: name,
             description: description
@@ -30,7 +33,23 @@ function CreateCommunity() {
             .catch((e) => {
                 console.log(e);
             })
+            .finally(() => {
+                setIsSubmitting(false);
+            })
     }
+
+    useEffect(() => {
+        if (name.length === 0) {
+            return;
+        }
+        api.get<string>(`search?community=${name}`)
+            .then((res) => {
+                setNameAvailable(res.data !== "yes");
+            })
+            .catch((e) => {
+                console.log(e);
+            })
+    }, [name]);
 
     return (
         <div className="bg-dark rounded-2xl">
@@ -52,18 +71,30 @@ function CreateCommunity() {
                         value={name}
                         maxLength={maxNameLength}
                         onChange={(e) => setName(e.target.value)}
-                        className="block mt-0.5 mb-0.5 w-full h-[40px] py-0.5 px-0.25 border border-white/20 rounded-lg"/>
-                    <div className="text-xs text-blue-light-custom-2">
-                        {maxNameLength - name.length} Characters remaining
+                        className="block mt-0.5 mb-0.5 w-full h-[40px] py-0.25 px-0.5 border border-white/20 rounded-xl"/>
+                    <div className="mt-[6px] ml-1 flex justify-between text-xs">
+                        {name.length !== 0 ? (nameAvailable ?
+                                <span className="text-green-400">
+                                    {`${getPrefixedCommunityName(name)} is available.`}
+                                </span>
+                                :
+                                <span className="text-red-500">
+                                    {`${getPrefixedCommunityName(name)} exists.`}
+                                </span>
+                        ) : <span></span>}
+                        <span className="text-blue-light-custom-2">
+                            {maxNameLength - name.length} Characters remaining
+                        </span>
                     </div>
                 </div>
 
+                {/* Description */}
                 <div className="mt-1">
                     <h2 className="font-[700]">Description</h2>
                     <textarea
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                        className="block mt-0.5 mb-0.5 w-full h-[96px] py-0.5 px-0.25 border border-white/20 rounded-lg"/>
+                        className="block my-0.5 w-full h-[132px] py-0.25 px-0.5 border border-white/20 rounded-xl"/>
                 </div>
 
                 {/* Community type */}
@@ -89,7 +120,8 @@ function CreateCommunity() {
                     </button>
                     <button
                         onClick={handleSubmit}
-                        className="py-0.25 px-1 text-gray-custom-2 font-bold bg-white-custom rounded-2xl"
+                        disabled={name.length === 0 || !nameAvailable || isSubmitting}
+                        className="py-0.25 px-1 text-gray-custom-2 font-bold bg-white-custom rounded-2xl disabled:bg-white/20"
                     >
                         Create Community
                     </button>

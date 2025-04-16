@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "./entities/user.entity";
@@ -15,8 +15,12 @@ export class UsersService {
     ) {
     }
 
-    create(createUserDto: CreateUserDto): Promise<User> {
-        const user = this.usersRepository.create(createUserDto);
+    async create(createUserDto: CreateUserDto): Promise<User> {
+        let user = await this.findOne(createUserDto.username);
+        if (user) {
+            throw new HttpException("", HttpStatus.FORBIDDEN);
+        }
+        user = this.usersRepository.create(createUserDto);
         return this.usersRepository.save(user);
     }
 

@@ -15,7 +15,11 @@ export class Community {
     @PrimaryGeneratedColumn()
     id: string;
 
-    @Column({ unique: true })
+    @Column({
+        unique: true,
+        length: 31,
+        collation: "utf8mb4_0900_as_cs"
+    })
     name: string;
 
     @Column({ type: "text", nullable: true })

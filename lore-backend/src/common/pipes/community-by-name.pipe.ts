@@ -1,4 +1,4 @@
-import { ArgumentMetadata, Injectable, PipeTransform } from "@nestjs/common";
+import { ArgumentMetadata, HttpException, HttpStatus, Injectable, PipeTransform } from "@nestjs/common";
 import { CommunitiesService } from "../../communities/communities.service";
 
 @Injectable()
@@ -7,6 +7,10 @@ export class CommunityByNamePipe implements PipeTransform {
     }
 
     async transform(name: string, metadata: ArgumentMetadata) {
-        return this.communitiesService.findOne(name);
+        const community = await this.communitiesService.findOne(name);
+        if (!community) {
+            throw new HttpException("", HttpStatus.NOT_FOUND);
+        }
+        return community;
     }
 }

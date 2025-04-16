@@ -10,11 +10,16 @@ export class User {
     id: string;
 
     @Column({
-        unique: true
+        unique: true,
+        length: 31,
+        collation: "utf8mb4_0900_as_cs"
     })
     username: string;
 
-    @Column()
+    @Column({
+        length: 31,
+        collation: "utf8mb4_0900_as_cs"
+    })
     password: string;
 
     @CreateDateColumn()

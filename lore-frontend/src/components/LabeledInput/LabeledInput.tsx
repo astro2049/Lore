@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction } from "react";
 type LabeledInputProps = {
     label: string,
     value: string,
+    maxLength?: number,
     setValue: Dispatch<SetStateAction<string>>,
     disabled?: boolean
 }
@@ -11,6 +12,7 @@ type LabeledInputProps = {
 function LabeledInput({
                           label,
                           value,
+                          maxLength,
                           setValue,
                           disabled = false
                       }: LabeledInputProps
@@ -19,6 +21,7 @@ function LabeledInput({
         <div className="mt-1.5 relative">
             <input placeholder=""
                    value={value}
+                   maxLength={maxLength}
                    onInput={(e) => {
                        setValue(e.currentTarget.value);
                    }}

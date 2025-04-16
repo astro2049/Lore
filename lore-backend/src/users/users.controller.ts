@@ -31,8 +31,8 @@ export class UsersController {
 
     @UseGuards(OptionalAuthGuard)
     @Get(":username")
-    findOne(@Param("username", UserByUsernamePipe) user: User, @Payload(UserByTokenPipe) loggedInUser: User, @Query("communities", ParsePresencePipe) communities?: boolean) {
-        if (communities && user.username !== loggedInUser.username) {
+    findOne(@Param("username", UserByUsernamePipe) user: User, @Payload(UserByTokenPipe) loggedInUser?: User, @Query("communities", ParsePresencePipe) communities?: boolean) {
+        if (loggedInUser && communities && user.username !== loggedInUser.username) {
             throw new HttpException("", HttpStatus.FORBIDDEN);
         }
         return this.usersService.findOne(user.username, communities ? ["communities"] : undefined);

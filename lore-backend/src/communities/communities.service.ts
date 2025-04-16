@@ -20,7 +20,13 @@ export class CommunitiesService {
     }
 
     async create(createCommunityDto: CreateCommunityDto, user: User) {
-        const community = this.communitiesRepository.create(createCommunityDto);
+        let community = await this.communitiesRepository.findOneBy({
+            name: createCommunityDto.name
+        });
+        if (community) {
+            throw new HttpException("", HttpStatus.FORBIDDEN);
+        }
+        community = this.communitiesRepository.create(createCommunityDto);
         community.members = [user];
         community.creator = user;
         return this.communitiesRepository.save(community);
@@ -37,9 +43,6 @@ export class CommunitiesService {
             .innerJoinAndSelect("community.creator", "creator")
             .loadRelationCountAndMap("community.memberCount", "community.members")
             .getOne();
-        if (!community) {
-            throw new HttpException("", HttpStatus.NOT_FOUND);
-        }
         return community;
     }
 
