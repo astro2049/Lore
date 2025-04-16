@@ -5,6 +5,8 @@ import { useNavigate } from "react-router";
 import { api, getPrefixedCommunityName } from "../Utils.ts";
 import CancelButton from "./components/CancelButton.tsx";
 
+const maxNameLength = 22;
+
 function CreateCommunity() {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -48,10 +50,11 @@ function CreateCommunity() {
 
                     <input
                         value={name}
+                        maxLength={maxNameLength}
                         onChange={(e) => setName(e.target.value)}
                         className="block mt-0.5 mb-0.5 w-full h-[40px] py-0.5 px-0.25 border border-white/20 rounded-lg"/>
                     <div className="text-xs text-blue-light-custom-2">
-                        2 Characters remaining
+                        {maxNameLength - name.length} Characters remaining
                     </div>
                 </div>
 
@@ -61,9 +64,6 @@ function CreateCommunity() {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         className="block mt-0.5 mb-0.5 w-full h-[96px] py-0.5 px-0.25 border border-white/20 rounded-lg"/>
-                    <div className="text-xs text-blue-light-custom-2">
-                        2 Characters remaining
-                    </div>
                 </div>
 
                 {/* Community type */}

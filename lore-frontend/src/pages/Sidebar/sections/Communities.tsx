@@ -16,7 +16,7 @@ function Communities() {
     return (
         <div>
             <div className="
-                        h-[40px] py-0.25 px-1
+                        py-0.5 px-1
                         flex items-center
                         text-xs text-neutral-500"
             >
@@ -39,7 +39,7 @@ function Communities() {
                         key={community.name}
                         to={getPrefixedCommunityName(community.name)}
                         className="
-                        h-[40px] py-0.25 px-1
+                        py-0.5 px-1
                         flex items-center
                         text-neutral-200 hover:text-white-custom
                         hover:bg-neutral-800 rounded-lg"

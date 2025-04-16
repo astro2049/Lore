@@ -60,11 +60,11 @@ function InformationBar() {
             {/* Section 1: Community Info */}
             <div className="mt-1 pt-0.5 px-1 text-sm rounded-t-lg bg-dark-dimmer border-b border-b-white/20">
                 {/* 1. Title, Join Button */}
-                <div className="py-0.5 w-full flex justify-between items-center">
-                    <a className="text-blue-light-custom-3 text-lg font-bold">
+                <div className="py-0.5 w-full flex justify-between items-start">
+                    <span className="text-blue-light-custom-3 text-lg font-bold">
                         {getPrefixedCommunityName(community.name)}
-                    </a>
-                    <JoinButton className="py-0.5 px-0.75 text-xs text-white rounded-full bordered-clickable"/>
+                    </span>
+                    <JoinButton className="shrink-0 py-0.5 px-0.75 text-xs text-white rounded-full bordered-clickable"/>
                 </div>
                 {/* 2. Description / TextArea for editing description */}
                 {description()}

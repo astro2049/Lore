@@ -51,12 +51,16 @@ function Community() {
             {/*    </div>*/}
             {/*</div>*/}
             {/* Title Bar */}
-            <div className="-mt-2.25 px-1 flex justify-between items-end">
-                <div className="flex items-end">
-                    <div className="w-[88px] h-[88px]"></div>
-                    <h1 className="ml-[-88px] text-3xl font-bold">{getPrefixedCommunityName(community.name)}</h1>
+            <div className="mt-1 px-1 flex justify-between gap-x-1 items-start">
+                {/* left: Avatar, Name */}
+                <div className="flex items-start">
+                    {/*<div className="w-[88px] h-[88px]"></div>*/}
+                    <h1 className="min-w-0 text-3xl font-bold break-all">
+                        {getPrefixedCommunityName(community.name)}
+                    </h1>
                 </div>
-                <div className="flex items-end text-sm font-semibold">
+                {/* right: Create Post, Join, Delete buttons */}
+                <div className="shrink-0 flex items-end text-sm font-semibold">
                     <Link to="./submit"
                           onClick={useLogInRequiredAction()}
                           className="h-[38px] px-0.75 flex items-center rounded-full bordered-clickable">
