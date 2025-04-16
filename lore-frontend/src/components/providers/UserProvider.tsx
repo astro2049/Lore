@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
-import { UserContext } from "../constants/contexts.ts";
+import { UserContext } from "../../constants/contexts.ts";
 
 type UserProviderProps = {
     children: ReactNode

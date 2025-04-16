@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import { PopupContext } from '../constants/contexts.ts';
+import { PopupContext } from '../../constants/contexts.ts';
 
 const popupTime = 3000;
 

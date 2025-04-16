@@ -2,9 +2,9 @@ import TopBar from "./pages/TopBar/TopBar.tsx";
 import Sidebar from "./pages/Sidebar/Sidebar.tsx";
 import { Outlet } from "react-router";
 import OverlayController from "./overlays/OverlayController.tsx";
-import PopupController from "./components/PopupController.tsx";
-import UserProvider from "./components/UserProvider.tsx";
-import CommunitiesController from "./pages/components/CommunitiesController.tsx";
+import PopupController from "./components/providers/PopupController.tsx";
+import UserProvider from "./components/providers/UserProvider.tsx";
+import CommunitiesController from "./components/providers/CommunitiesController.tsx";
 
 function Lore() {
     return (
