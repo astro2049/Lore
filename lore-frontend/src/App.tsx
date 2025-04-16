@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router";
 import Lore from "./Lore.tsx";
 import Feed from "./pages/Feed/Feed.tsx";
-import Community from "./pages/Community/Community.tsx";
-import Post from "./pages/Community/pages/Post.tsx";
+import Community from "./pages/community/Community.tsx";
+import Post from "./pages/community/Post.tsx";
 import Profile from "./pages/Profile/Profile.tsx";
-import CreatePost from "./pages/Community/pages/CreatePost.tsx";
-import CommunityLayout from "./pages/Community/CommunityLayout.tsx";
+import CreatePost from "./pages/community/CreatePost.tsx";
+import CommunityLayout from "./pages/community/CommunityLayout.tsx";
 
 function App() {
     return (

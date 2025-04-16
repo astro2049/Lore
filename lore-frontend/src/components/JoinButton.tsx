@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { UserContext, CommunitiesContext, CommunityContext } from "../../../constants/contexts.ts";
-import { api } from "../../../Utils.ts";
-import useLogInRequiredAction from "../../../components/UseLogInRequiredAction.ts";
+import { UserContext, CommunitiesContext, CommunityContext } from "../constants/contexts.ts";
+import { api } from "../Utils.ts";
+import useLogInRequiredAction from "./UseLogInRequiredAction.ts";
 
 type JoinButtonProps = {
     className: string

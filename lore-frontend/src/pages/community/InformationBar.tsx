@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
-import CommentInput from "../../../components/CommentInput.tsx";
-import { getPrefixedCommunityName, getPrefixedUsername } from "../../../Utils.ts";
-import { CommentInputContext, CommunityContext, UserContext } from "../../../constants/contexts.ts";
-import JoinButton from "./JoinButton.tsx";
+import CommentInput from "../../components/CommentInput.tsx";
+import { getPrefixedCommunityName, getPrefixedUsername } from "../../Utils.ts";
+import { CommentInputContext, CommunityContext, UserContext } from "../../constants/contexts.ts";
+import JoinButton from "../../components/JoinButton.tsx";
 import { Link } from "react-router";
-import { CommentInputMode } from "../../../constants/types.ts";
+import { CommentInputMode } from "../../constants/types.ts";
 
 function InformationBar() {
     const { community, refreshCommunity } = useContext(CommunityContext)!;

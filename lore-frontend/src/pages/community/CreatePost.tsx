@@ -1,8 +1,8 @@
 import { FormEvent, useContext, useState } from "react";
-import InformationBar from "../components/InformationBar.tsx";
-import LabeledInput from "../../../components/LabeledInput/LabeledInput.tsx";
-import { CommunityContext } from "../../../constants/contexts.ts";
-import { api, getPrefixedCommunityName } from "../../../Utils.ts";
+import InformationBar from "./InformationBar.tsx";
+import LabeledInput from "../../components/LabeledInput/LabeledInput.tsx";
+import { CommunityContext } from "../../constants/contexts.ts";
+import { api, getPrefixedCommunityName } from "../../Utils.ts";
 import { useNavigate } from "react-router";
 
 function CreatePost() {

@@ -2,10 +2,10 @@ import { Link, useNavigate } from "react-router";
 import { api, getPrefixedCommunityName } from "../../Utils.ts";
 import PostCard from "../../components/cards/PostCard/PostCard.tsx";
 import icon_cross from "../../assets/icon-cross.svg"
-import InformationBar from "./components/InformationBar.tsx";
+import InformationBar from "./InformationBar.tsx";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { CommunitiesContext, CommunityContext, UserContext } from "../../constants/contexts.ts";
-import JoinButton from "./components/JoinButton.tsx";
+import JoinButton from "../../components/JoinButton.tsx";
 import DeleteButton from "../../components/DeleteButton.tsx";
 import useLogInRequiredAction from "../../components/UseLogInRequiredAction.ts";
 

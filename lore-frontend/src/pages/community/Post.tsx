@@ -1,15 +1,15 @@
-import InformationBar from "../components/InformationBar.tsx";
-import PostActionRow from "../../../components/cards/PostCard/PostActionRow.tsx";
-import CommentCard from "../../../components/cards/CommentCard/CommentCard.tsx";
-import CommentInput from "../../../components/CommentInput.tsx";
+import InformationBar from "./InformationBar.tsx";
+import PostActionRow from "../../components/cards/PostCard/PostActionRow.tsx";
+import CommentCard from "../../components/cards/CommentCard/CommentCard.tsx";
+import CommentInput from "../../components/CommentInput.tsx";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { api, getPrefixedCommunityName, getPrefixedUsername } from "../../../Utils.ts";
+import { api, getPrefixedCommunityName, getPrefixedUsername } from "../../Utils.ts";
 import { Link, useNavigate, useParams } from "react-router";
-import { CommentInputMode, Post } from "../../../constants/types.ts";
-import icon_arrow_left from "../../../assets/icon-arrow-left.svg"
-import { CommentInputContext, DeleteButtonContext, UserContext } from "../../../constants/contexts.ts";
-import useLogInRequiredAction from "../../../components/UseLogInRequiredAction.ts";
-import icon_cross from "../../../assets/icon-cross.svg";
+import { CommentInputMode, Post } from "../../constants/types.ts";
+import icon_arrow_left from "../../assets/icon-arrow-left.svg"
+import { CommentInputContext, DeleteButtonContext, UserContext } from "../../constants/contexts.ts";
+import useLogInRequiredAction from "../../components/UseLogInRequiredAction.ts";
+import icon_cross from "../../assets/icon-cross.svg";
 
 function PostPage() {
     const { postId } = useParams();
