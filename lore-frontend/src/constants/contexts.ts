@@ -21,7 +21,14 @@ export const UserContext = createContext<{
     username: string | undefined,
     storeLogInData: (s: string) => void,
     clearLogInData: () => void,
-} | null>(null);
+}>({
+    isLoggedIn: false,
+    username: undefined,
+    storeLogInData: () => {
+    },
+    clearLogInData: () => {
+    }
+});
 
 export const CommunityContext = createContext<{
     community: Community,

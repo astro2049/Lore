@@ -9,7 +9,7 @@ type CommunitiesControllerProps = {
 function CommunitiesController({ children }: CommunitiesControllerProps) {
     const [communities, setCommunities] = useState([]);
     const [allCommunities, setAllCommunities] = useState([]);
-    const { username } = useContext(UserContext)!;
+    const { username } = useContext(UserContext);
 
     function updateCommunities() {
         api.get(`users/${username}?communities`)

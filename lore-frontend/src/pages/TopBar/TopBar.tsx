@@ -6,7 +6,7 @@ import { api, getPrefixedUsername } from "../../Utils.ts";
 
 function TopBar() {
     const { setOverlayType } = useContext(OverlayContext);
-    const { isLoggedIn, username, clearLogInData } = useContext(UserContext)!;
+    const { isLoggedIn, username, clearLogInData } = useContext(UserContext);
     const [showUserDrawer, setShowUserDrawer] = useState(false);
 
     function handleLogOut() {

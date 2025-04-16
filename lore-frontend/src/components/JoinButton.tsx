@@ -8,7 +8,7 @@ type JoinButtonProps = {
 }
 
 function JoinButton({ className }: JoinButtonProps) {
-    const { isLoggedIn } = useContext(UserContext)!;
+    const { isLoggedIn } = useContext(UserContext);
     const { community, refreshCommunity } = useContext(CommunityContext)!;
     const { updateCommunities } = useContext(CommunitiesContext)!;
 

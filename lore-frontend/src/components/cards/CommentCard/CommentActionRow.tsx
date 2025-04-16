@@ -26,7 +26,7 @@ function CommentActionRow({
                           }: CommentActionRowProps
 ) {
     const [replyIsActive, setReplyIsActive] = useState(false);
-    const { isLoggedIn, username } = useContext(UserContext)!;
+    const { isLoggedIn, username } = useContext(UserContext);
 
     return (
         <div>

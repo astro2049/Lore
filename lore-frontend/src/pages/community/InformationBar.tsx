@@ -9,7 +9,7 @@ import { CommentInputMode } from "../../constants/types.ts";
 function InformationBar() {
     const { community, refreshCommunity } = useContext(CommunityContext)!;
     const [isEditingDescription, setIsEditingDescription] = useState(false);
-    const { isLoggedIn, username } = useContext(UserContext)!;
+    const { isLoggedIn, username } = useContext(UserContext);
 
     function description() {
         if (isEditingDescription) {

@@ -16,7 +16,7 @@ function PostPage() {
     const [post, setPost] = useState<Post>();
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
-    const { isLoggedIn } = useContext(UserContext)!;
+    const { isLoggedIn } = useContext(UserContext);
     const logInRequiredAction = useLogInRequiredAction();
 
     const refreshPost = useCallback(() => {

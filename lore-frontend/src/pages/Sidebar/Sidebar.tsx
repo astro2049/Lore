@@ -4,7 +4,7 @@ import Communities from "./sections/Communities.tsx";
 import AllCommunities from "./sections/AllCommunities.tsx";
 
 function Sidebar() {
-    const { isLoggedIn } = useContext(UserContext)!;
+    const { isLoggedIn } = useContext(UserContext);
 
     return (
         <div className="

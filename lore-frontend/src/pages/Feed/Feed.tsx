@@ -7,7 +7,7 @@ function Feed() {
     const [postIds, setPostIds] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(0);
-    const { isLoggedIn } = useContext(UserContext)!;
+    const { isLoggedIn } = useContext(UserContext);
 
     useEffect(() => {
         if (!isLoggedIn) {

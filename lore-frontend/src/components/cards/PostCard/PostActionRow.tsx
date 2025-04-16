@@ -28,7 +28,7 @@ function PostActionRow({
                            onDelete,
                            showDeleteButton = false
                        }: PostActionRowProps) {
-    const { isLoggedIn, username } = useContext(UserContext)!;
+    const { isLoggedIn, username } = useContext(UserContext);
 
     return (
         <div className="mt-0.5 flex gap-0.75 items-center text-xs">
