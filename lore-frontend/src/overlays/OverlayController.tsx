@@ -20,10 +20,10 @@ function OverlayController({ children }: OverlayControllerProps) {
 
     return (
         <OverlayContext.Provider
-            value={[
-                overlayType,
-                setOverlayType
-            ]}
+            value={{
+                overlayType: overlayType,
+                setOverlayType: setOverlayType
+            }}
         >
             {children}
             {

@@ -6,7 +6,7 @@ import { api } from "../Utils.ts";
 import CancelButton from "./components/CancelButton.tsx";
 
 function SignUp() {
-    const [, setOverlayType] = useContext(OverlayContext)!;
+    const { setOverlayType } = useContext(OverlayContext);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 

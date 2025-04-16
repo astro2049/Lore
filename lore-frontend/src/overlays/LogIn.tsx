@@ -10,7 +10,7 @@ type LoginResponseData = {
 }
 
 function LogIn() {
-    const [, setOverlayType] = useContext(OverlayContext)!;
+    const { setOverlayType } = useContext(OverlayContext);
     const [username_, setUsername_] = useState("");
     const [password, setPassword] = useState("");
     const { storeLogInData } = useContext(UserContext)!;

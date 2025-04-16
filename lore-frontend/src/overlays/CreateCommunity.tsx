@@ -11,7 +11,7 @@ function CreateCommunity() {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
 
-    const [, setOverlayType] = useContext(OverlayContext)!;
+    const { setOverlayType } = useContext(OverlayContext);
     const navigate = useNavigate();
     const { updateCommunities, updateAllCommunities } = useContext(CommunitiesContext)!;
 

@@ -1,10 +1,14 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 import { Community, OverlayType } from "./types.ts";
 
-export const OverlayContext = createContext<[
-    OverlayType,
-    Dispatch<SetStateAction<OverlayType>>
-] | null>(null);
+export const OverlayContext = createContext<{
+    overlayType: OverlayType,
+    setOverlayType: Dispatch<SetStateAction<OverlayType>>
+}>({
+    overlayType: OverlayType.None,
+    setOverlayType: () => {
+    }
+});
 
 export const PopupContext = createContext({
     showPopup: (text: string) => {

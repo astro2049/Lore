@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { OverlayContext } from "../../constants/contexts.ts";
 
 function CancelButton() {
-    const [, setOverlayType] = useContext(OverlayContext)!;
+    const { setOverlayType } = useContext(OverlayContext);
 
     return (
         <button
