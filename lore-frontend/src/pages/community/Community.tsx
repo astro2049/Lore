@@ -14,7 +14,7 @@ function Community() {
     const [postIds, setPostIds] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const { isLoggedIn, username } = useContext(UserContext);
-    const { updateCommunities, updateAllCommunities } = useContext(CommunitiesContext)!;
+    const { updateCommunities, updateAllCommunities } = useContext(CommunitiesContext);
     const navigate = useNavigate();
 
     const refreshPosts = useCallback(() => {

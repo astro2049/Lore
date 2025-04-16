@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { CommunitiesContext } from "../../../constants/contexts.ts";
 
 function AllCommunities() {
-    const { allCommunities } = useContext(CommunitiesContext)!;
+    const { allCommunities } = useContext(CommunitiesContext);
 
     return (
         <div>

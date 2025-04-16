@@ -10,7 +10,7 @@ type JoinButtonProps = {
 function JoinButton({ className }: JoinButtonProps) {
     const { isLoggedIn } = useContext(UserContext);
     const { community, refreshCommunity } = useContext(CommunityContext);
-    const { updateCommunities } = useContext(CommunitiesContext)!;
+    const { updateCommunities } = useContext(CommunitiesContext);
 
     function handleClick() {
         if (!community!.isMember) {

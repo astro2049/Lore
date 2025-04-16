@@ -13,7 +13,7 @@ function CreateCommunity() {
 
     const { setOverlayType } = useContext(OverlayContext);
     const navigate = useNavigate();
-    const { updateCommunities, updateAllCommunities } = useContext(CommunitiesContext)!;
+    const { updateCommunities, updateAllCommunities } = useContext(CommunitiesContext);
 
     function handleSubmit() {
         api.post("communities", {

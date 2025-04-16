@@ -7,7 +7,7 @@ import { CommunitiesContext, OverlayContext } from "../../../constants/contexts.
 
 function Communities() {
     const { setOverlayType } = useContext(OverlayContext);
-    const { communities, updateCommunities } = useContext(CommunitiesContext)!;
+    const { communities, updateCommunities } = useContext(CommunitiesContext);
 
     useEffect(() => {
         updateCommunities();

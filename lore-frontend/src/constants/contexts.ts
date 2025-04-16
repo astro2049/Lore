@@ -44,7 +44,14 @@ export const CommunitiesContext = createContext<{
     updateCommunities: () => void,
     allCommunities: Community[],
     updateAllCommunities: () => void,
-} | null>(null);
+}>({
+    communities: [],
+    updateCommunities: () => {
+    },
+    allCommunities: [],
+    updateAllCommunities: () => {
+    }
+});
 
 export const CommentInputContext = createContext<{
     onComment: (() => void) | null
