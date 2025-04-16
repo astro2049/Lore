@@ -9,11 +9,11 @@ type JoinButtonProps = {
 
 function JoinButton({ className }: JoinButtonProps) {
     const { isLoggedIn } = useContext(UserContext);
-    const { community, refreshCommunity } = useContext(CommunityContext)!;
+    const { community, refreshCommunity } = useContext(CommunityContext);
     const { updateCommunities } = useContext(CommunitiesContext)!;
 
     function handleClick() {
-        if (!community.isMember) {
+        if (!community!.isMember) {
             joinCommunity();
         } else {
             leaveCommunity();
@@ -21,7 +21,7 @@ function JoinButton({ className }: JoinButtonProps) {
     }
 
     function joinCommunity() {
-        api.post(`communities/${community.name}/join`)
+        api.post(`communities/${community!.name}/join`)
             .then((res) => {
                 console.log(res);
                 refreshCommunity();
@@ -33,7 +33,7 @@ function JoinButton({ className }: JoinButtonProps) {
     }
 
     function leaveCommunity() {
-        api.post(`communities/${community.name}/leave`)
+        api.post(`communities/${community!.name}/leave`)
             .then((res) => {
                 console.log(res);
                 refreshCommunity();
@@ -49,7 +49,7 @@ function JoinButton({ className }: JoinButtonProps) {
             onClick={useLogInRequiredAction(handleClick)}
             className={className}
         >
-            {isLoggedIn && community.isMember ? "Joined" : "Join"}
+            {isLoggedIn && community!.isMember ? "Joined" : "Join"}
         </button>
     );
 }

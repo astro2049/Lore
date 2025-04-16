@@ -8,7 +8,7 @@ import { useNavigate } from "react-router";
 function CreatePost() {
     const [title, setTitle] = useState<string>("");
     const [body, setBody] = useState<string>("");
-    const { community } = useContext(CommunityContext)!;
+    const { community } = useContext(CommunityContext);
     const navigate = useNavigate();
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -16,11 +16,11 @@ function CreatePost() {
         api.post("posts", {
             title: title,
             content: body,
-            communityName: community.name
+            communityName: community!.name
         })
             .then((res) => {
                 console.log(res);
-                void navigate(`/${getPrefixedCommunityName(community.name)}/posts/${res.data.id}`);
+                void navigate(`/${getPrefixedCommunityName(community!.name)}/posts/${res.data.id}`);
             })
             .catch((e) => {
                 console.log(e);
@@ -33,7 +33,7 @@ function CreatePost() {
                 <h1 className="text-[24px] font-bold text-blue-light-custom-3">Create post</h1>
                 <div
                     className="mt-0.75 w-fit h-[38px] px-1 flex items-center text-sm font-semibold bg-gray-custom-2 rounded-2xl">
-                    <span>{getPrefixedCommunityName(community.name)}</span>
+                    <span>{getPrefixedCommunityName(community!.name)}</span>
                 </div>
 
                 <form onSubmit={handleSubmit}>

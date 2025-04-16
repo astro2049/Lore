@@ -31,9 +31,13 @@ export const UserContext = createContext<{
 });
 
 export const CommunityContext = createContext<{
-    community: Community,
+    community: Community | undefined,
     refreshCommunity: () => void
-} | null>(null);
+}>({
+    community: undefined,
+    refreshCommunity: () => {
+    }
+});
 
 export const CommunitiesContext = createContext<{
     communities: Community[],

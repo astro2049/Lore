@@ -7,7 +7,7 @@ import { Link } from "react-router";
 import { CommentInputMode } from "../../constants/types.ts";
 
 function InformationBar() {
-    const { community, refreshCommunity } = useContext(CommunityContext)!;
+    const { community, refreshCommunity } = useContext(CommunityContext);
     const [isEditingDescription, setIsEditingDescription] = useState(false);
     const { isLoggedIn, username } = useContext(UserContext);
 
@@ -21,18 +21,18 @@ function InformationBar() {
                         isActiveOnMount
                         handleCancelSuperior={() => setIsEditingDescription(false)}
                         commentButtonText="Save"
-                        targetIdOrName={community.name}
+                        targetIdOrName={community!.name}
                         mode={CommentInputMode.CommunityDescription}
-                        value={community.description}
+                        value={community!.description}
                     />
                 </CommentInputContext>
             );
         } else {
-            if (community.description) {
+            if (community!.description) {
                 return (
                     <div>
-                        {community.description}
-                        {isLoggedIn && username === community.creator.username &&
+                        {community!.description}
+                        {isLoggedIn && username === community!.creator.username &&
                             <button
                                 onClick={() => setIsEditingDescription(true)}
                                 className="ml-0.5 text-white/50 hover:text-white/80 text-xs hover:underline">
@@ -41,7 +41,7 @@ function InformationBar() {
                         }
                     </div>
                 );
-            } else if (isLoggedIn && username === community.creator.username) {
+            } else if (isLoggedIn && username === community!.creator.username) {
                 return (
                     <button
                         onClick={() => setIsEditingDescription(true)}
@@ -62,24 +62,24 @@ function InformationBar() {
                 {/* 1. Title, Join Button */}
                 <div className="py-0.5 w-full flex justify-between items-start">
                     <span className="text-blue-light-custom-3 text-lg font-bold">
-                        {getPrefixedCommunityName(community.name)}
+                        {getPrefixedCommunityName(community!.name)}
                     </span>
                     <JoinButton className="shrink-0 py-0.5 px-0.75 text-xs text-white rounded-full bordered-clickable"/>
                 </div>
                 {/* 2. Description / TextArea for editing description */}
                 {description()}
                 {/* 3. Created At */}
-                <div className="text-xs mt-0.5">- Created {new Date(community.createdAt).toDateString()}</div>
+                <div className="text-xs mt-0.5">- Created {new Date(community!.createdAt).toDateString()}</div>
                 {/* 4. Visibility */}
                 <div className="text-xs mt-0.25">- Public</div>
                 {/* 5. Members Count */}
                 <div className="flex mt-0.5 mb-0.5">
                     <div className="w-1/2">
                         <div className="text-white-custom font-[700]">
-                            {community.memberCount}
+                            {community!.memberCount}
                         </div>
                         <div className="text-xs">
-                            {`Member${community.memberCount === 1 ? "" : "s"}`}
+                            {`Member${community!.memberCount === 1 ? "" : "s"}`}
                         </div>
                     </div>
                     {/*<div className="w-1/2">*/}
@@ -97,9 +97,9 @@ function InformationBar() {
                 <div className="text-xs text-white/70">
                     CREATOR
                 </div>
-                <Link to={`/${getPrefixedUsername(community.creator.username)}`}
+                <Link to={`/${getPrefixedUsername(community!.creator.username)}`}
                       className="text-sm hover:text-blue-light-custom-2">
-                    {community.creator.username}
+                    {community!.creator.username}
                 </Link>
             </div>
         </div>

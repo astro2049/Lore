@@ -10,7 +10,7 @@ import DeleteButton from "../../components/DeleteButton.tsx";
 import useLogInRequiredAction from "../../components/UseLogInRequiredAction.ts";
 
 function Community() {
-    const { community } = useContext(CommunityContext)!;
+    const { community } = useContext(CommunityContext);
     const [postIds, setPostIds] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const { isLoggedIn, username } = useContext(UserContext);
@@ -19,7 +19,7 @@ function Community() {
 
     const refreshPosts = useCallback(() => {
         setIsLoading(true);
-        api.get<string[]>(`communities/${community.name}/posts`)
+        api.get<string[]>(`communities/${community!.name}/posts`)
             .then((res) => {
                 console.log(res.data);
                 setPostIds(res.data);
@@ -56,7 +56,7 @@ function Community() {
                 <div className="flex items-start">
                     {/*<div className="w-[88px] h-[88px]"></div>*/}
                     <h1 className="min-w-0 text-3xl font-bold break-all">
-                        {getPrefixedCommunityName(community.name)}
+                        {getPrefixedCommunityName(community!.name)}
                     </h1>
                 </div>
                 {/* right: Create Post, Join, Delete buttons */}
@@ -71,9 +71,9 @@ function Community() {
                         className="ml-1 h-[38px] px-0.75 rounded-full bordered-clickable"
                     />
                     {
-                        isLoggedIn && username === community.creator.username &&
+                        isLoggedIn && username === community!.creator.username &&
                         <DeleteButton
-                            link={`communities/${community.name}`}
+                            link={`communities/${community!.name}`}
                             onDelete={() => {
                                 updateCommunities();
                                 updateAllCommunities();
