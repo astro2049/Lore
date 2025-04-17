@@ -55,7 +55,16 @@ export class CommentsService {
         return this.findOne(id);
     }
 
-    remove(id: string) {
+    async remove(id: string, user: User) {
+        const comment = await this.commentsRepository.findOneBy({
+            id: id
+        });
+        if (!comment) {
+            throw new HttpException("", HttpStatus.NOT_FOUND);
+        }
+        if (comment.author.username !== user.username) {
+            throw new HttpException("", HttpStatus.FORBIDDEN);
+        }
         return this.commentsRepository.delete(id);
     }
 }

@@ -76,8 +76,9 @@ export class CommentsController {
     // }
 
     // Delete a comment
+    @UseGuards(AuthGuard)
     @Delete(":id")
-    remove(@Param("id") id: string) {
-        return this.commentsService.remove(id);
+    remove(@Param("id") id: string, @Payload(UserByTokenPipe) user: User) {
+        return this.commentsService.remove(id, user);
     }
 }

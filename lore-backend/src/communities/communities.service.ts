@@ -51,7 +51,10 @@ export class CommunitiesService {
         return this.findOne(community.name);
     }
 
-    remove(community: Community) {
+    remove(community: Community, user: User) {
+        if (community.creator.username !== user.username) {
+            throw new HttpException("", HttpStatus.FORBIDDEN);
+        }
         return this.communitiesRepository.delete(community.id);
     }
 

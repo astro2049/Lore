@@ -59,9 +59,10 @@ export class CommunitiesController {
         return this.communitiesService.update(updateCommunityDto, community);
     }
 
+    @UseGuards(AuthGuard)
     @Delete(":name")
-    remove(@Param("name", CommunityByNamePipe) community: Community) {
-        return this.communitiesService.remove(community);
+    remove(@Param("name", CommunityByNamePipe) community: Community, @Payload(UserByTokenPipe) user: User) {
+        return this.communitiesService.remove(community, user);
     }
 
     // Join a community

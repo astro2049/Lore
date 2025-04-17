@@ -58,12 +58,17 @@ export class PostsService {
         return this.findOne(id);
     }
 
-    async remove(id: string) {
-        const result = await this.postsRepository.delete(id);
-        if (result.affected === 0) {
+    async remove(id: string, user: User) {
+        const post = await this.postsRepository.findOneBy({
+            id: id
+        });
+        if (!post) {
             throw new HttpException("", HttpStatus.NOT_FOUND);
         }
-        return result;
+        if (post.author.username !== user.username) {
+            throw new HttpException("", HttpStatus.FORBIDDEN);
+        }
+        return this.postsRepository.delete(id);
     }
 
     async findComments(id: string) {

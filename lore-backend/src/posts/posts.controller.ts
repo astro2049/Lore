@@ -47,9 +47,10 @@ export class PostsController {
     //     return this.postsService.update(id, updatePostDto);
     // }
 
+    @UseGuards(AuthGuard)
     @Delete(":id")
-    remove(@Param("id") id: string) {
-        return this.postsService.remove(id);
+    remove(@Param("id") id: string, @Payload(UserByTokenPipe) user: User) {
+        return this.postsService.remove(id, user);
     }
 
     @Get(":id/comments")
