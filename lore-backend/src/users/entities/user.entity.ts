@@ -17,8 +17,8 @@ export class User {
     username: string;
 
     @Column({
-        length: 31,
-        collation: "utf8mb4_0900_as_cs"
+        collation: "utf8mb4_0900_as_cs",
+        select: false
     })
     password: string;
 
