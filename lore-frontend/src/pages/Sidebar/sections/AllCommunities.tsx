@@ -24,7 +24,7 @@ function AllCommunities() {
                         py-0.5 px-1
                         flex items-center
                         text-neutral-200 hover:text-white-custom
-                        hover:bg-neutral-800 rounded-lg"
+                        hover:bg-dark-2 rounded-lg"
                     >
                         {getPrefixedCommunityName(community.name)}
                     </Link>
