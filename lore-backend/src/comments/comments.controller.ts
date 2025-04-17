@@ -70,10 +70,10 @@ export class CommentsController {
     }
 
     // Update a comment (only by the original author)
-    @Patch(":id")
-    update(@Param("id") id: string, @Body() updateCommentDto: UpdateCommentDto) {
-        return this.commentsService.update(id, updateCommentDto);
-    }
+    // @Patch(":id")
+    // update(@Param("id") id: string, @Body() updateCommentDto: UpdateCommentDto) {
+    //     return this.commentsService.update(id, updateCommentDto);
+    // }
 
     // Delete a comment
     @Delete(":id")

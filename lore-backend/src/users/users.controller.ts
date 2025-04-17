@@ -38,8 +38,8 @@ export class UsersController {
         return this.usersService.findOne(user.username, communities ? ["communities"] : undefined);
     }
 
-    @Delete(":id")
-    remove(@Param("id") id: string) {
-        return this.usersService.remove(id);
-    }
+    // @Delete(":id")
+    // remove(@Param("id") id: string) {
+    //     return this.usersService.remove(id);
+    // }
 }
