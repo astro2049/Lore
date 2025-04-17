@@ -26,6 +26,7 @@ function CommentInput(
     const [content, setContent] = useState("");
     const textareaRef = useRef(null);
     const { onComment } = useContext(CommentInputContext);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         if (value) {
@@ -56,20 +57,26 @@ function CommentInput(
     }
 
     function handleComment() {
+        setIsSubmitting(true);
+        let request;
         if (mode === CommentInputMode.Post) {
-            handleCommentOnPost();
+            request = api.post("comments", {
+                content: content,
+                postId: targetIdOrName
+            });
         } else if (mode === CommentInputMode.Comment) {
-            handleCommentOnComment();
+            request = api.post("comments", {
+                content: content,
+                parentId: targetIdOrName
+            })
         } else if (mode === CommentInputMode.CommunityDescription) {
-            handleEditCommunityDescription();
+            request = api.patch(`communities/${targetIdOrName}`, {
+                description: content
+            });
+        } else {
+            return;
         }
-    }
-
-    function handleCommentOnPost() {
-        api.post("comments", {
-            content: content,
-            postId: targetIdOrName
-        })
+        request
             .then((res) => {
                 console.log(res);
                 handleOnComment();
@@ -77,32 +84,8 @@ function CommentInput(
             .catch((e) => {
                 console.log(e);
             })
-    }
-
-    function handleCommentOnComment() {
-        api.post("comments", {
-            content: content,
-            parentId: targetIdOrName
-        })
-            .then((res) => {
-                console.log(res);
-                handleOnComment();
-            })
-            .catch((e) => {
-                console.log(e);
-            })
-    }
-
-    function handleEditCommunityDescription() {
-        api.patch(`communities/${targetIdOrName}`, {
-            description: content
-        })
-            .then((res) => {
-                console.log(res);
-                handleOnComment();
-            })
-            .catch((e) => {
-                console.log(e);
+            .finally(() => {
+                setIsSubmitting(false);
             })
     }
 
@@ -137,7 +120,8 @@ function CommentInput(
                         </button>
                         <button
                             onClick={handleComment}
-                            className="ml-0.5 h-[32px] px-0.75 text-xs bg-blue-800 hover:bg-blue-600 rounded-full">
+                            disabled={isSubmitting}
+                            className="ml-0.5 h-[32px] px-0.75 text-xs bg-blue-800 hover:bg-blue-600 rounded-full disabled:bg-blue-800/50">
                             {commentButtonText}
                         </button>
                     </div>

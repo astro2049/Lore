@@ -10,9 +10,11 @@ function CreatePost() {
     const [body, setBody] = useState<string>("");
     const { community } = useContext(CommunityContext);
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        setIsSubmitting(true);
         api.post("posts", {
             title: title,
             content: body,
@@ -24,6 +26,9 @@ function CreatePost() {
             })
             .catch((e) => {
                 console.log(e);
+            })
+            .finally(() => {
+                setIsSubmitting(false);
             })
     }
 
@@ -55,7 +60,7 @@ function CreatePost() {
                     <div className="mt-1 w-full flex justify-end">
                         <button
                             type="submit"
-                            disabled={title.length === 0}
+                            disabled={title.length === 0 || isSubmitting}
                             className="bg-blue-800 hover:bg-blue-700 disabled:text-white/20 disabled:bg-white/5 h-[38px] px-1 flex items-center text-sm font-semibold rounded-full">
                             Post
                         </button>
