@@ -60,7 +60,7 @@ function CommentCard({
             {/* Row 1 */}
             <div></div>
             {/* Content */}
-            <div className="mb-0.25 text-sm text-blue-light-custom-3 break-all">
+            <div className="mb-0.25 text-sm text-blue-light-custom-3 break-all whitespace-pre-line">
                 {comment.content}
             </div>
 

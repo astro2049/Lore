@@ -74,7 +74,7 @@ function PostPage() {
                         </h1>
 
                         {/* Content */}
-                        <div className="mt-0.5 mb-1.5 text-sm text-blue-light-custom-2 break-all">
+                        <div className="mt-0.5 mb-1.5 text-sm text-blue-light-custom-2 break-all whitespace-pre-line">
                             {post.content}
                         </div>
 

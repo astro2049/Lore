@@ -57,7 +57,8 @@ function PostCard({
 
                 {/* III.1. Content */}
                 {post.content &&
-                    <div className="max-h-[120px] line-clamp-6 pb-0.5 text-sm text-blue-light-custom-3 break-all">
+                    <div
+                        className="max-h-[120px] line-clamp-6 pb-0.5 text-sm text-blue-light-custom-3 break-all whitespace-pre-line">
                         {post.content}
                     </div>
                 }
