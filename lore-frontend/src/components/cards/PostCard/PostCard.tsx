@@ -8,14 +8,16 @@ export type PostCardProps = {
     postId: string,
     displayCommunity?: boolean,
     refreshPosts?: () => void,
-    showDeleteButton?: boolean
+    showDeleteButton?: boolean,
+    onLoad?: (id: string) => void
 };
 
 function PostCard({
                       postId,
                       displayCommunity = false,
                       refreshPosts,
-                      showDeleteButton = false
+                      showDeleteButton = false,
+                      onLoad
                   }: PostCardProps) {
     const [post, setPost] = useState<Post>();
     const [link, setLink] = useState("");
@@ -23,8 +25,11 @@ function PostCard({
     useEffect(() => {
         api.get<Post>(`posts/${postId}`)
             .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
                 setPost(res.data);
+                if (onLoad) {
+                    onLoad(postId);
+                }
             })
             .catch((e) => {
                 console.log(e);

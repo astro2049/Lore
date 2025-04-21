@@ -82,4 +82,22 @@ export class PostsService {
 
         return raw.map(comment => comment.id);
     }
+
+    async getFeed(user: User, page = 0, before: Date) {
+        const posts = await this.postsRepository
+            .createQueryBuilder("post")
+            .select("post.id as id")
+            .innerJoin("post.community", "community")
+            .innerJoin("community.members", "member", "member.id = :userId", { userId: user.id })
+            .where("post.createdAt between :oneDayAgo and :before", {
+                oneDayAgo: new Date(before.getTime() - 1000 * 60 * 60 * 24),
+                before: before
+            })
+            .orderBy("post.createdAt", "DESC")
+            .offset(page * 3)
+            .limit(3)
+            .getRawMany();
+
+        return posts.map(post => post.id);
+    }
 }

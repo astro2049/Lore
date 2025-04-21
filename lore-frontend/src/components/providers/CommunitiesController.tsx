@@ -14,7 +14,7 @@ function CommunitiesController({ children }: CommunitiesControllerProps) {
     function updateCommunities() {
         api.get(`users/${username}?communities`)
             .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
                 setCommunities(res.data.communities);
             })
             .catch((e) => {
@@ -25,7 +25,7 @@ function CommunitiesController({ children }: CommunitiesControllerProps) {
     function updateAllCommunities() {
         api.get("communities")
             .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
                 setAllCommunities(res.data);
             })
             .catch((e) => {

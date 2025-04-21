@@ -7,6 +7,7 @@ import { CommunitiesModule } from "../communities/communities.module";
 import { UsersModule } from "../users/users.module";
 import { VotesModule } from "../votes/votes.module";
 import { Comment } from "../comments/entities/comment.entity";
+import { FeedController } from "./feed.controller";
 
 @Module({
     imports: [
@@ -15,7 +16,7 @@ import { Comment } from "../comments/entities/comment.entity";
         CommunitiesModule,
         VotesModule
     ],
-    controllers: [PostsController],
+    controllers: [PostsController, FeedController],
     providers: [PostsService],
     exports: [PostsService]
 })

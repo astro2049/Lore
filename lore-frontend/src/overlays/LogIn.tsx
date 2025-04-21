@@ -28,7 +28,7 @@ function LogIn() {
                 console.log(res);
                 setOverlayType(OverlayType.None);
                 storeLogInData(username);
-                window.location.reload();
+                // window.location.reload();
             })
             .catch((e) => {
                 console.log(e);
