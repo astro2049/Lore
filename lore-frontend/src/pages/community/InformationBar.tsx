@@ -33,7 +33,7 @@ function InformationBar() {
         } else {
             if (community!.description) {
                 return (
-                    <div>
+                    <div className="whitespace-pre-line">
                         {community!.description}
                         {isLoggedIn && username === community!.creator.username &&
                             <button
@@ -58,10 +58,10 @@ function InformationBar() {
 
     return (
         <div
-            className="scrollable shrink-0 w-[320px] py-0.5 text-blue-light-custom-1"
-            style={{ maxHeight: "calc(100vh - var(--header-height))" }}>
+            className="scrollable shrink-0 w-[320px] pb-6 text-blue-light-custom-1"
+            style={{ maxHeight: "calc(100vh - var(--header-height) - 102px)" }}> {/* TODO: This 102px is kinda hacky */}
             {/* Section 1: Community Info */}
-            <div className="mt-1 pt-0.5 px-1 text-sm rounded-t-lg bg-dark-dimmer border-b border-b-white/20">
+            <div className="pt-0.5 px-1 text-sm rounded-t-lg bg-dark-dimmer border-b border-b-white/20">
                 {/* 1. Title, Join Button */}
                 <div className="py-0.5 w-full flex justify-between items-start">
                     <span className="text-blue-light-custom-3 text-lg font-bold">

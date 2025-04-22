@@ -22,7 +22,7 @@
 
 :root {
     --header-height: 57px;
-    scrollbar-gutter: stable;
+    scrollbar-gutter: stable both-edges;
 }
 body {
     background-color: var(--color-dark);
@@ -60,4 +60,7 @@ p {
     scrollbar-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
     scrollbar-gutter: stable;
     scrollbar-width: thin;
+}
+.scrollable:hover {
+    scrollbar-color: rgba(255, 255, 255, 0.2) rgba(0, 0, 0, 0);
 }

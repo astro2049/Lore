@@ -69,7 +69,10 @@ function Community() {
                 </div>
             </div>
 
-            <div className="mt-1 flex gap-x-1.5">
+            <span className="block ml-1 py-1 text-xs text-blue-light-custom-2">
+                New
+            </span>
+            <div className="flex gap-x-1.5">
                 {/* Posts */}
                 <main className="mb-2 grow">
                     {!isLoading ?

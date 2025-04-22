@@ -26,6 +26,9 @@ function AllCommunities() {
                         text-neutral-200 hover:text-white-custom
                         hover:bg-dark-2 rounded-lg"
                     >
+                        <span className="w-1.5 font-mono text-base font-semibold">
+                            {community.name[0]}
+                        </span>
                         {getPrefixedCommunityName(community.name)}
                     </Link>
                 );

@@ -50,6 +50,9 @@ function TopBar() {
                 <div className="absolute top-[58px] right-0.75 w-[200px] bg-[rgb(14,23,25)] rounded-lg">
                     <Link
                         to={`/${getPrefixedUsername(username!)}`}
+                        onClick={() => {
+                            setShowUserDrawer(false);
+                        }}
                         className="w-full flex gap-x-0.5 py-1 pl-2 pr-3 text-left text-sm text-white/75 hover:text-white whitespace-nowrap border-b border-b-neutral-800"
                     >
                         <div className="w-[20px]"></div>

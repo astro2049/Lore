@@ -17,7 +17,7 @@ function Feed() {
                 <div className="flex gap-x-1.5"> {/* Posts from joined communities */}
                     <div className="w-full pt-1 pb-2">
                         <div className="px-1">
-                            <h1 className="text-[24px] font-bold">
+                            <h1 className="text-3xl leading-[38px] font-bold">
                                 Daily Feed
                             </h1>
                             <span className="block py-1 text-xs text-blue-light-custom-2">
