@@ -1,21 +1,17 @@
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { api, getPrefixedCommunityName } from "../../Utils.ts";
 import PostCard from "../../components/cards/PostCard/PostCard.tsx";
 import icon_cross from "../../assets/icon-cross.svg"
 import InformationBar from "./InformationBar.tsx";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { CommunitiesContext, CommunityContext, UserContext } from "../../constants/contexts.ts";
+import { CommunityContext } from "../../constants/contexts.ts";
 import JoinButton from "../../components/JoinButton.tsx";
-import DeleteButton from "../../components/DeleteButton.tsx";
 import useLogInRequiredAction from "../../components/UseLogInRequiredAction.ts";
 
 function Community() {
     const { community } = useContext(CommunityContext);
     const [postIds, setPostIds] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const { isLoggedIn, username } = useContext(UserContext);
-    const { updateCommunities, updateAllCommunities } = useContext(CommunitiesContext);
-    const navigate = useNavigate();
 
     const refreshPosts = useCallback(() => {
         setIsLoading(true);
@@ -70,18 +66,6 @@ function Community() {
                     <JoinButton
                         className="ml-1 h-[38px] px-0.75 rounded-full bordered-clickable"
                     />
-                    {
-                        isLoggedIn && username === community!.creator.username &&
-                        <DeleteButton
-                            link={`communities/${community!.name}`}
-                            onDelete={() => {
-                                updateCommunities();
-                                updateAllCommunities();
-                                void navigate("/");
-                            }}
-                            className="ml-1 h-[38px] px-0.75 rounded-full bordered-clickable"
-                        />
-                    }
                 </div>
             </div>
 

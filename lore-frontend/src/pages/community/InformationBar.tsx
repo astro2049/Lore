@@ -1,15 +1,18 @@
 import { useContext, useState } from "react";
 import CommentInput from "../../components/CommentInput.tsx";
 import { getPrefixedCommunityName, getPrefixedUsername } from "../../Utils.ts";
-import { CommentInputContext, CommunityContext, UserContext } from "../../constants/contexts.ts";
+import { CommentInputContext, CommunitiesContext, CommunityContext, UserContext } from "../../constants/contexts.ts";
 import JoinButton from "../../components/JoinButton.tsx";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { CommentInputMode } from "../../constants/types.ts";
+import DeleteButton from "../../components/DeleteButton.tsx";
 
 function InformationBar() {
     const { community, refreshCommunity } = useContext(CommunityContext);
     const [isEditingDescription, setIsEditingDescription] = useState(false);
     const { isLoggedIn, username } = useContext(UserContext);
+    const { updateCommunities, updateAllCommunities } = useContext(CommunitiesContext);
+    const navigate = useNavigate();
 
     function description() {
         if (isEditingDescription) {
@@ -102,6 +105,23 @@ function InformationBar() {
                     {community!.creator.username}
                 </Link>
             </div>
+            {isLoggedIn && username === community!.creator.username &&
+                <div className="px-1 pb-1 flex gap-x-1 bg-dark-dimmer">
+                    <div className="text-xs text-white/70">
+                        ACTIONS
+                    </div>
+                    <DeleteButton
+                        link={`communities/${community!.name}`}
+                        onDelete={() => {
+                            updateCommunities();
+                            updateAllCommunities();
+                            void navigate("/");
+                        }}
+                        className="text-xs text-white/50 hover:text-red-500 hover:underline"
+                        text={`Delete ${getPrefixedCommunityName(community!.name)}`}
+                    />
+                </div>
+            }
         </div>
     );
 }

@@ -5,13 +5,15 @@ import { DeleteButtonContext } from "../constants/contexts.ts";
 type DeleteButtonProps = {
     link: string,
     onDelete?: () => void,
-    className: string
+    className: string,
+    text?: string
 }
 
 function DeleteButton({
                           link,
                           onDelete,
-                          className
+                          className,
+                          text
                       }: DeleteButtonProps) {
     const { onDeleteFromContext } = useContext(DeleteButtonContext);
 
@@ -40,7 +42,7 @@ function DeleteButton({
             onClick={handleClick}
             className={className}
         >
-            Delete
+            {text || "Delete"}
         </button>
     );
 }
