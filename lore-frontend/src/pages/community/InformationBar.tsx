@@ -1,11 +1,12 @@
 import { useContext, useState } from "react";
 import CommentInput from "../../components/CommentInput.tsx";
-import { getPrefixedCommunityName, getPrefixedUsername } from "../../Utils.ts";
+import { getPrefixedCommunityName } from "../../Utils.ts";
 import { CommentInputContext, CommunitiesContext, CommunityContext, UserContext } from "../../constants/contexts.ts";
 import JoinButton from "../../components/JoinButton.tsx";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { CommentInputMode } from "../../constants/types.ts";
 import DeleteButton from "../../components/DeleteButton.tsx";
+import ProfileLink from "../../components/ProfileLink.tsx";
 
 function InformationBar() {
     const { community, refreshCommunity } = useContext(CommunityContext);
@@ -35,7 +36,7 @@ function InformationBar() {
                 return (
                     <div className="whitespace-pre-line">
                         {community!.description}
-                        {isLoggedIn && username === community!.creator.username &&
+                        {isLoggedIn && username === community!.creator?.username &&
                             <button
                                 onClick={() => setIsEditingDescription(true)}
                                 className="ml-0.5 text-white/50 hover:text-white/80 text-xs hover:underline">
@@ -44,7 +45,7 @@ function InformationBar() {
                         }
                     </div>
                 );
-            } else if (isLoggedIn && username === community!.creator.username) {
+            } else if (isLoggedIn && username === community!.creator?.username) {
                 return (
                     <button
                         onClick={() => setIsEditingDescription(true)}
@@ -100,12 +101,12 @@ function InformationBar() {
                 <div className="text-xs text-white/70">
                     CREATOR
                 </div>
-                <Link to={`/${getPrefixedUsername(community!.creator.username)}`}
-                      className="text-sm hover:text-blue-light-custom-2">
-                    {community!.creator.username}
-                </Link>
+                <ProfileLink
+                    username={community!.creator?.username}
+                    className="text-sm hover:text-blue-light-custom-2"
+                />
             </div>
-            {isLoggedIn && username === community!.creator.username &&
+            {isLoggedIn && username === community!.creator?.username &&
                 <div className="px-1 pb-1 flex gap-x-1 bg-dark-dimmer">
                     <div className="text-xs text-white/70">
                         ACTIONS

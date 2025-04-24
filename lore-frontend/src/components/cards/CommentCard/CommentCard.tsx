@@ -1,7 +1,7 @@
 import CommentActionRow from "./CommentActionRow.tsx";
 import { useEffect, useState } from "react";
 import { Comment } from "../../../constants/types.ts";
-import { api } from "../../../Utils.ts";
+import { api, getDisplayUsername } from "../../../Utils.ts";
 
 type CommentCardProps = {
     id: string,
@@ -33,12 +33,12 @@ function CommentCard({
             {/* Row 0 */}
             <div className="h-2 col-span-2 flex items-baseline">
                 <div className="w-2 text-blue-light-custom-3 text-center">
-                    {comment.author.username[0]}
+                    {comment.author ? comment.author.username[0] : "/"}
                 </div>
                 {/* Author */}
                 <div className="flex gap-0.5 items-center">
                     <span className="text-xs text-white-custom font-[700]">
-                        {comment.author.username}
+                        {getDisplayUsername(comment.author?.username)}
                     </span>
                     <span className="text-xs text-blue-light-custom-1">
                             • {new Date(comment.createdAt).toDateString()}

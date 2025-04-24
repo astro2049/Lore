@@ -34,7 +34,7 @@ export class PostsService {
     async findOne(id: string, commentIds?: boolean, user?: User) {
         const post = await this.postsRepository
             .createQueryBuilder("post")
-            .innerJoinAndSelect("post.author", "author")
+            .leftJoinAndSelect("post.author", "author")
             .innerJoinAndSelect("post.community", "community")
             .loadRelationCountAndMap("post.commentCount", "post.comments")
             .where("post.id = :id", { id })
@@ -65,7 +65,7 @@ export class PostsService {
         if (!post) {
             throw new HttpException("", HttpStatus.NOT_FOUND);
         }
-        if (post.author.username !== user.username) {
+        if (!post.author || post.author.username !== user.username) {
             throw new HttpException("", HttpStatus.FORBIDDEN);
         }
         return this.postsRepository.delete(id);

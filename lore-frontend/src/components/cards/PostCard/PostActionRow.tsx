@@ -1,5 +1,5 @@
 import ShareButton from "../../ShareButton.tsx";
-import { VoteType } from "../../../constants/types.ts";
+import { User, VoteType } from "../../../constants/types.ts";
 import VoteWidget from "../../VoteWidget/VoteWidget.tsx";
 import { useContext } from "react";
 import { UserContext } from "../../../constants/contexts.ts";
@@ -7,9 +7,7 @@ import DeleteButton from "../../DeleteButton.tsx";
 
 type PostActionRowProps = {
     id: string,
-    author: {
-        username: string
-    }
+    author: User | null
     score: number,
     commentCount: number,
     link: string,
@@ -42,7 +40,7 @@ function PostActionRow({
             </div>
             <ShareButton link={link} className="h-[32px] px-0.75 bg-gray-custom-2 hover:bg-gray-custom-3 rounded-full"/>
             {
-                isLoggedIn && username === author.username && showDeleteButton &&
+                isLoggedIn && username === author?.username && showDeleteButton &&
                 <DeleteButton
                     link={`posts/${id}`}
                     onDelete={onDelete}

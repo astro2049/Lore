@@ -3,7 +3,6 @@ import { AuthService } from "./auth.service";
 import { SignInDto } from "./dto/sign-in.dto";
 import { AuthenticatedRequest, AuthGuard } from "./auth.guard";
 import { Response } from "express";
-import * as process from "node:process";
 
 @Controller("auth")
 export class AuthController {
@@ -12,23 +11,14 @@ export class AuthController {
 
     @HttpCode(HttpStatus.OK)
     @Post("login")
-    async signIn(@Body() signInDto: SignInDto, @Res({ passthrough: true }) response: Response) {
-        const accessToken = await this.authService.signIn(signInDto.username, signInDto.password);
-        response.cookie("access_token", accessToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict"
-        });
+    signIn(@Body() signInDto: SignInDto, @Res({ passthrough: true }) response: Response) {
+        return this.authService.signIn(signInDto.username, signInDto.password, response);
     }
 
     @HttpCode(HttpStatus.OK)
     @Post("logout")
-    logout(@Res({ passthrough: true }) response: Response) {
-        response.clearCookie("access_token", {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict"
-        });
+    logOut(@Res({ passthrough: true }) response: Response) {
+        this.authService.logOut(response);
     }
 
     @UseGuards(AuthGuard)

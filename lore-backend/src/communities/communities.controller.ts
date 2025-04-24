@@ -53,7 +53,7 @@ export class CommunitiesController {
            @Param("name", CommunityByNamePipe) community: Community,
            @Payload(UserByTokenPipe) user: User
     ) {
-        if (community.creator.username != user.username) {
+        if (!community.creator || community.creator.username != user.username) {
             throw new HttpException("", HttpStatus.FORBIDDEN);
         }
         return this.communitiesService.update(updateCommunityDto, community);
@@ -62,7 +62,10 @@ export class CommunitiesController {
     @UseGuards(AuthGuard)
     @Delete(":name")
     remove(@Param("name", CommunityByNamePipe) community: Community, @Payload(UserByTokenPipe) user: User) {
-        return this.communitiesService.remove(community, user);
+        if (!community.creator || community.creator.username !== user.username) {
+            throw new HttpException("", HttpStatus.FORBIDDEN);
+        }
+        return this.communitiesService.remove(community);
     }
 
     // Join a community

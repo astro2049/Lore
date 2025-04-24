@@ -4,6 +4,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "../users/entities/user.entity";
 import { Repository } from "typeorm";
 import * as bcrypt from "bcrypt";
+import { Response } from "express";
+import * as process from "node:process";
 
 @Injectable()
 export class AuthService {
@@ -14,7 +16,7 @@ export class AuthService {
     ) {
     }
 
-    async signIn(username: string, password: string) {
+    async signIn(username: string, password: string, response: Response) {
         const user = await this.usersRepository.findOne({
             where: {
                 username: username
@@ -26,6 +28,19 @@ export class AuthService {
             throw new HttpException("", HttpStatus.UNAUTHORIZED);
         }
         const payload = { sub: user.id, username: user.username };
-        return this.jwtService.signAsync(payload);
+        const accessToken = await this.jwtService.signAsync(payload);
+        response.cookie("access_token", accessToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict"
+        });
+    }
+
+    logOut(response: Response) {
+        response.clearCookie("access_token", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict"
+        });
     }
 }

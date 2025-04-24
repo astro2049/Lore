@@ -47,8 +47,8 @@ export class Community {
     @OneToMany(() => Post, (post) => post.community)
     posts: Post[];
 
-    @ManyToOne(() => User)
-    creator: User;
+    @ManyToOne(() => User, { onDelete: "SET NULL", nullable: true })
+    creator: User | null;
 
     /* Computed Properties */
     postIds?: string[];

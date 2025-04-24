@@ -17,7 +17,7 @@ function App() {
                     <Route path={"posts/:postId/comments?/:commentId?"} element={<Post/>}/>
                     <Route path={"submit"} element={<CreatePost/>}/>
                 </Route>
-                <Route path={"u/:id"} element={<Profile/>}/>
+                <Route path={"u/:username"} element={<Profile/>}/>
             </Route>
         </Routes>
     )

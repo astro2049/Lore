@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import PostActionRow from "./PostActionRow.tsx";
-import { api, getPrefixedCommunityName } from "../../../Utils.ts";
+import { api, getDisplayUsername, getPrefixedCommunityName } from "../../../Utils.ts";
 import { useEffect, useState } from "react";
 import { Post } from "../../../constants/types.ts";
 
@@ -51,7 +51,7 @@ function PostCard({
                 {/* I. Author/Community Information */}
                 <div className="flex gap-0.25 text-xs">
                     <div className="text-blue-light-custom-2 font-semibold">
-                        {displayCommunity ? getPrefixedCommunityName(post.community.name) : post.author.username}
+                        {displayCommunity ? getPrefixedCommunityName(post.community.name) : getDisplayUsername(post.author?.username)}
                     </div>
                     <span className="text-blue-light-custom-1">•</span>
                     <div className="text-blue-light-custom-1">{new Date(post.createdAt).toDateString()}</div>

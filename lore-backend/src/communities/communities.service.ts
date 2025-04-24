@@ -40,7 +40,7 @@ export class CommunitiesService {
         const community = await this.communitiesRepository
             .createQueryBuilder("community")
             .where("community.name = :name", { name: name })
-            .innerJoinAndSelect("community.creator", "creator")
+            .leftJoinAndSelect("community.creator", "creator")
             .loadRelationCountAndMap("community.memberCount", "community.members")
             .getOne();
         return community;
@@ -51,10 +51,7 @@ export class CommunitiesService {
         return this.findOne(community.name);
     }
 
-    remove(community: Community, user: User) {
-        if (community.creator.username !== user.username) {
-            throw new HttpException("", HttpStatus.FORBIDDEN);
-        }
+    remove(community: Community) {
         return this.communitiesRepository.delete(community.id);
     }
 

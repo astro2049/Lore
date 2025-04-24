@@ -9,9 +9,7 @@ export type Community = {
     name: string,
     description: string,
     createdAt: string,
-    creator: {
-        username: string
-    },
+    creator: User | null,
     isMember: boolean,
     memberCount: number
 }
@@ -22,9 +20,7 @@ export type Post = {
     content: string,
     createdAt: string,
     community: Community,
-    author: {
-        username: string
-    },
+    author: User | null,
     commentIds?: string[],
     commentCount: number,
     score: number,
@@ -32,7 +28,7 @@ export type Post = {
     vote: 1 | 0 | -1 | undefined
 }
 
-type User = {
+export type User = {
     username: string
 }
 
@@ -40,7 +36,7 @@ export type Comment = {
     id: string,
     content: string,
     createdAt: string,
-    author: User,
+    author: User | null,
     score: number,
     link: string,
     commentIds: string[],

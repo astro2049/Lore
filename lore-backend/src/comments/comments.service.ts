@@ -30,7 +30,7 @@ export class CommentsService {
         const comment = await this.commentsRepository
             .createQueryBuilder("comment")
             .innerJoinAndSelect("comment.post", "post")
-            .innerJoinAndSelect("comment.author", "author")
+            .leftJoinAndSelect("comment.author", "author")
             .loadRelationIdAndMap("commentIds", "comment.children",
                 "comment",
                 qb => {
@@ -62,7 +62,7 @@ export class CommentsService {
         if (!comment) {
             throw new HttpException("", HttpStatus.NOT_FOUND);
         }
-        if (comment.author.username !== user.username) {
+        if (!comment.author || comment.author.username !== user.username) {
             throw new HttpException("", HttpStatus.FORBIDDEN);
         }
         return this.commentsRepository.delete(id);

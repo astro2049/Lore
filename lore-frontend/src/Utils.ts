@@ -12,3 +12,7 @@ export function getPrefixedCommunityName(community: string): string {
 export function getPrefixedUsername(username: string): string {
     return `u/${username}`;
 }
+
+export function getDisplayUsername(username: string | undefined): string {
+    return username ? username : "[deleted]";
+}

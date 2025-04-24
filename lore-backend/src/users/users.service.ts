@@ -1,15 +1,17 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
-import { InjectRepository } from "@nestjs/typeorm";
+import { InjectDataSource, InjectRepository } from "@nestjs/typeorm";
 import { User } from "./entities/user.entity";
-import { DeleteResult, Repository } from "typeorm";
+import { DataSource, Repository } from "typeorm";
 import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(User)
-        private readonly usersRepository: Repository<User>
+        private readonly usersRepository: Repository<User>,
+        @InjectDataSource()
+        private readonly dataSource: DataSource
     ) {
     }
 
@@ -34,7 +36,18 @@ export class UsersService {
         });
     }
 
-    remove(id: string): Promise<DeleteResult> {
-        return this.usersRepository.delete(id);
+    async remove(user: User) {
+        await this.dataSource.transaction(async (manager) => {
+            // Leave all joined communities
+            await manager
+                .createQueryBuilder()
+                .delete()
+                .from("communities_users")
+                .where("userId = :userId", { userId: user.id })
+                .execute();
+
+            // Delete user; set post/comment/community FKs to NULL and remove votes
+            await manager.delete(User, user.id);
+        });
     }
 }

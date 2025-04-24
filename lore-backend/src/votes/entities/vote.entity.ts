@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, Unique } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 import { User } from "../../users/entities/user.entity";
 
 export enum VoteType {
@@ -21,6 +21,6 @@ export class Vote {
     @Column()
     value: number;
 
-    @ManyToOne(() => User, (user) => user.votes)
+    @ManyToOne(() => User, (user) => user.votes, { onDelete: "CASCADE" })
     user: User;
 }

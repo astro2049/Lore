@@ -8,7 +8,7 @@ import {
     Query,
     HttpException,
     HttpStatus,
-    UseGuards
+    UseGuards, Res
 } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -18,10 +18,16 @@ import { UserByTokenPipe } from "../common/pipes/user-by-token.pipe";
 import { User } from "./entities/user.entity";
 import { Payload } from "../common/decorators/payload.decorator";
 import { UserByUsernamePipe } from "../common/pipes/user-by-username.pipe";
+import { AuthGuard } from "../auth/auth.guard";
+import { AuthService } from "../auth/auth.service";
+import { Response } from "express";
 
 @Controller("users")
 export class UsersController {
-    constructor(private readonly usersService: UsersService) {
+    constructor(
+        private readonly usersService: UsersService,
+        private readonly authService: AuthService
+    ) {
     }
 
     @Post()
@@ -38,8 +44,10 @@ export class UsersController {
         return this.usersService.findOne(user.username, communities ? ["communities"] : undefined);
     }
 
-    // @Delete(":id")
-    // remove(@Param("id") id: string) {
-    //     return this.usersService.remove(id);
-    // }
+    @UseGuards(AuthGuard)
+    @Delete(":username")
+    async remove(@Payload(UserByTokenPipe) user: User, @Res({ passthrough: true }) response: Response) {
+        await this.usersService.remove(user);
+        this.authService.logOut(response);
+    }
 }

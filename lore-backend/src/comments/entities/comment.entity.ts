@@ -25,8 +25,12 @@ export class Comment {
     updatedAt: Date;
 
     /* Relationships */
-    @ManyToOne(() => User, (user) => user.comments, { eager: true })
-    author: User;
+    @ManyToOne(() => User, (user) => user.comments, {
+        eager: true,
+        onDelete: "SET NULL",
+        nullable: true
+    })
+    author: User | null;
 
     @ManyToOne(() => Post, (post) => post.comments, { onDelete: "CASCADE" })
     post: Post;

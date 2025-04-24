@@ -1,7 +1,7 @@
 import CommentInput from "../../CommentInput.tsx";
 import { useContext, useState } from "react";
 import ShareButton from "../../ShareButton.tsx";
-import { CommentInputMode, VoteType } from "../../../constants/types.ts";
+import { CommentInputMode, User, VoteType } from "../../../constants/types.ts";
 import VoteWidget from "../../VoteWidget/VoteWidget.tsx";
 import { UserContext } from "../../../constants/contexts.ts";
 import DeleteButton from "../../DeleteButton.tsx";
@@ -12,9 +12,7 @@ type CommentActionRowProps = {
     commentId: string,
     link: string,
     vote: 1 | 0 | -1 | undefined,
-    author: {
-        username: string
-    }
+    author: User | null
 };
 
 function CommentActionRow({
@@ -48,7 +46,7 @@ function CommentActionRow({
                     className="h-[32px] px-1 hover:bg-gray-custom-3 hover:text-blue-light-custom-2 rounded-2xl"
                 />
                 {
-                    isLoggedIn && username === author.username &&
+                    isLoggedIn && username === author?.username &&
                     <DeleteButton
                         link={`comments/${commentId}`}
                         className="h-[32px] px-1 hover:text-red-500 hover:underline"

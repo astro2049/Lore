@@ -3,13 +3,14 @@ import PostActionRow from "../../components/cards/PostCard/PostActionRow.tsx";
 import CommentCard from "../../components/cards/CommentCard/CommentCard.tsx";
 import CommentInput from "../../components/CommentInput.tsx";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { api, getPrefixedCommunityName, getPrefixedUsername } from "../../Utils.ts";
+import { api, getPrefixedCommunityName } from "../../Utils.ts";
 import { Link, useNavigate, useParams } from "react-router";
 import { CommentInputMode, Post } from "../../constants/types.ts";
 import icon_arrow_left from "../../assets/icon-arrow-left.svg"
 import { CommentInputContext, DeleteButtonContext, UserContext } from "../../constants/contexts.ts";
 import useLogInRequiredAction from "../../components/UseLogInRequiredAction.ts";
 import icon_cross from "../../assets/icon-cross.svg";
+import ProfileLink from "../../components/ProfileLink.tsx";
 
 function PostPage() {
     const { postId } = useParams();
@@ -58,14 +59,14 @@ function PostPage() {
                                         {getPrefixedCommunityName(post.community.name)}
                                     </Link>
                                     <span className="text-xs text-blue-light-custom-1">
-                                {`• ${new Date(post.createdAt).toDateString()}`}
+                                        {`• ${new Date(post.createdAt).toDateString()}`}
                                         {/*• 18 hr. ago*/}
-                            </span>
+                                    </span>
                                 </div>
-                                <Link to={`/${getPrefixedUsername(post.author.username)}`}
-                                      className="text-xs text-blue-light-custom-1 hover:text-blue-light-custom-2">
-                                    {post.author.username}
-                                </Link>
+                                <ProfileLink
+                                    username={post.author?.username}
+                                    className="text-xs text-blue-light-custom-1 hover:text-blue-light-custom-2"
+                                />
                             </div>
                         </div>
                         {/* Title */}

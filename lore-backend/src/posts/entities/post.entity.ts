@@ -29,8 +29,12 @@ export class Post {
     updatedAt: Date;
 
     /* Relationships */
-    @ManyToOne(() => User, (user) => user.posts, { eager: true })
-    author: User;
+    @ManyToOne(() => User, (user) => user.posts, {
+        eager: true,
+        onDelete: "SET NULL",
+        nullable: true
+    })
+    author: User | null;
 
     @ManyToOne(() => Community, (community) => community.posts, { eager: true, onDelete: "CASCADE" })
     community: Community;
