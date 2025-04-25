@@ -4,6 +4,7 @@ import { OverlayContext, PopupContext } from "../constants/contexts.ts";
 import LabeledInput from "../components/LabeledInput/LabeledInput.tsx";
 import { api, getPrefixedUsername } from "../Utils.ts";
 import CancelButton from "./components/CancelButton.tsx";
+import RestrictedOverlay from "../components/RestrictedOverlay.tsx";
 
 const maxUsernameLength = 22, maxPasswordLength = 31;
 
@@ -57,35 +58,40 @@ function SignUp() {
             <div className="px-3 flex flex-col grow">
                 <h1 className="text-center text-2xl font-[700] text-white-custom">Sign Up</h1>
                 <form onSubmit={handleSubmit}>
-                    {/* Labeled Inputs */}
-                    <LabeledInput
-                        label="Username"
-                        value={username}
-                        maxLength={maxUsernameLength}
-                        setValue={setUsername}
-                    />
-                    <div className="mt-[6px] ml-1 flex justify-between text-xs">
-                        {username.length !== 0 ? (usernameAvailable ?
-                                <span className="text-green-400">
+                    <div className="relative">
+                        {/* Labeled Inputs */}
+                        <LabeledInput
+                            label="Username"
+                            value={username}
+                            maxLength={maxUsernameLength}
+                            setValue={setUsername}
+                        />
+                        <div className="mt-[6px] ml-1 flex justify-between text-xs">
+                            {username.length !== 0 ? (usernameAvailable ?
+                                    <span className="text-green-400">
                                     {`${getPrefixedUsername(username)} is available.`}
                                 </span>
-                                :
-                                <span className="text-red-500">
+                                    :
+                                    <span className="text-red-500">
                                     This username is taken.
                                 </span>
-                        ) : <span></span>}
-                        <span className="text-blue-light-custom-2">
+                            ) : <span></span>}
+                            <span className="text-blue-light-custom-2">
                             {maxUsernameLength - username.length} Characters remaining
                         </span>
-                    </div>
-                    <LabeledInput
-                        label="Password"
-                        value={password}
-                        maxLength={maxPasswordLength}
-                        setValue={setPassword}
-                    />
-                    <div className="mt-[6px] ml-1 text-right text-xs text-blue-light-custom-2">
-                        {maxPasswordLength - password.length} Characters remaining
+                        </div>
+                        <LabeledInput
+                            label="Password"
+                            value={password}
+                            maxLength={maxPasswordLength}
+                            setValue={setPassword}
+                        />
+                        <div className="mt-[6px] ml-1 text-right text-xs text-blue-light-custom-2">
+                            {maxPasswordLength - password.length} Characters remaining
+                        </div>
+
+                        {/* Restricted Overlay (production) */}
+                        <RestrictedOverlay/>
                     </div>
 
                     {/* text prompt for Log In */}

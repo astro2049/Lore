@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { UserContext } from "../../constants/contexts.ts";
 import { useNavigate, useParams } from "react-router";
 import { api, getPrefixedUsername } from "../../Utils.ts";
+import RestrictedOverlay from "../../components/RestrictedOverlay.tsx";
 
 function InformationBar() {
     const { username } = useParams();
@@ -33,7 +34,7 @@ function InformationBar() {
                     {getPrefixedUsername(username!)}
                 </span>
                 {isLoggedIn && loggedInUsername === username &&
-                    <div className="px-1 py-0.75 border-t border-t-white/20">
+                    <div className="relative px-1 py-0.75 border-t border-t-white/20">
                         <div>
                             <span className="block mb-0.5 uppercase text-xs text-white/70">
                                 Delete account
@@ -41,7 +42,7 @@ function InformationBar() {
                             <div className="flex flex-col gap-y-0.5 text-neutral-500">
                                 <span>Once you delete your account,<br/></span>
                                 <span>your profile and username will be permanently removed from lore,<br/></span>
-                                <span>you'll leave the communities you joined,<br/></span>
+                                <span>you&apos;ll leave the communities you joined,<br/></span>
                                 <span>your votes will be retracted,</span>
                                 <span>
                                     your posts and comments are disassociated (not deleted) and attributed to <span
@@ -58,6 +59,9 @@ function InformationBar() {
                                 Delete account
                             </button>
                         </div>
+
+                        {/* Restricted Overlay (production) */}
+                        <RestrictedOverlay/>
                     </div>
                 }
             </div>
