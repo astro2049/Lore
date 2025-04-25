@@ -6,6 +6,7 @@ import Post from "./pages/community/Post.tsx";
 import Profile from "./pages/Profile/Profile.tsx";
 import CreatePost from "./pages/community/CreatePost.tsx";
 import CommunityLayout from "./pages/community/CommunityLayout.tsx";
+import PrivacyNotice from "./pages/about/PrivacyNotice.tsx";
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
                 </Route>
                 <Route path={"u/:username"} element={<Profile/>}/>
             </Route>
+            <Route path={"privacy-notice"} element={<PrivacyNotice/>}/>
         </Routes>
     )
 }
