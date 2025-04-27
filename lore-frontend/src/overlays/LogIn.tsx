@@ -4,6 +4,7 @@ import { OverlayContext, UserContext } from "../constants/contexts.ts";
 import LabeledInput from "../components/LabeledInput/LabeledInput.tsx";
 import { api } from "../Utils.ts";
 import CancelButton from "./components/CancelButton.tsx";
+import { Link } from "react-router";
 
 type LoginResponseData = {
     access_token: string
@@ -44,7 +45,7 @@ function LogIn() {
     }, [username, password]);
 
     return (
-        <div className="w-[500px] pt-1 px-1 pb-3 bg-dark rounded-2xl">
+        <div className="relative w-[500px] pt-1 px-1 pb-3 bg-dark rounded-2xl">
             {/* Heading */}
             <div className="pb-0.75 flex w-full justify-end items-center">
                 <CancelButton/>
@@ -83,16 +84,38 @@ function LogIn() {
                             Sign Up
                         </button>
                     </div>
+                    {/* privacy notice */}
+                    <div className="italic mt-1.5 text-sm text-blue-light-custom-2 break-words hyphens-auto">
+                        By continuing, you agree that you have read and understood the&nbsp;
+                        <Link to={"/privacy-notice"} className="text-blue-500">Privacy Notice</Link>
+                    </div>
 
                     {/* Log In Button */}
                     <button
                         type="submit"
                         disabled={username.length === 0 || password.length === 0 || isSubmitting}
-                        className="mt-2.5 w-full py-0.5 px-1 text-dark font-bold bg-white-custom rounded-2xl disabled:bg-white/20"
+                        className="mt-0.75 w-full py-0.5 px-1 text-dark font-bold bg-white-custom rounded-2xl disabled:bg-white/20"
                     >
                         Log In
                     </button>
                 </form>
+            </div>
+
+            <div className="absolute top-0 left-[105%] w-[250px] h-[100%] p-2 text-white-custom bg-dark rounded-2xl">
+                <div className="mt-2 font-semibold">Demo Accounts (5):</div>
+                <div className="text-sm text-blue-light-custom-2">Passwords are the same as the account names.</div>
+                <ul className="mt-1 text-sm list-inside list-disc">
+                    <li>tron</li>
+                    <li>pathfinder</li>
+                    <li>Isaac</li>
+                    <li>Frosty_</li>
+                    <li>martian87</li>
+                </ul>
+                <div className="mt-2 text-sm text-blue-light-custom-2">
+                    <span className="font-semibold">Privacy Reminder:</span>
+                    &nbsp;This site is for demo purposes only. Please do not submit any personal or sensitive
+                    information.
+                </div>
             </div>
         </div>
     );
