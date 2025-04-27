@@ -9,7 +9,7 @@ function CancelButton() {
     return (
         <button
             onClick={() => setOverlayType(OverlayType.None)}
-            className="p-0.25 border-2 border-transparent hover:border-white/50"
+            className="p-[10px] rounded-full hover:bg-dark-3"
         >
             <img src={icon_cross} alt="Cancel"/>
         </button>

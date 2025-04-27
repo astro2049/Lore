@@ -9,9 +9,12 @@ function Feed() {
     return (
         <div className="w-full">
             {!isLoggedIn ?
-                <div className="mt-[30%] text-3xl text-center"> {/* Welcome page */}
+                <div className="mt-[20%] text-3xl text-center"> {/* Welcome page */}
                     <span className="italic block font-serif tracking-wide">Welcome to</span>
                     <span className="font-semibold">lore</span>
+                    <div className="mt-1 text-2xl warning">
+                        This is a demo site
+                    </div>
                 </div>
                 :
                 <div className="flex gap-x-1.5"> {/* Posts from joined communities */}

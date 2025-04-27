@@ -8,6 +8,7 @@
     --color-dark-dimmer: rgb(0, 5, 10);
     --color-dark: rgb(10, 19, 21);
     --color-dark-2: rgb(25, 34, 36);
+    --color-dark-3: rgb(31, 40, 45);
 
     --color-gray-custom-1: rgb(16, 28, 32);
     --color-gray-custom-2: rgb(23, 37, 42);
@@ -63,4 +64,13 @@ p {
 }
 .scrollable:hover {
     scrollbar-color: rgba(255, 255, 255, 0.2) rgba(0, 0, 0, 0);
+}
+.warning {
+    background-image: repeating-linear-gradient(
+            -45deg,
+            rgba(255, 255, 0, 0.5) 0,
+            rgba(255, 255, 0, 0.5) 10px,
+            transparent 10px,
+            transparent 30px
+    );
 }

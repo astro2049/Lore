@@ -32,7 +32,7 @@ function TopBar() {
                         <div>
                             <button
                                 onClick={() => setShowUserDrawer(!showUserDrawer)}
-                                className="py-0.25 px-0.5 text-sm border-2 border-transparent hover:border-white/50"
+                                className="py-0.5 px-1 text-sm rounded-full hover:bg-dark-3"
                             >
                                 {username}
                             </button>
