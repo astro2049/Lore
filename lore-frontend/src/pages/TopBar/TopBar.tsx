@@ -53,21 +53,23 @@ function TopBar() {
                         onClick={() => {
                             setShowUserDrawer(false);
                         }}
-                        className="w-full flex gap-x-0.5 py-1 pl-2 pr-3 text-left text-sm text-white/75 hover:text-white whitespace-nowrap border-b border-b-neutral-800"
+                        className="w-full flex gap-x-0.75 py-1 pl-2 pr-3 text-left text-sm text-white/75 hover:text-white whitespace-nowrap border-b border-b-neutral-800"
                     >
-                        <div className="w-[20px]"></div>
+                        <div className="w-[20px] flex justify-center items-center text-xl">
+                            🗿
+                        </div>
                         <div>
                             <span className="block">
                                 View Profile
                             </span>
                             <span className="block text-xs text-blue-light-custom-1">
-                                {getPrefixedUsername(username!)}
+                                {username && getPrefixedUsername(username)}
                             </span>
                         </div>
                     </Link>
                     <button
                         onClick={handleLogOut}
-                        className="group flex gap-x-0.5 justify-center items-center py-1 pl-2 pr-3 text-sm text-white/75 hover:text-white whitespace-nowrap"
+                        className="group flex gap-x-0.75 justify-center items-center py-1 pl-2 pr-3 text-sm text-white/75 hover:text-white whitespace-nowrap"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                              className="fill-white opacity-75 group-hover:opacity-100">

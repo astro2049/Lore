@@ -40,6 +40,7 @@ function InfiniteScroll<T>({
             })
             .catch((e) => {
                 console.log(e);
+                setHasMore(false);
                 setIsLoading(false);
             })
     }, [itemsUrl, page]);

@@ -41,10 +41,10 @@ function CommentActionRow({
                 >
                     Reply
                 </button>
-                <ShareButton
-                    link={link}
-                    className="h-[32px] px-1 hover:bg-gray-custom-3 hover:text-blue-light-custom-2 rounded-2xl"
-                />
+                {/*<ShareButton*/}
+                {/*    link={link}*/}
+                {/*    className="h-[32px] px-1 hover:bg-gray-custom-3 hover:text-blue-light-custom-2 rounded-2xl"*/}
+                {/*/>*/}
                 {
                     isLoggedIn && username === author?.username &&
                     <DeleteButton
