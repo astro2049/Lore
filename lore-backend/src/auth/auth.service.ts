@@ -23,7 +23,9 @@ export class AuthService {
             },
             select: ["username", "password"]
         });
-        console.log(user);
+        if (process.env.NODE_ENV === "development") {
+            console.log(user);
+        }
         if (!user || !await bcrypt.compare(password, user.password)) {
             throw new HttpException("", HttpStatus.UNAUTHORIZED);
         }
