@@ -29,11 +29,10 @@ function VoteWidget({
     }, [vote]);
 
     function changeScore(x: number) {
+        if (score_ === undefined) {
+            return;
+        }
         setScore_(score_ + x);
-    }
-
-    function changeVote(x: number) {
-        setVote_(vote_ + x);
     }
 
     return (
@@ -49,7 +48,7 @@ function VoteWidget({
                 targetType={targetType}
                 changeScore={changeScore}
                 vote={vote_}
-                changeVote={changeVote}
+                setVote={setVote_}
             />
             <span className="w-1.25 text-center cursor-text">{score_}</span>
             <VoteButton
@@ -58,7 +57,7 @@ function VoteWidget({
                 targetType={targetType}
                 changeScore={changeScore}
                 vote={vote_}
-                changeVote={changeVote}
+                setVote={setVote_}
             />
         </div>
     );

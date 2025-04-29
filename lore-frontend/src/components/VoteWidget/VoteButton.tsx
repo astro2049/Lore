@@ -1,6 +1,7 @@
 import { VoteType } from "../../constants/types.ts";
 import { api } from "../../Utils.ts";
 import useLogInRequiredAction from "../UseLogInRequiredAction.ts";
+import { Dispatch, SetStateAction } from "react";
 
 type VoteButtonProps = {
     value: 1 | -1,
@@ -8,7 +9,7 @@ type VoteButtonProps = {
     targetType: VoteType,
     vote: 1 | 0 | -1 | undefined,
     changeScore: (x: number) => void,
-    changeVote: (x: number) => void
+    setVote: Dispatch<SetStateAction<1 | 0 | -1 | undefined>>
 }
 
 function VoteButton({
@@ -17,7 +18,7 @@ function VoteButton({
                         targetType,
                         vote,
                         changeScore,
-                        changeVote
+                        setVote
                     }: VoteButtonProps) {
     function handleClick() {
         api.post("votes", {
@@ -30,10 +31,11 @@ function VoteButton({
                 if (value === vote) {
                     // Toggle vote
                     changeScore(-value);
-                    changeVote(-value);
+                    setVote(0);
                 } else {
                     changeScore(value);
-                    changeVote(value);
+                    // @ts-expect-error note: at this point, vote is -1 | 0 | 1 and value is -1 | 1, so result is -1 | 0 | 1
+                    setVote(vote + value);
                 }
             })
             .catch((e) => {

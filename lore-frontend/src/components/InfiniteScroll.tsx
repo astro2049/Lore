@@ -70,6 +70,7 @@ function InfiniteScroll<T>({
         {items.map((item) => {
             return cloneElement(
                 renderItem(item),
+                // @ts-expect-error TODO: fix this
                 { onLoad: handleItemLoaded }
             );
         })}

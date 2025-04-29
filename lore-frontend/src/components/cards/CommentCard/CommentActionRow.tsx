@@ -1,6 +1,6 @@
 import CommentInput from "../../CommentInput.tsx";
 import { useContext, useState } from "react";
-import ShareButton from "../../ShareButton.tsx";
+// import ShareButton from "../../ShareButton.tsx";
 import { CommentInputMode, User, VoteType } from "../../../constants/types.ts";
 import VoteWidget from "../../VoteWidget/VoteWidget.tsx";
 import { UserContext } from "../../../constants/contexts.ts";
@@ -18,7 +18,7 @@ type CommentActionRowProps = {
 function CommentActionRow({
                               score,
                               commentId,
-                              link,
+                              // link,
                               vote,
                               author
                           }: CommentActionRowProps
