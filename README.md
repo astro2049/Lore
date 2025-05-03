@@ -223,7 +223,7 @@ https://typeorm.io/migrations
 #### generate migrations
 
 ```bash
-npx typeorm-ts-node-commonjs migration:generate src/migrations/${InitialSchema} -d src/data-source.ts
+npx typeorm-ts-node-commonjs migration:generate src/migrations/<MigrationName> -d src/data-source.ts
 ```
 
 #### run migrations

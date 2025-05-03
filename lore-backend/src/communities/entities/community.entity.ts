@@ -12,7 +12,7 @@ import { Post } from "../../posts/entities/post.entity";
 
 @Entity("communities")
 export class Community {
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn("uuid")
     id: string;
 
     @Column({

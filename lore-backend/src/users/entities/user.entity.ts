@@ -6,7 +6,7 @@ import { Vote } from "../../votes/entities/vote.entity";
 
 @Entity("users")
 export class User {
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn("uuid")
     id: string;
 
     @Column({
