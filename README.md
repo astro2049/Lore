@@ -157,9 +157,22 @@ sudo certbot renew --dry-run
 
 ## 🍕 Workflows
 
+### shortcuts
+
+**cd into the repo**
+
+```bash
+# lore
+cd /srv/sites/Lore
+# Vite frontend
+cd /srv/sites/Lore/lore-frontend
+# NestJS backend
+cd /srv/sites/Lore/lore-backend
+```
+
 ### NestJS app
 
-#### start the app
+**start the app**
 
 ```bash
 # option 1: in foreground
@@ -167,17 +180,36 @@ npm run start:prod
 
 # option 2: in background
 # redirect all output (stdout and stderr) to app.log
-nohup npm run start:prod > app.log 2>&1 &
+nohup npm run start:prod > app.log 2>&1 & disown
 # save the PID to app.pid (useful for stopping the process later)
 echo $! > app.pid
 ```
 
-#### stop the app
+**stop the app**
 
 ```bash
 kill $(cat app.pid)
 # or
 kill $(lsof -iTCP:3000 -sTCP:LISTEN -t)
+```
+
+### Nginx
+
+**verify syntax and reload configs**
+
+```bash
+# syntax check
+sudo nginx -t
+# reload configs
+sudo systemctl reload nginx
+```
+
+### Certbot
+
+**install the HTTPS certificate**
+
+```bash
+sudo certbot install --cert-name yourdomain.com
 ```
 
 ## 🗄️ Database
