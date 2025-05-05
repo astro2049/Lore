@@ -5,7 +5,7 @@ import { User } from "../users/entities/user.entity";
 import { Repository } from "typeorm";
 import * as bcrypt from "bcrypt";
 import { Response } from "express";
-import * as process from "node:process";
+import { IS_PRODUCTION } from "../common/constants";
 
 @Injectable()
 export class AuthService {
@@ -23,7 +23,7 @@ export class AuthService {
             },
             select: ["username", "password"]
         });
-        if (process.env.NODE_ENV === "development") {
+        if (!IS_PRODUCTION) {
             console.log(user);
         }
         if (!user || !await bcrypt.compare(password, user.password)) {
@@ -33,7 +33,7 @@ export class AuthService {
         const accessToken = await this.jwtService.signAsync(payload);
         response.cookie("access_token", accessToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: IS_PRODUCTION,
             sameSite: "strict"
         });
     }
@@ -41,7 +41,7 @@ export class AuthService {
     logOut(response: Response) {
         response.clearCookie("access_token", {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: IS_PRODUCTION,
             sameSite: "strict"
         });
     }

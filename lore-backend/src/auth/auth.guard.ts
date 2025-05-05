@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { Request } from "express";
-import * as process from "node:process";
+import { IS_PRODUCTION } from "../common/constants";
 
 export type Payload = {
     sub: string,
@@ -31,7 +31,7 @@ export class AuthGuard implements CanActivate {
                     secret: process.env.JWT_SECRET
                 }
             );
-            if (process.env.NODE_ENV === "development") {
+            if (!IS_PRODUCTION) {
                 console.log(payload);
             }
             // Assign the payload to the request object here so that we can access it in our route handlers

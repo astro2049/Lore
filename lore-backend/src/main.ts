@@ -3,14 +3,14 @@ import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import * as cookieParser from "cookie-parser";
 import { ValidationPipe } from "@nestjs/common";
-import * as process from "node:process";
+import { IS_PRODUCTION } from "./common/constants";
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     app.use(cookieParser());
     app.useGlobalPipes(new ValidationPipe());
     // Cors
-    if (process.env.NODE_ENV !== "production") {
+    if (!IS_PRODUCTION) {
         app.enableCors({
             origin: "http://localhost:5173",
             credentials: true

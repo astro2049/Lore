@@ -21,7 +21,7 @@ import { UserByUsernamePipe } from "../common/pipes/user-by-username.pipe";
 import { AuthGuard } from "../auth/auth.guard";
 import { AuthService } from "../auth/auth.service";
 import { Response } from "express";
-import * as process from "node:process";
+import { IS_PRODUCTION } from "../common/constants";
 
 @Controller("users")
 export class UsersController {
@@ -33,7 +33,7 @@ export class UsersController {
 
     @Post()
     create(@Body() createUserDto: CreateUserDto) {
-        if (process.env.NODE_ENV !== "development") {
+        if (IS_PRODUCTION) {
             throw new HttpException("", HttpStatus.FORBIDDEN);
         }
         return this.usersService.create(createUserDto);
@@ -51,7 +51,7 @@ export class UsersController {
     @UseGuards(AuthGuard)
     @Delete(":username")
     async remove(@Payload(UserByTokenPipe) user: User, @Res({ passthrough: true }) response: Response) {
-        if (process.env.NODE_ENV !== "development") {
+        if (IS_PRODUCTION) {
             throw new HttpException("", HttpStatus.FORBIDDEN);
         }
         await this.usersService.remove(user);

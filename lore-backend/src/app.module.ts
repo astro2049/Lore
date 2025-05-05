@@ -9,7 +9,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { AuthModule } from "./auth/auth.module";
 import { VotesModule } from "./votes/votes.module";
 import { UtilitiesModule } from "./utilities/utilities.module";
-import * as process from "node:process";
 
 @Module({
     imports: [
