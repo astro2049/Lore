@@ -9,7 +9,7 @@ import {
     UseGuards,
     HttpCode,
     HttpStatus,
-    HttpException
+    HttpException, Query, ParseIntPipe
 } from "@nestjs/common";
 import { CommunitiesService } from "./communities.service";
 import { CreateCommunityDto } from "./dto/create-community.dto";
@@ -44,6 +44,7 @@ export class CommunitiesController {
         if (user) {
             community["isMember"] = await this.communitiesService.hasMember(community, user);
         }
+        community["pages"] = await this.communitiesService.getPagesNumber(community);
         return community;
     }
 
@@ -86,7 +87,7 @@ export class CommunitiesController {
 
     // Find posts of this community
     @Get(":name/posts")
-    findPosts(@Param("name", CommunityByNamePipe) community: Community) {
-        return this.communitiesService.findPosts(community);
+    findPosts(@Param("name", CommunityByNamePipe) community: Community, @Query("page", ParseIntPipe) page: number) {
+        return this.communitiesService.findPosts(community, page);
     }
 }

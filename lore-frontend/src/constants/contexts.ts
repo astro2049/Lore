@@ -32,10 +32,15 @@ export const UserContext = createContext<{
 
 export const CommunityContext = createContext<{
     community: Community | undefined,
-    refreshCommunity: () => void
+    refreshCommunity: () => void,
+    page: number,
+    setPage: Dispatch<SetStateAction<number>>
 }>({
     community: undefined,
     refreshCommunity: () => {
+    },
+    page: 0,
+    setPage: () => {
     }
 });
 

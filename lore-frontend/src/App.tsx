@@ -5,7 +5,7 @@ import Community from "./pages/community/Community.tsx";
 import Post from "./pages/community/Post.tsx";
 import Profile from "./pages/Profile/Profile.tsx";
 import CreatePost from "./pages/community/CreatePost.tsx";
-import CommunityLayout from "./pages/community/CommunityLayout.tsx";
+import CommunityProvider from "./components/providers/CommunityProvider.tsx";
 import PrivacyNotice from "./pages/about/PrivacyNotice.tsx";
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
         <Routes>
             <Route element={<Lore/>}>
                 <Route index element={<Feed/>}/>
-                <Route path={"c/:community"} element={<CommunityLayout/>}>
+                <Route path={"c/:community"} element={<CommunityProvider/>}>
                     <Route index element={<Community/>}/>
                     <Route path={"posts/:postId/comments?/:commentId?"} element={<Post/>}/>
                     <Route path={"submit"} element={<CreatePost/>}/>

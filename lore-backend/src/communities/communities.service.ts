@@ -92,14 +92,27 @@ export class CommunitiesService {
         return count === 1;
     }
 
-    async findPosts(community: Community) {
+    perPage = 10;
+
+    async findPosts(community: Community, page: number) {
         const posts = await this.postsRepository
             .createQueryBuilder()
             .select("id")
             .where("communityId = :communityId", { communityId: community.id })
             .orderBy("createdAt", "DESC")
+            .offset(page * this.perPage)
+            .limit(this.perPage)
             .getRawMany();
 
         return posts.map(post => post.id);
+    }
+
+    async getPagesNumber(community: Community) {
+        const pages = await this.postsRepository
+            .createQueryBuilder()
+            .where("communityId = :communityId", { communityId: community.id })
+            .getCount();
+
+        return Math.ceil(pages / this.perPage);
     }
 }

@@ -7,7 +7,7 @@ import { api, getPrefixedCommunityName } from "../../Utils.ts";
 import { Link, useNavigate, useParams } from "react-router";
 import { CommentInputMode, Post } from "../../constants/types.ts";
 import icon_arrow_left from "../../assets/icon-arrow-left.svg"
-import { CommentInputContext, DeleteButtonContext, UserContext } from "../../constants/contexts.ts";
+import { CommentInputContext, CommunityContext, DeleteButtonContext, UserContext } from "../../constants/contexts.ts";
 import useLogInRequiredAction from "../../components/UseLogInRequiredAction.ts";
 import icon_cross from "../../assets/icon-cross.svg";
 import ProfileLink from "../../components/ProfileLink.tsx";
@@ -19,6 +19,7 @@ function PostPage() {
     const navigate = useNavigate();
     const { isLoggedIn } = useContext(UserContext);
     const logInRequiredAction = useLogInRequiredAction();
+    const { page } = useContext(CommunityContext);
 
     const refreshPost = useCallback(() => {
         setIsLoading(true);
@@ -46,8 +47,10 @@ function PostPage() {
                     <div className="grow pt-1.25 px-1">
                         <div className="flex gap-x-0.5">
                             <div className="flex flex-col justify-center">
-                                <Link to={`/${getPrefixedCommunityName(post.community.name)}`}
-                                      className="p-[6px] rounded-full bg-[oklch(0.24_0.033_256.848)] hover:bg-gray-800">
+                                <Link
+                                    to={`/${getPrefixedCommunityName(post.community.name)}${page !== 0 ? `?page=${page}` : ""}`}
+                                    className="p-[6px] rounded-full bg-[oklch(0.24_0.033_256.848)] hover:bg-gray-800"
+                                >
                                     <img src={icon_arrow_left} alt="Return to community"/>
                                 </Link>
                             </div>

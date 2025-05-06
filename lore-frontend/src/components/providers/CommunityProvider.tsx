@@ -4,12 +4,13 @@ import { api } from "../../Utils.ts";
 import { CommunityContext } from "../../constants/contexts.ts";
 import { Community } from "../../constants/types.ts";
 
-function CommunityLayout() {
+function CommunityProvider() {
     const { community: name } = useParams();
     const [community, setCommunity] = useState<Community | undefined>();
+    const [page, setPage] = useState(0);
 
     const refreshCommunity = useCallback(() => {
-        api.get(`communities/${name}`)
+        api.get<Community>(`communities/${name}`)
             .then((res) => {
                 console.log(res.data);
                 setCommunity(res.data);
@@ -19,6 +20,7 @@ function CommunityLayout() {
             })
     }, [name])
 
+    // When community name changes, refresh community info and set page to 0
     useEffect(() => {
         refreshCommunity();
     }, [refreshCommunity]);
@@ -26,11 +28,13 @@ function CommunityLayout() {
     return (
         <CommunityContext.Provider value={{
             community: community!,
-            refreshCommunity: refreshCommunity
+            refreshCommunity: refreshCommunity,
+            page: page,
+            setPage: setPage
         }}>
             {community && <Outlet/>}
         </CommunityContext.Provider>
     );
 }
 
-export default CommunityLayout;
+export default CommunityProvider;

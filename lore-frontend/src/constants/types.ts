@@ -11,7 +11,8 @@ export type Community = {
     createdAt: string,
     creator: User | null,
     isMember: boolean,
-    memberCount: number
+    memberCount: number,
+    pages: number
 }
 
 export type Post = {

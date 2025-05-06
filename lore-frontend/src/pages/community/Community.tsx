@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import { api, getPrefixedCommunityName } from "../../Utils.ts";
 import PostCard from "../../components/cards/PostCard/PostCard.tsx";
 import icon_cross from "../../assets/icon-cross.svg"
@@ -7,15 +7,17 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { CommunityContext } from "../../constants/contexts.ts";
 import JoinButton from "../../components/JoinButton.tsx";
 import useLogInRequiredAction from "../../components/UseLogInRequiredAction.ts";
+import PageNavigator from "../../components/PageNavigator.tsx";
 
 function Community() {
-    const { community } = useContext(CommunityContext);
+    const { community, page, setPage } = useContext(CommunityContext);
     const [postIds, setPostIds] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const refreshPosts = useCallback(() => {
         setIsLoading(true);
-        api.get<string[]>(`communities/${community!.name}/posts`)
+        api.get<string[]>(`communities/${community!.name}/posts?page=${page}`)
             .then((res) => {
                 console.log(res.data);
                 setPostIds(res.data);
@@ -26,11 +28,29 @@ function Community() {
             .finally(() => {
                 setIsLoading(false);
             });
-    }, [community]);
+    }, [community, page]);
 
     useEffect(() => {
         refreshPosts();
     }, [refreshPosts]);
+
+    useEffect(() => {
+        const pageParam = searchParams.get("page");
+        // If there's no page query param it's on the first page
+        if (!pageParam) {
+            setPage(0);
+            return;
+        }
+        // Parse which page it is currently
+        const page_ = parseInt(pageParam);
+        // If page is not a number, or outside [0, total page count - 1], return to first page
+        if (Number.isNaN(page_) || page_ < 0 || page_ >= community!.pages) {
+            setSearchParams({});
+            return;
+        }
+        // If the page query param is legit, set page state (which will trigger posts query)
+        setPage(page_);
+    }, [community, searchParams, setSearchParams]);
 
     return (
         <div className="w-full">
@@ -74,21 +94,25 @@ function Community() {
             </span>
             <div className="flex gap-x-1.5">
                 {/* Posts */}
-                <main className="mb-2 grow">
+                <main className="mb-1 grow">
                     {!isLoading ?
                         postIds.length !== 0 ?
-                            postIds.map((postId) => {
-                                return (
-                                    <PostCard
-                                        key={postId}
-                                        postId={postId}
-                                        refreshPosts={refreshPosts}
-                                        showDeleteButton
-                                    />
-                                );
-                            }) :
+                            <>
+                                {postIds.map((postId) => {
+                                    return (
+                                        <PostCard
+                                            key={postId}
+                                            postId={postId}
+                                            refreshPosts={refreshPosts}
+                                            showDeleteButton
+                                        />
+                                    );
+                                })}
+                                <PageNavigator page={page}/>
+                            </>
+                            :
                             <div className="mt-[100px] px-1 text-xl text-blue-light-custom-2 font-semibold text-center">
-                                This community doesn't have any posts yet
+                                This community doesn&apos;t have any posts yet
                             </div>
                         : <></>}
                 </main>
